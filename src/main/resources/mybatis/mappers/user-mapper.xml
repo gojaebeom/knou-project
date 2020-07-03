@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">	
+
+	<!-- 회원가입 유효성 검사 : 이메일 -->
+	<select id="emailCheck" resultType="_int">
+		SELECT COUNT(*)
+		FROM USERS 
+		WHERE EMAIL = #{email};
+	</select>
+	
+	<!-- 회원가입 유효성 검사 : 닉네임 -->
+	<select id="nicknameCheck" resultType="_int">
+		SELECT COUNT(*)
+		FROM USERS 
+		WHERE NICKNAME = #{nickname};
+	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="signUp">
+		INSERT INTO USERS(EMAIL, PASSWORD, NICKNAME, AUTH_KEY)
+		VALUES(#{email}, #{password}, #{nickname}, #{authKey});
+	</insert>
+	
+	<!-- 이메일 인증확인 , PK 값 반환 -->
+	<select id="emailConfirm" resultType="_int">
+		SELECT COUNT(*)
+		FROM USERS 
+		WHERE EMAIL = #{email}
+		AND AUTH_KEY = #{authKey}
+	</select>
+	
+	<!-- 이메일 인증확인 , PK 값 반환 -->
+	<select id="emailConfirmResult" resultType="_int">
+		SELECT ID
+		FROM USERS 
+		WHERE EMAIL = #{email}
+		AND AUTH_KEY = #{authKey}
+	</select>
+	
+	<!-- 위의 이메일 인증의 반환값을 받아  authKey 업데이트  -->
+	<insert id="authStatusUpdate">
+		UPDATE USERS
+		SET AUTH_STATUS = 1
+		WHERE ID = #{id};
+	</insert>
+	
+	<!-- 로그인 유효성 검사 : 이메일을 찾으면 위의 값들을 보내 컨트롤러에서 비밀번호가 맞으면 세션에 정보저장 -->
+	<select id="signIn" resultType="kr.ac.knou.dto.user.User">
+		SELECT ID, EMAIL, NICKNAME, ROLE, PASSWORD, AUTH_STATUS, AUTH_KEY
+		FROM USERS 
+		WHERE EMAIL = #{email};
+	</select>
+	
+	<!-- id에 해당하는 컬럼들 추출 -->
+	<select id="findById" resultType="kr.ac.knou.dto.user.User">
+		SELECT ID, EMAIL, NICKNAME, ROLE, IMAGE, CREATED_AT, UPDATED_AT
+		FROM USERS 
+		WHERE ID = #{id};
+	</select>
+	
+	<!-- id에 해당하는 컬럼들 추출 -->
+	<update id="userEdit">
+		UPDATE USERS
+		SET
+			NICKNAME = #{nickname},
+			UPDATED_AT = now()
+		WHERE ID = #{id};
+	</update>
+</mapper>

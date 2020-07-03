@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">	
+	<resultMap type="kr.ac.knou.dto.board.Board" id="boardResult">
+	    <result column="id" property="id"/>
+	    <result column="writer_id" property="writerId"/>
+	    <result column="title" property="title"/>
+	    <result column="content" property="content"/>
+	    <result column="created_at" property="createdAt"/>
+	    <result column="hit" property="hit"/>
+	    <result column="comment_cnt" property="commentCnt"/>
+	    <collection property="user" resultMap="userResult"/>
+	</resultMap>
+	 
+	<resultMap type="kr.ac.knou.dto.user.User" id="userResult">
+	    <result column="id" property="id"/>
+	    <result column="email" property="email"/>
+	    <result column="password" property="password"/>
+	    <result column="nickname" property="nickname"/>
+	</resultMap>
+	
+	<select id="read" resultMap="boardResult">
+		SELECT B.ID, B.TITLE, B.CREATED_AT, U.NICKNAME, B.COMMENT_CNT, B.HIT
+		FROM BOARDS B
+		LEFT OUTER JOIN USERS U ON B.WRITER_ID = U.ID
+		WHERE ${field} LIKE '${query}'
+		ORDER BY CREATED_AT DESC
+		LIMIT ${page}, 5;
+	</select>
+	
+	<select id="readCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARDS B
+		LEFT OUTER JOIN USERS U ON B.WRITER_ID = U.ID
+		WHERE ${field} LIKE '${query}';
+	</select>
+	
+	<select id="readOne" resultMap="boardResult">
+		SELECT B.ID, B.TITLE, B.CONTENT, B.HIT, B.COMMENT_CNT, B.WRITER_ID, B.CREATED_AT, U.NICKNAME, U.IMAGE
+		FROM BOARDS B
+		LEFT OUTER JOIN USERS U ON B.WRITER_ID = U.ID
+		WHERE B.ID = #{id};
+	</select>
+	
+	<update id="updateHit" parameterType="_int">
+    	UPDATE BOARDS SET
+    	HIT = HIT+1
+    	WHERE ID = #{id};
+    </update>
+	
+	<select id="getCount" resultType="_integer[]">
+		SELECT 
+		(SELECT COUNT(ID) FROM USERS) AS USER_ALL,
+			(SELECT COUNT(ID) FROM BOARDS) AS BOARD_ALL,
+				(SELECT COUNT(ID) FROM COMMENTS) AS COMMENT_ALL;
+
+	</select>
+	
+	
+	<insert id="create">
+		INSERT INTO BOARDS
+		(
+			TITLE,
+			CONTENT,
+			WRITER_ID,
+			CREATED_AT
+		)
+		VALUES
+		(
+			#{title},
+			#{content},
+			#{writerId},
+			now()
+		);
+	</insert>
+	
+</mapper>

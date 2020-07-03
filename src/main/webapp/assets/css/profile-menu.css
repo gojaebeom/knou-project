@@ -1,0 +1,165 @@
+@charset "UTF-8";
+
+/*----------- profile --------------*/
+header
+{
+	margin-bottom:30px;
+}
+.profile-menu 
+{
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	width: auto;
+	height: 100%;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+
+.profile-menu .main-menu .content-li
+{
+	position:relative;
+	padding:10px;
+	cursor: pointer;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+
+.profile-menu .main-menu .content-li .nickname-wrap
+{
+	margin-right:10px;
+	font-weight: bold;
+	font-size:16px;
+	color:white;
+}
+
+.profile-menu .main-menu .content-li .img-wrap
+{
+	display:block;
+	width:45px;
+	height:45px;
+	border:3px solid #04B486;
+	border-radius:6px;
+}
+
+.profile-menu .main-menu .content-li .img-wrap img
+{
+	width:100%;
+	height:100%;
+	border-radius:3px;
+}
+
+.profile-menu .main-menu .content-li .sub-menu
+{
+	display:none;
+	min-width:150px;
+	position: absolute;
+	right:10px;
+	top:55px;
+	width:auto;
+	transition: all 0.15s ease-in;
+	border:3px solid #F2F2F2;
+	border-radius:2px;
+	background:white;
+	transition:0.5s all;
+}
+
+.sub-menu > li:first-child
+{
+  border-bottom:2px dotted #F2F2F2;
+}
+
+.sub-menu > li:hover > a
+{
+  background:#013ADF;
+  color:white;
+}
+
+.sub-menu > li > a
+{
+	text-decoration:none;
+	display:block;
+	padding:10px;
+	color:black;
+}
+
+/*----------- login ------------*/
+
+.login-menu
+{
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	width: auto;
+	height: 100%;
+	margin-right: 20px;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+.login-menu a
+{
+	color:white;	
+	text-decoration:none;
+	font-size:18px;
+	z-index:20;
+}
+
+/*----------- media query ------------*/
+.mobile-menu
+{
+	display:none;
+	padding:0;
+	margin:0;
+}
+.mobile-bottom-menu
+{
+	position:fixed;
+	bottom:0px;
+	width:100%;
+	height:70px;
+	background:white;
+	display:none;
+	border-top:2px solid #E6E6E6;
+}
+.mobile-bottom-menu li a
+{
+	border:1px solid black;
+	margin:0;
+	padding:0;
+}
+@media (max-width: 575.98px)
+{  
+	.mobile-menu{display:block;}
+	.mobile-bottom-menu{display:flex;}
+	.pc-menu{display:none;}
+
+}
+
+/* Small devices (landscape phones, less than 768px) */
+
+@media (max-width: 767.98px) 
+{ 
+	.mobile-menu{display:block;}
+	.mobile-bottom-menu{display:flex;}
+	.pc-menu{display:none;}
+} 
+
+/* Medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) 
+{ 
+	
+	
+}
+
+/* Large devices (desktops, less than 1200px) */
+@media (max-width: 1199.98px) 
+{ 
+
+	
+}
+
+
+

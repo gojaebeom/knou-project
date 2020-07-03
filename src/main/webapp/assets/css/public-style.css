@@ -1,0 +1,4 @@
+@charset "UTF-8";
+
+input:focus {outline:none;}
+textarea:focus {outline:none;padding-left:10px;}
