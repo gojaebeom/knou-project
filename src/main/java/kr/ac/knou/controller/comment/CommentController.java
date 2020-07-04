@@ -49,7 +49,6 @@ public class CommentController
         {
             LOG.info(comm.toString());
         }
-           
         return commentList;
     }
 }

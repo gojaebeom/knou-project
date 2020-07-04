@@ -25,7 +25,8 @@
 				<h6 class="card-subtitle mb-2 text-muted pt-1">${BOARD.user.nickname}</h6>
 				<h6 class="card-subtitle mb-2 text-muted pt-1"><fmt:formatDate value="${BOARD.createdAt}" pattern="yyyy-MM-dd"/></h6>
 				<br>
-				<p class="card-text" style="font-size:16px;">${BOARD.content} ${BOARD.writerId}</p>
+				<textarea rows="5" cols="" style="width:100%;border:none;font-size:16px;padding:20px;" disabled="disabled">${BOARD.content}</textarea>
+		
 				
 				<c:if test="${ACCOUNT.id == BOARD.writerId }">
 					<div class="container pt-5 d-flex justify-content-end">
@@ -64,8 +65,8 @@
 		<div class="card-header">
 		    댓글
 	  	</div>
-		<ul class="list-group list-group-flush" >
-			<li class="list-group-item">
+	  	<ul class="list-group list-group-flush" >
+	  		<li class="list-group-item">
 				<div class="media" style="width:100%;">
 				  <img class="mr-3" src="${pageContext.request.contextPath}/assets/imgs/cover.jpg"
 				    style="width:54px;height:54px;border-radius:5px;">
@@ -81,17 +82,31 @@
 				  </div>
 				</div>
 			</li>
-		    <li class="list-group-item">
-				<div class="media">
-				  <img class="mr-3" src="${pageContext.request.contextPath}/assets/imgs/cover.jpg"
-				    style="width:54px;height:54px;border-radius:5px;">
-				  <div class="media-body">
-				    <h5 class="mt-0"><a href="#">고재범 • 2020-07-01</a></h5>
-				    <br>
-				    	좋은 글이네요^^ 감사합니다😂😂😂😂😂😂😂😂
-				  </div>
-				</div>
-			</li>
+	  	</ul>
+		<ul id="commentWrap" class="list-group list-group-flush" >
+			<c:choose>
+				<c:when test="${empty COMMENT}">
+					<li class="list-group-item">
+						첫번째 댓글을 달아보세요😘					
+					</li>
+				</c:when>
+				<c:otherwise>
+				<c:forEach items="${COMMENT}" var="c">
+					<li class="list-group-item">
+						<div class="media">
+						  <img class="mr-3" src="/assets/imgs/cover.jpg"
+						    style="width:54px;height:54px;border-radius:5px;">
+						  <div class="media-body">
+						    <h5 class="mt-0"><a href="#">${c.user.nickname } • ${c.createdAt }</a></h5>
+						    <br>
+						    	${c.content }
+						    	${pageContext.request.contextPath}
+						  </div>
+						</div>
+					</li>
+				</c:forEach>
+			</c:otherwise>
+			</c:choose>
 	 	</ul>
 	</div>
 	</section>

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,13 +17,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.ac.knou.controller.HomeController;
 import kr.ac.knou.dto.board.Board;
+import kr.ac.knou.dto.comment.Comment;
 import kr.ac.knou.service.board.BoardService;
+import kr.ac.knou.service.comment.CommentService;
 
 @Controller
 public class BoardController
 {
     @Autowired
     private BoardService boardService;
+    
+    @Autowired
+    private CommentService commentService;
     
     private static final Log LOG = LogFactory.getLog(HomeController.class);
     
@@ -43,12 +49,15 @@ public class BoardController
     }
     
     @RequestMapping(value="/boards", method=RequestMethod.GET)
-    public String boardReadList(@RequestParam("page")int page_, 
-            @RequestParam("field")String field_, @RequestParam("query")String query_, Model model) throws Exception
-    {
-        String field = (field_!=null) ? field_ : "title";
-        String query = (query_!=null) ? query_ : "";
-        int page = (page_ != 0) ? page_ : 1;
+    public String boardReadList(
+            @RequestParam(value="page",required = false) String page_, 
+            @RequestParam(value="field",required = false) String field, 
+            @RequestParam(value="query",required = false) String query, 
+            Model model) throws Exception
+    {   
+        field = (field!=null) ? field : "title";
+        query = (query!=null) ? query : "";
+        int page = (page_ != null) ? Integer.valueOf(page_) : 1;
         
         LOG.info("분류:["+field+"], 작성값:["+query+"], 페이지 번호:["+page+"]");
        
@@ -78,8 +87,12 @@ public class BoardController
             boardService.getBoardUpdateHit(id);
         LOG.info(board.toString());
         
+        List<Comment> commentList = commentService.getReadCommentList(id);
+        
         Map<String, Object> map = new HashMap<>();
         map.put("BOARD", board);
+        map.put("COMMENT", commentList);
+        
         model.addAllAttributes(map);
         
         return "board/board-detail";

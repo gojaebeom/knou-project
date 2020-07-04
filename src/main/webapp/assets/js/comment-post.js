@@ -2,6 +2,7 @@ const commentContent = document.getElementById("commentContent");
 const writerId = document.getElementById("writerId");
 const boardId = document.getElementById("boardId");
 const commentPostBtn = document.getElementById("commentPostBtn");
+const commentWrap = document.getElementById("commentWrap");
 
 commentPostBtn.onclick = () =>
 {
@@ -33,9 +34,30 @@ commentPostBtn.onclick = () =>
             alert('통신실패!!');
         },
         success : function(data){
+            console.log("hello world");
+            console.log(data)
+            console.log(data[0].user);
+            var html = ``;
             if(data)
             {
-               
+               for(let i = 0; i<data.length; i++)
+               {
+                html+=
+                `
+                <li class="list-group-item">
+                    <div class="media">
+                        <img class="mr-3" src="/assets/imgs/cover.jpg"
+                            style="width:54px;height:54px;border-radius:5px;">
+                        <div class="media-body">
+                        <h5 class="mt-0"><a href="#">${data[i].user.nickname} • ${data[i].createdAt}</a></h5>
+                        <br>
+                            ${data[i].content}
+                        </div>
+                    </div>
+                </li>
+                `
+               }
+               commentWrap.innerHTML = html;
             } 
             else
             {

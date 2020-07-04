@@ -22,7 +22,7 @@
 				<div class="card" style="width:28rem;">
 				  <div class="card-body">
 				  	<h5 class="card-title mb-4">로그인</h5>
-					<form action="/sign-in" method="post">
+					<form action="/users/sign-in" method="post">
 						<label>이메일</label><br>
 						<input id="email" name="email" value="${signInfo.email}"/>
 						
@@ -35,7 +35,7 @@
 						</c:if>			
 						<button class="btn btn-raised btn-primary" type="submit">로그인</button>
 						<div class="margin-box"></div>
-						<span class="bottom-span">계정이 없으신가요? 먼저 <a href="/sign-up" style="font-weight:bold">회원 가입</a>을 진행 하세요✔</span>
+						<span class="bottom-span">계정이 없으신가요? 먼저 <a href="/users/sign-up" style="font-weight:bold">회원 가입</a>을 진행 하세요✔</span>
 					</form>
 				  </div>
 				</div>

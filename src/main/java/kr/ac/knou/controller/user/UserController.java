@@ -1,5 +1,10 @@
 package kr.ac.knou.controller.user;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
@@ -13,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.ac.knou.controller.HomeController;
 import kr.ac.knou.dto.user.User;
 import kr.ac.knou.service.user.UserService;
 
 @Controller
+@RequestMapping("/users")
 public class UserController
 {
     @Autowired
@@ -114,8 +121,28 @@ public class UserController
         
         return "sign/sign-in";
     }
+    
+    @RequestMapping(method=RequestMethod.GET)
+    public String readUsers(
+            @RequestParam(value="page",required = false) String page_, 
+            @RequestParam(value="field",required = false) String field, 
+            @RequestParam(value="query",required = false) String query,
+            Model model) throws Exception
+    {
+        field = (field!=null) ? field : "nickname";
+        query = (query!=null) ? query : "";
+        int page = (page_ != null && page_.equals("")) ? Integer.valueOf(page_) : 1;
+        
+        LOG.info("분류:["+field+"], 작성값:["+query+"], 페이지 번호:["+page+"]");
+        
+        List<User> userList = userService.getReadUsers(field, query, page);
+        
+        model.addAttribute("USERLIST", userList);
+        
+        return "user/user-list";
+    }
      
-    @RequestMapping(value="/users/{id}", method=RequestMethod.GET)
+    @RequestMapping(value="/{id}", method=RequestMethod.GET)
     public String findById(@PathVariable("id")int id, Model model) throws Exception
     {
         LOG.info(id);
@@ -125,7 +152,7 @@ public class UserController
         return "user/user-detail";
     }
     
-    @RequestMapping(value="/users/{id}/edit", method=RequestMethod.GET)
+    @RequestMapping(value="/{id}/edit", method=RequestMethod.GET)
     public String findByIdEdit(@PathVariable("id")int id, Model model) throws Exception
     {
         User user = userService.getFindById(id);
@@ -134,7 +161,7 @@ public class UserController
         return "user/user-edit";
     }
      
-    @RequestMapping(value="/users/{id}", method=RequestMethod.PUT)
+    @RequestMapping(value="/{id}", method=RequestMethod.PUT)
     public String findByIdEdit(@PathVariable("id")int id, User user, HttpSession session) throws Exception
     {
         LOG.info(user.toString());
@@ -148,8 +175,8 @@ public class UserController
     }
     
     @ResponseBody
-    @RequestMapping(value="/email-check")
-    public boolean emailCheck(@RequestParam("email")String email) throws Exception
+    @RequestMapping(value="/email-check", method=RequestMethod.POST)
+    public boolean emailCheck(@RequestParam(value="email",required = false)String email) throws Exception
     {
         int checkNum = userService.getEmailCheck(email);
         
@@ -160,13 +187,42 @@ public class UserController
     }
     
     @ResponseBody
-    @RequestMapping(value="/nickname-check")
-    public boolean nicknameCheck(@RequestParam("nickname")String nickname) throws Exception
+    @RequestMapping(value="/nickname-check", method=RequestMethod.POST)
+    public boolean nicknameCheck(@RequestParam(value="nickname",required = false)String nickname) throws Exception
     {
         int checkNum = userService.getNicknameCheck(nickname);
         
         if(checkNum != 0)
             return false;
+ 
+        return true;
+    }
+    
+    @ResponseBody
+    @RequestMapping(value="{id}/image", method=RequestMethod.POST)
+    public boolean userImageUpload( 
+            @PathVariable("id")String id,
+            @RequestParam(value = "imgFile", required = false)MultipartFile imgFile) throws Exception
+    {
+        LOG.info("upload() POST 호출");
+        LOG.info(imgFile);
+        LOG.info(imgFile.getOriginalFilename());
+        LOG.info(imgFile.getSize());
+        
+        //userService.uploadImage(id, imgFile);
+        
+        UUID uuid = UUID.randomUUID();
+        String saveName = uuid + "_" + imgFile.getOriginalFilename();
+        
+        File saveFile = new File("C:\\_achive",saveName);
+        
+        try {
+            imgFile.transferTo(saveFile); // 업로드 파일에 saveFile이라는 껍데기 입힘
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        LOG.info(saveName);
  
         return true;
     }

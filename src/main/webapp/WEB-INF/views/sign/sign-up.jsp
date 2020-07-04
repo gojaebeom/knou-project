@@ -22,14 +22,14 @@
 				<div class="card" style="width:28rem;">
 				  <div class="card-body">
 				  	<h5 class="card-title mb-4">계정 만들기</h5>
-					<form action="/sign-up" method="post" onsubmit="return init()">
+					<form action="/users/sign-up" method="post" onsubmit="return init()">
 						<label>닉네임</label><br>
 						<input id="nickname" name="nickname"/>
-						<span id="nicknameSpan"></span>
+						<span id="nicknameSpan">이름 또는 사용할 한글 닉네임을 입력해주세요.</span>
 					
 						<label>이메일</label><br>
 						<input id="email" name="email"/>
-						<span id="emailSpan"></span>
+						<span id="emailSpan">사용가능한 이메일을 입력해 주세요.</span>
 						
 						<label>비밀번호</label><br>
 						<input id="password" type="password" name="password"/>
@@ -40,7 +40,7 @@
 						  	이메일로 인증메일을 발송중입니다. 잠시만 기다려 주세요!
 						</div>
 						<div class="margin-box"></div>
-						<span class="bottom-span">이미 계정을 가지고 계신가요? 바로 <a href="/sign-in" style="font-weight:bold">로그인</a> 하세요😍</span>
+						<span class="bottom-span">이미 계정을 가지고 계신가요? 바로 <a href="/users/sign-in" style="font-weight:bold">로그인</a> 하세요😍</span>
 					</form>
 				  </div>
 				</div>

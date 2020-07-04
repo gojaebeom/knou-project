@@ -1,5 +1,7 @@
 package kr.ac.knou.dao.user;
 
+import java.util.List;
+
 import kr.ac.knou.dto.user.User;
 
 public interface UserDAO
@@ -27,4 +29,7 @@ public interface UserDAO
 
     //유저 정보 수정
     public int getUserEdit(User user) throws Exception;
+
+    //유저 리스트 가저오기
+    public List<User> getReadUsers(String field, String query, int page) throws Exception;
 }

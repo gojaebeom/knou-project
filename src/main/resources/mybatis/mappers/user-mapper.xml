@@ -60,6 +60,14 @@
 		WHERE ID = #{id};
 	</select>
 	
+	<select id="readUsers" resultType="kr.ac.knou.dto.user.User">
+		SELECT ID, EMAIL, NICKNAME, CREATED_AT, IMAGE
+		FROM USERS
+		WHERE ${field} LIKE '${query}'
+		ORDER BY NICKNAME
+		LIMIT ${page}, 20;
+	</select>
+	
 	<!-- id에 해당하는 컬럼들 추출 -->
 	<update id="userEdit">
 		UPDATE USERS

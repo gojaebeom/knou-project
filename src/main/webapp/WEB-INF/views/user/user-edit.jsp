@@ -23,16 +23,15 @@
 				<div class="card" style="width:28rem;">
 				  <div class="card-body">
 				  	<h5 class="card-title mb-4">회원 정보 수정</h5>
-					<form action="/users/${USER.id}" method="post" onsubmit="return init()">
+					<form id="userForm" action="/users/${USER.id}" method="post">
 						<input type="hidden" name="_method" value="put" />
 						<label>프로필 이미지</label>
 						<div class="d-flex align-items-start mt-3">
 							<img style="width:100px; height:100px; background:gray; border-radius:5px; margin-right:10px;" />
-							<label for="image" style="display:flex;justify-content:center;align-items:center;
-							 width:100px; height:40px; background:#04B486; color:white; border-radius:3px;cursor:pointer; margin:0px;">
-								이미지 업로드
-								<input type="file" id="image" name="image" style="display:none;"/>
-							</label><br>
+
+								<label  for="imgFile" 
+								style="margin:0px; padding:10px; border-radius:2px; background:#04B45F;color:white">이미지 업로드</label>
+								<input type="file" id="imgFile" name="imgFile" style="display:none;">
 						</div>
 						
 						<span id="nicknameSpan"></span>
@@ -65,6 +64,7 @@
 			</div>
 		</div>
 	</section>
+	<script src="/assets/js/user-img-post.js"></script>
 	<%@ include file="/WEB-INF/views/include/script.jsp"%>
 </body>
 </html>

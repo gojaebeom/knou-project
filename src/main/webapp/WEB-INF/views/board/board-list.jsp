@@ -32,7 +32,7 @@
 		<div class="row">
 			<div class="col-12">
 				<h1 style="font-size:20px; font-weight:bold; margin-bottom:20px;">
-					최근 게시물
+					게시물 목록
 				</h1>
 				<div class="card">
 				<c:choose>
@@ -52,7 +52,7 @@
 										<div>댓글</div>
 									</div>
 									<div class="f-1 d-flex flex-column justify-content-center align-items-center mr-3">
-										<div style="font-size:20px; margin-bottom:10px;">${10}</div>
+										<div style="font-size:20px; margin-bottom:10px;">${0}</div>
 										<div>추천</div>
 									</div>
 								</div>

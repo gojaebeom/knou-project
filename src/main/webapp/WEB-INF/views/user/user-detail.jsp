@@ -18,9 +18,9 @@
 				<div class="row mb-5">
 					<div class="col">	
 						<div class="media">
-						  <img class="mr-3" src="${pageContext.request.contextPath}/assets/imgs/cover.jpg"
-						   alt="Generic placeholder image" width="150px" height="150px" style="border-radius:100%;">
-						  <div class="media-body" style="margin-top:20px;">
+						  <img class="mr-3 rounded" src="/assets/imgs/cover-1.jpg"
+						   alt="Generic placeholder image" width="120px" height="120px">
+						  <div class="media-body">
 						    	<h5 class="mt-0" style="font-size:1.8em">${USER.nickname }</h5>
 						    	<br>
 						     	가입일 : <fmt:formatDate value="${USER.createdAt}" pattern="yyyy-MM-dd"/>

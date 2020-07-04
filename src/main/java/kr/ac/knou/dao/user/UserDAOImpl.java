@@ -1,19 +1,25 @@
 package kr.ac.knou.dao.user;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.ac.knou.dao.board.BoardDAOImpl;
 import kr.ac.knou.dto.user.User;
 
 @Repository
 public class UserDAOImpl implements UserDAO
 {
     @Autowired
-    SqlSession sqlSession;
+    private SqlSession sqlSession;
+    
+    private static final Log LOG = LogFactory.getLog(BoardDAOImpl.class);
 
     @Override
     public int getEmailCheck(String email)
@@ -71,6 +77,19 @@ public class UserDAOImpl implements UserDAO
     public int getUserEdit(User user)
     {
         return sqlSession.update("user.userEdit", user);
+    }
+
+    @Override
+    public List<User> getReadUsers(String field, String query, int page)
+            throws Exception
+    {
+        Map<String, Object> map = new HashMap<>();
+        map.put("field", field);
+        map.put("query", "%"+query+"%");
+        map.put("page", (page-1)*20);
+        
+        LOG.info(map.get("page"));
+        return sqlSession.selectList("user.readUsers", map);
     }
     
 }

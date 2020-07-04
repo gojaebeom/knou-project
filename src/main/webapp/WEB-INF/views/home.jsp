@@ -22,7 +22,7 @@
 				<div class="card">
 				<c:choose>
 					<c:when test="${empty BoardList}">
-						<p>등록된 게시물이 없습니다.</p>
+						<p style="padding:20px;font-size:20px;">등록된 게시물이 없습니다.😥 </p>
 					</c:when>
 					<c:otherwise>
 						<c:forEach items="${BoardList}" var="b">
@@ -37,7 +37,7 @@
 										<div>댓글</div>
 									</div>
 									<div class="f-1 d-flex flex-column justify-content-center align-items-center mr-3">
-										<div style="font-size:20px; margin-bottom:10px;">${10}</div>
+										<div style="font-size:20px; margin-bottom:10px;">${0}</div>
 										<div>추천</div>
 									</div>
 								</div>
@@ -64,7 +64,8 @@
 				  style="width:150px; height:150px; border-radius:100%; margin-top:20px; margin-bottom:20px; border:3px solid #E6E6E6;">	
 				    <c:if test="${empty ACCOUNT}">
 				    	<p class="card-text">로그인하여 방송대 학우들과 소통하세요!🥰</p>
-				    	<a href="/sign-in" class="btn btn-primary">로그인하기</a>
+				    	<br>
+				    	<a href="/users/sign-in" class="btn btn-primary">로그인하기</a>
 				    </c:if>
 				    <c:if test="${!empty ACCOUNT}">
 				    	<h5 class="card-title" style="font-size:25px;"><a href="/users/${ACCOUNT.id}">${ACCOUNT.nickname}</a></h5>

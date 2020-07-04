@@ -1,5 +1,7 @@
 package kr.ac.knou.service.user;
 
+import java.util.List;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -41,7 +43,7 @@ public class UserServiceImpl implements UserService
        String authKey = tempKey.getKey(50, false);
        
        user.setAuthKey(authKey);
-       //insert 이후 해당 컬럼의 id 값을 반환
+       //난수 키를 받은 유저를 생성
        userDao.signUp(user);
        
        String setFrom = "qa-site";
@@ -93,6 +95,12 @@ public class UserServiceImpl implements UserService
     public int getUserEdit(User user) throws Exception
     {
         return userDao.getUserEdit(user);
+    }
+
+    @Override
+    public List<User> getReadUsers(String field, String query, int page) throws Exception
+    {
+        return userDao.getReadUsers(field, query, page);
     }
     
 }

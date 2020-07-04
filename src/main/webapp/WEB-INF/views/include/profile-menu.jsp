@@ -13,7 +13,7 @@
 			<ul id="sub-menu" class="sub-menu">
 				<li><a href="/boards/form">💬 글쓰기 </a></li>
 				<li><a href="/users/${ACCOUNT.id}">😀 내 정보</a></li>
-				<li><a href="/sign-out">👋 로그아웃</a></li>		
+				<li><a href="/users/sign-out">👋 로그아웃</a></li>		
 			</ul>
 		</li>
 	</ul>
@@ -21,7 +21,7 @@
 </c:if>
 <c:if test="${empty ACCOUNT}">
 	<div class="login-menu">
-		<button type="button" class="btn btn-raised btn-success" onclick="location.href='/sign-in'">로그인   </button>
+		<button type="button" class="btn btn-raised btn-success" onclick="location.href='/users/sign-in'">로그인   </button>
 	</div>
 </c:if>
 

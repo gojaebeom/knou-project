@@ -1,5 +1,7 @@
 package kr.ac.knou.service.user;
 
+import java.util.List;
+
 import kr.ac.knou.dto.user.User;
 
 public interface UserService
@@ -24,4 +26,7 @@ public interface UserService
 
     //유저 정보 수정
     public int getUserEdit(User user) throws Exception;
+
+    //유저 리스트 보기
+    public List<User> getReadUsers(String field, String query, int page) throws Exception;
 }

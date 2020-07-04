@@ -16,7 +16,7 @@ import kr.ac.knou.dto.board.Board;
 public class BoardDAOImpl implements BoardDAO
 {
     @Autowired
-    SqlSession sqlSession;
+    private SqlSession sqlSession;
     
     private static final Log LOG = LogFactory.getLog(BoardDAOImpl.class);
 

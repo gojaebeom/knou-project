@@ -20,7 +20,7 @@
 		<li class="nav-item active"><a class="nav-link font-weight-bold"
 			href="/">홈</a></li>
 		<li class="nav-item"><a class="nav-link font-weight-bold"
-			href="/boards?page=1&field=title&query">소통의 방</a></li>
+			href="/boards">소통의 방</a></li>
 		<li class="nav-item"><a class="nav-link font-weight-bold"
 			href="/users">학우의 방</a></li>
 	</ul>
