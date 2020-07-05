@@ -20,68 +20,9 @@ public class UserDAOImpl implements UserDAO
     private SqlSession sqlSession;
     
     private static final Log LOG = LogFactory.getLog(BoardDAOImpl.class);
-
+    
     @Override
-    public int getEmailCheck(String email)
-    {
-        return sqlSession.selectOne("user.emailCheck", email);
-    }
-
-    @Override
-    public int getNicknameCheck(String nickname)
-    {
-        return sqlSession.selectOne("user.nicknameCheck", nickname);
-    }
-
-    @Override
-    public int signUp(User user)
-    {
-       return sqlSession.insert("user.signUp", user);
-    }
-
-    @Override
-    public int getEmailConfirm(String email, String key)
-    {
-        Map<String, String> map = new HashMap<String, String>();
-        
-        map.put("email", email);
-        map.put("authKey", key);
-        int check = sqlSession.selectOne("user.emailConfirm", map);
-        if(check == 0)
-            return 0;
-        
-        int id = sqlSession.selectOne("user.emailConfirmResult", map);
-        
-        return id;
-    }
-
-    @Override
-    public int getAuthStatusUpdate(int id)
-    {
-        return sqlSession.update("user.authStatusUpdate", id);
-    }
-
-    @Override
-    public User signIn(User user)
-    {       
-        return sqlSession.selectOne("user.signIn", user);
-    }
-
-    @Override
-    public User getFindById(int id)
-    {
-        return sqlSession.selectOne("user.findById", id);
-    }
-
-    @Override
-    public int getUserEdit(User user)
-    {
-        return sqlSession.update("user.userEdit", user);
-    }
-
-    @Override
-    public List<User> getReadUsers(String field, String query, int page)
-            throws Exception
+    public List<User> selectUsers(String field, String query, int page) throws Exception
     {
         Map<String, Object> map = new HashMap<>();
         map.put("field", field);
@@ -89,7 +30,79 @@ public class UserDAOImpl implements UserDAO
         map.put("page", (page-1)*20);
         
         LOG.info(map.get("page"));
-        return sqlSession.selectList("user.readUsers", map);
+        return sqlSession.selectList("user.selectUsers", map);
     }
     
+    @Override
+    public User selectUserForId(int id)
+    {
+        return sqlSession.selectOne("user.selectUserForId", id);
+    }
+    
+    @Override
+    public User selectUserForEmail(User user)
+    {       
+        return sqlSession.selectOne("user.selectUserForEmail", user);
+    }
+    
+    @Override
+    public int selectUserIdForEmail(String email)
+    {
+        Integer id = sqlSession.selectOne("user.selectUserIdForEmail", email);
+           
+        return (id != null) ? id : 0;
+    }
+
+    @Override
+    public int selectUserIdForNickname(String nickname)
+    {
+        Integer id = sqlSession.selectOne("user.selectUserIdForNickname", nickname);
+        
+        return (id != null) ? id : 0;
+    }
+
+    @Override
+    public int selectUserCertifiedId(String email, String key)
+    {
+        Map<String, String> map = new HashMap<String, String>();     
+        
+        LOG.info(email+","+key);
+        
+        map.put("email", email);
+        map.put("authKey", key);
+        
+        Integer id = sqlSession.selectOne("user.selectUserCertifiedId", map);
+        
+        LOG.info(id);
+                
+        return (id != null) ? id : 0;
+    }
+    
+    @Override
+    public int insertUser(User user)
+    {
+       return sqlSession.insert("user.insertUser", user);
+    }
+
+    @Override
+    public int updateUserAuthStatus(int id)
+    {
+        int result = sqlSession.update("user.updateUserAuthStatus", id);
+        
+        LOG.info(result);
+        
+        return result;
+    }
+
+       @Override
+    public int updateUser(User user)
+    {
+        return sqlSession.update("user.updateUser", user);
+    }
+
+    @Override
+    public int updateUserImage(User user) throws Exception
+    {
+        return sqlSession.update("user.updateUserImage", user);
+    }
 }

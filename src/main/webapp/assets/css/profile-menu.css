@@ -40,15 +40,16 @@ header
 	display:block;
 	width:45px;
 	height:45px;
-	border:3px solid #04B486;
-	border-radius:6px;
+	border-radius:3px;
+	border:3px solid #088A68;
+	background:#F2F2F2;
 }
 
 .profile-menu .main-menu .content-li .img-wrap img
 {
 	width:100%;
 	height:100%;
-	border-radius:3px;
+	border-radius:2px;
 }
 
 .profile-menu .main-menu .content-li .sub-menu

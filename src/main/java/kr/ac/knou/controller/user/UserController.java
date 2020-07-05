@@ -1,10 +1,10 @@
 package kr.ac.knou.controller.user;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.ac.knou.controller.HomeController;
 import kr.ac.knou.dto.user.User;
 import kr.ac.knou.service.user.UserService;
+import kr.ac.knou.util.FileUtil;
 
 @Controller
 @RequestMapping("/users")
@@ -37,13 +38,13 @@ public class UserController
     private static final Log LOG = LogFactory.getLog(HomeController.class);
     
     @RequestMapping(value="/sign-in", method=RequestMethod.GET)
-    public String signIn()
+    public String GetSignIn()
     {
         return "sign/sign-in";
     }
     
     @RequestMapping(value="/sign-in", method=RequestMethod.POST)
-    public String signIn(User user, Model model, HttpSession session) throws Exception
+    public String PostSignIn(User user, Model model, HttpSession session) throws Exception
     {
         model.addAttribute("signInfo", user);
         
@@ -58,7 +59,7 @@ public class UserController
         }
         
 
-        User signUser = userService.signIn(user);
+        User signUser = userService.selectUserForEmail(user);
 
         if(signUser == null)
         {
@@ -66,9 +67,9 @@ public class UserController
             return "sign/sign-in";
         }
         
-        boolean signInCheck = passwordEncoder.matches(user.getPassword(), signUser.getPassword());
+        boolean result = passwordEncoder.matches(user.getPassword(), signUser.getPassword());
         
-        if(!signInCheck) 
+        if(!result) 
         {
             model.addAttribute("massage", "비밀번호가 일치하지 않습니다.");
             return "sign/sign-in";
@@ -96,7 +97,7 @@ public class UserController
         String encPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encPassword);
   
-        userService.signUp(user);
+        userService.insertUserAndSendEmail(user);
         
         return "sign/sign-up-finish";
     }
@@ -112,7 +113,7 @@ public class UserController
     @RequestMapping(value="/confirm", method=RequestMethod.GET)
     public String emailConfirm(@RequestParam("email")String email, @RequestParam("key")String key, Model model) throws Exception
     {       
-        int id = userService.getEmailConfirm(email, key);
+        int id = userService.updateUserAuthStatusForCertifiedId(email, key);
 
         if(id == 0)
             model.addAttribute("loginComplete", false);
@@ -130,12 +131,14 @@ public class UserController
             Model model) throws Exception
     {
         field = (field!=null) ? field : "nickname";
+        
         query = (query!=null) ? query : "";
+        
         int page = (page_ != null && page_.equals("")) ? Integer.valueOf(page_) : 1;
         
         LOG.info("분류:["+field+"], 작성값:["+query+"], 페이지 번호:["+page+"]");
         
-        List<User> userList = userService.getReadUsers(field, query, page);
+        List<User> userList = userService.selectUsers(field, query, page);
         
         model.addAttribute("USERLIST", userList);
         
@@ -146,29 +149,34 @@ public class UserController
     public String findById(@PathVariable("id")int id, Model model) throws Exception
     {
         LOG.info(id);
-        User user = userService.getFindById(id);
+        
+        User user = userService.selectUserForId(id);
+        
         model.addAttribute("USER", user);
         
         return "user/user-detail";
     }
     
     @RequestMapping(value="/{id}/edit", method=RequestMethod.GET)
-    public String findByIdEdit(@PathVariable("id")int id, Model model) throws Exception
+    public String GetUserEdit(@PathVariable("id")int id, Model model) throws Exception
     {
-        User user = userService.getFindById(id);
+        User user = userService.selectUserForId(id);
+        
         model.addAttribute("USER", user);
         
         return "user/user-edit";
     }
      
     @RequestMapping(value="/{id}", method=RequestMethod.PUT)
-    public String findByIdEdit(@PathVariable("id")int id, User user, HttpSession session) throws Exception
+    public String PutUserEdit(@PathVariable("id")int id, User user, HttpSession session) throws Exception
     {
         LOG.info(user.toString());
-        int check = userService.getUserEdit(user);
-        if(check == 1)
+        
+        int result = userService.updateUser(user);
+        
+        if(result == 1)
         {
-           session.setAttribute("ACCOUNT",userService.getFindById(id));    
+           session.setAttribute("ACCOUNT",userService.selectUserForId(id));    
         }
         
         return "redirect:/";
@@ -178,52 +186,53 @@ public class UserController
     @RequestMapping(value="/email-check", method=RequestMethod.POST)
     public boolean emailCheck(@RequestParam(value="email",required = false)String email) throws Exception
     {
-        int checkNum = userService.getEmailCheck(email);
+        int id = userService.selectUserIdForEmail(email);
         
-        if(checkNum != 0)
-            return false;
- 
-        return true;
+        LOG.info("result: "+id);
+        
+        return (id == 0) ? true : false;
     }
     
     @ResponseBody
     @RequestMapping(value="/nickname-check", method=RequestMethod.POST)
     public boolean nicknameCheck(@RequestParam(value="nickname",required = false)String nickname) throws Exception
     {
-        int checkNum = userService.getNicknameCheck(nickname);
+        int id = userService.selectUserIdForNickname(nickname);
         
-        if(checkNum != 0)
-            return false;
- 
-        return true;
+        LOG.info("result: "+id);
+         
+        return (id == 0) ? true : false;
     }
     
     @ResponseBody
     @RequestMapping(value="{id}/image", method=RequestMethod.POST)
-    public boolean userImageUpload( 
-            @PathVariable("id")String id,
-            @RequestParam(value = "imgFile", required = false)MultipartFile imgFile) throws Exception
+    public Map<String, String> userImageUpload( 
+            @PathVariable("id")int id,
+            @RequestParam(value = "imgFile", required = false)MultipartFile imgFile,
+            HttpSession session) throws Exception
     {
-        LOG.info("upload() POST 호출");
-        LOG.info(imgFile);
-        LOG.info(imgFile.getOriginalFilename());
-        LOG.info(imgFile.getSize());
         
-        //userService.uploadImage(id, imgFile);
+        //파일 업로드 처리 클래스에게 MultipartFile 타입의 파일처리를 위임
+        User user = FileUtil.imageUpload(imgFile);
         
-        UUID uuid = UUID.randomUUID();
-        String saveName = uuid + "_" + imgFile.getOriginalFilename();
+//        //FileUtil 클래스에서 반환값이 null일 경우 바로 false 반환
+//        if(user == null)
+//            return null;
         
-        File saveFile = new File("C:\\_achive",saveName);
+        //FileUtil 클래스에서 UUID 이미지 이름값은 얻어왔지만 id를 설정안해 id 값도 받아서 서비스로 보낸다.
+        user.setId(id);
         
-        try {
-            imgFile.transferTo(saveFile); // 업로드 파일에 saveFile이라는 껍데기 입힘
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-        LOG.info(saveName);
- 
-        return true;
+        userService.updateUserImage(user);
+        
+        user = userService.selectUserForId(id);
+        
+        LOG.info(user.toString());
+        
+        Map<String, String> map = new HashMap<>();
+        map.put("image", user.getImage());
+        
+        session.setAttribute("ACCOUNT", user);
+
+        return map;
     }
 }

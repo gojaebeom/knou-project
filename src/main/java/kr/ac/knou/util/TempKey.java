@@ -1,4 +1,4 @@
-package kr.ac.knou.dto.user;
+package kr.ac.knou.util;
 
 import java.util.Random;
 

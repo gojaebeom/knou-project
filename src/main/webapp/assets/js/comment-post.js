@@ -46,10 +46,11 @@ commentPostBtn.onclick = () =>
                 `
                 <li class="list-group-item">
                     <div class="media">
-                        <img class="mr-3" src="/assets/imgs/cover.jpg"
-                            style="width:54px;height:54px;border-radius:5px;">
+                        <img class="mr-3" 
+                        src="/images/${(data[i].user.image !== null)?data[i].user.image:'default.png'}"
+                        style="width:54px;height:54px;border-radius:5px;">
                         <div class="media-body">
-                        <h5 class="mt-0"><a href="#">${data[i].user.nickname} • ${data[i].createdAt}</a></h5>
+                        <h5 class="mt-0"><a href="/users/${data[i].user.id}">${data[i].user.nickname} • ${data[i].createdAt}</a></h5>
                         <br>
                             ${data[i].content}
                         </div>

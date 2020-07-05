@@ -68,7 +68,7 @@
 	  	<ul class="list-group list-group-flush" >
 	  		<li class="list-group-item">
 				<div class="media" style="width:100%;">
-				  <img class="mr-3" src="${pageContext.request.contextPath}/assets/imgs/cover.jpg"
+				  <img class="mr-3" src="/assets/imgs/user-profile/${(!empty ACCOUNT.image)?ACCOUNT.image:'default.png'}"
 				    style="width:54px;height:54px;border-radius:5px;">
 				  <div class="media-body" style="width:100%;">
 				    <form style="width:100%;">
@@ -94,7 +94,7 @@
 				<c:forEach items="${COMMENT}" var="c">
 					<li class="list-group-item">
 						<div class="media">
-						  <img class="mr-3" src="/assets/imgs/cover.jpg"
+						  <img class="mr-3" src="/images/${(!empty c.user.image)?c.user.image:'default.png'}"
 						    style="width:54px;height:54px;border-radius:5px;">
 						  <div class="media-body">
 						    <h5 class="mt-0"><a href="#">${c.user.nickname } • ${c.createdAt }</a></h5>
@@ -110,7 +110,7 @@
 	 	</ul>
 	</div>
 	</section>
-	<script src="${pageContext.request.contextPath}/assets/js/comment-post.js"></script>
+	<script src="/assets/js/comment-post.js"></script>
 	<%@ include file="/WEB-INF/views/include/script.jsp"%>
 </body>
 </html>

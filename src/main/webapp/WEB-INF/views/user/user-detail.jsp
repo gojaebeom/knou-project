@@ -18,7 +18,7 @@
 				<div class="row mb-5">
 					<div class="col">	
 						<div class="media">
-						  <img class="mr-3 rounded" src="/assets/imgs/cover-1.jpg"
+						  <img  class="mr-3 rounded" src="/images/${(!empty USER.image)?USER.image:'default.png'}"
 						   alt="Generic placeholder image" width="120px" height="120px">
 						  <div class="media-body">
 						    	<h5 class="mt-0" style="font-size:1.8em">${USER.nickname }</h5>

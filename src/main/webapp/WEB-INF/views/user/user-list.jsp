@@ -40,8 +40,9 @@
 					<div class="row">
 					<c:forEach items="${USERLIST}" var="u">
 						<div class="col-xl-4 col-md-6">
-							<div class="media p-2">
-							  <img class="mr-3 rounded" src="/assets/imgs/cover-1.jpg" width="64px" height="64px"
+							<div class="media p-2 m-3">
+							 <img class="mr-3 rounded" 
+							  src="/images/${(!empty u.image)?u.image:'default.png'}" width="64px" height="64px"
 							   alt="Generic placeholder image">
 							  <div class="media-body">
 							    <h4 class="mt-0"><a href="/users/${u.id}">${u.nickname}</a> </h4>

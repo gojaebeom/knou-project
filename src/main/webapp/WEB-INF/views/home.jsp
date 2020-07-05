@@ -15,7 +15,7 @@
 	</header>
 	<section class="container">
 		<div class="row">
-			<div class="col-12 col-md-8">
+			<div class="col-xl-9 .col-lg-8 col-md-12 col-sm-12">
 				<h1 style="font-size:20px; font-weight:bold; margin-bottom:20px;">
 					최근 게시물
 				</h1>
@@ -57,13 +57,14 @@
 					<button type="button" class="btn btn-primary" onclick="location.href='/boards?page=1&field=title&query'">전체 보기</button>
 				</div>
 			</div>
-			<div class="col-md-4 col-sm-12">
-				<h1 style="font-size:20px; font-weight:bold; margin-bottom:20px;">프로필</h1>
-				<div class="card d-flex justify-content-center align-items-center" style="width:100%;">
-				  <img class="card-img-top" src="${pageContext.request.contextPath}/assets/imgs/cover.jpg" alt="Card image cap"
-				  style="width:150px; height:150px; border-radius:100%; margin-top:20px; margin-bottom:20px; border:3px solid #E6E6E6;">	
+			<div class="col-xl-3 .col-lg-4 col-md-12 col-sm-12">
+				<h1 style="font-size:20px; font-weight:bold; margin-bottom:20px;">프로필</h1>		
+				<div class="card d-flex justify-content-center align-items-center p-2" style="width:100%;">
+				  <img class="card-img-top" 
+				  src="/images/${(!empty ACCOUNT.image)?ACCOUNT.image:'default.png'}" alt="Card image cap"
+				  style="width:130px; height:130px; border-radius:100%; margin-top:20px; margin-bottom:20px; border:3px solid #E6E6E6;">	
 				    <c:if test="${empty ACCOUNT}">
-				    	<p class="card-text">로그인하여 방송대 학우들과 소통하세요!🥰</p>
+				    	<p class="card-text" style="text-align:center;line-height:1.2em;">로그인하여 방송대 학우들과<br> 소통하세요!🥰</p>
 				    	<br>
 				    	<a href="/users/sign-in" class="btn btn-primary">로그인하기</a>
 				    </c:if>
@@ -71,10 +72,11 @@
 				    	<h5 class="card-title" style="font-size:25px;"><a href="/users/${ACCOUNT.id}">${ACCOUNT.nickname}</a></h5>
 				    	<p class="card-text">${ACCOUNT.email}</p>
 				    	<br>
-				    	<p class="card-text" style="margin:10px 0px;">오늘의 기분: 😘 </p>
-						<div style="margin-top:20px; margin-bottom:30px; width:100%; text-align:center">
-							<a href="/boards/form" class="btn btn-primary btn-lg active" role="button" aria-pressed="true"
-		    				style="width:80%; border-radius:30px;">글 쓰기 </a>
+				    	<p class="card-text" style="margin:5px 0px;">오늘의 기분: 😘 </p>
+						<div style="margin-top:20px; margin-bottom:10px; width:100%; text-align:center">
+		    				<button type="button" class="btn btn-raised btn-success mr-3" onclick="location.href='/boards/form'">글 쓰기</button>
+		    				<button type="button" class="btn btn-outline-success" onclick="location.href='/users/${ACCOUNT.id}'">내 정보</button>
+		    				
 						</div>
 			    	</c:if>
 			  </div>

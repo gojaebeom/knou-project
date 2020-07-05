@@ -27,8 +27,8 @@
 						<input type="hidden" name="_method" value="put" />
 						<label>프로필 이미지</label>
 						<div class="d-flex align-items-start mt-3">
-							<img style="width:100px; height:100px; background:gray; border-radius:5px; margin-right:10px;" />
-
+							<img id="userImage" style="width:100px; height:100px; border-radius:5px; margin-right:10px;"
+								src="/images/${(!empty USER.image)?USER.image:'default.png' }"/>
 								<label  for="imgFile" 
 								style="margin:0px; padding:10px; border-radius:2px; background:#04B45F;color:white">이미지 업로드</label>
 								<input type="file" id="imgFile" name="imgFile" style="display:none;">
