@@ -8,7 +8,7 @@
 		<li id="content-li" class="content-li">
 			<a class="nickname-wrap">${ACCOUNT.nickname}</a>
 			<a class="img-wrap">
-				<img id="accountImage" class="shadow" src="/images/${(ACCOUNT.image != null)?ACCOUNT.image:'default.png'}"/>		
+				<img id="accountImage" class="primary" src="/images/${(ACCOUNT.image != null)?ACCOUNT.image:'default.png'}"/>		
 			</a>
 			<ul id="sub-menu" class="sub-menu">
 				<li><a href="/boards/form">💬 글쓰기 </a></li>

@@ -26,7 +26,7 @@ public class HomeController
     {
         LOG.info("request home!");
         
-        List<Board> boardList = boardService.getBoardReadList();
+        List<Board> boardList = boardService.selectBoards();
         
         model.addAttribute("BoardList", boardList);
        

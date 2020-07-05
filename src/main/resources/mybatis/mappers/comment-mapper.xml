@@ -36,7 +36,7 @@
 	
 	<!-- 게시물 답글보기 : 게시물 ID에 해당하는 댓글리스트 보이기, 댓글 단 유저 이름, 사진 보이기, 날짜를 기준으로 내림차순  -->
 	<select id="readCommentList" resultMap="commentResult">
-		SELECT U.id U.NICKNAME, U.IMAGE, C.CONTENT, C.CREATED_AT
+		SELECT U.id, U.NICKNAME, U.IMAGE, C.CONTENT, C.CREATED_AT
 		FROM COMMENTS C
 		LEFT OUTER JOIN USERS U ON C.WRITER_ID = U.ID 
 		WHERE BOARD_ID = #{id}

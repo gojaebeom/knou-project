@@ -68,7 +68,7 @@
 	  	<ul class="list-group list-group-flush" >
 	  		<li class="list-group-item">
 				<div class="media" style="width:100%;">
-				  <img class="mr-3" src="/assets/imgs/user-profile/${(!empty ACCOUNT.image)?ACCOUNT.image:'default.png'}"
+				  <img class="mr-3" src="/images/${(!empty ACCOUNT.image)?ACCOUNT.image:'default.png'}"
 				    style="width:54px;height:54px;border-radius:5px;">
 				  <div class="media-body" style="width:100%;">
 				    <form style="width:100%;">
@@ -96,11 +96,9 @@
 						<div class="media">
 						  <img class="mr-3" src="/images/${(!empty c.user.image)?c.user.image:'default.png'}"
 						    style="width:54px;height:54px;border-radius:5px;">
-						  <div class="media-body">
-						    <h5 class="mt-0"><a href="#">${c.user.nickname } • ${c.createdAt }</a></h5>
-						    <br>
+						  <div class="media-body" style="line-height:1.3em;">
+						    <h5 class="mt-0 mb-2"><a href="/users/${c.user.id }">${c.user.nickname } • ${c.createdAt }</a></h5>
 						    	${c.content }
-						    	${pageContext.request.contextPath}
 						  </div>
 						</div>
 					</li>

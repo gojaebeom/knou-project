@@ -20,45 +20,55 @@
 	    <result column="nickname" property="nickname"/>
 	</resultMap>
 	
-	<select id="read" resultMap="boardResult">
-		SELECT B.ID, B.TITLE, B.CREATED_AT, U.NICKNAME, B.COMMENT_CNT, B.HIT
+	<select id="selectBoards" resultMap="boardResult">
+		SELECT 
+			B.ID,
+			B.TITLE,
+			B.CREATED_AT, 
+			U.NICKNAME, 
+			B.COMMENT_CNT, 
+			B.HIT
 		FROM BOARDS B
 		LEFT OUTER JOIN USERS U ON B.WRITER_ID = U.ID
-		WHERE ${field} LIKE '${query}'
-		ORDER BY CREATED_AT DESC
+		WHERE 
+			${field} LIKE '${query}'
+		ORDER BY 
+			CREATED_AT DESC
 		LIMIT ${page}, 5;
 	</select>
 	
-	<select id="readCount" resultType="_int">
+	<select id="selectBoardForId" resultMap="boardResult">
+		SELECT 
+			B.ID, 
+			B.TITLE, 
+			B.CONTENT, 
+			B.HIT, 
+			B.COMMENT_CNT, 
+			B.WRITER_ID, 
+			B.CREATED_AT, 
+			U.NICKNAME, 
+			U.IMAGE
+		FROM BOARDS B
+		LEFT OUTER JOIN 
+			USERS U ON B.WRITER_ID = U.ID
+		WHERE 
+			B.ID = #{id};
+	</select>
+	
+	<select id="selectBoardCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM BOARDS B
 		LEFT OUTER JOIN USERS U ON B.WRITER_ID = U.ID
 		WHERE ${field} LIKE '${query}';
 	</select>
 	
-	<select id="readOne" resultMap="boardResult">
-		SELECT B.ID, B.TITLE, B.CONTENT, B.HIT, B.COMMENT_CNT, B.WRITER_ID, B.CREATED_AT, U.NICKNAME, U.IMAGE
-		FROM BOARDS B
-		LEFT OUTER JOIN USERS U ON B.WRITER_ID = U.ID
-		WHERE B.ID = #{id};
-	</select>
-	
-	<update id="updateHit" parameterType="_int">
+	<update id="updateBoardHit" parameterType="_int">
     	UPDATE BOARDS SET
     	HIT = HIT+1
     	WHERE ID = #{id};
     </update>
 	
-	<select id="getCount" resultType="_integer[]">
-		SELECT 
-		(SELECT COUNT(ID) FROM USERS) AS USER_ALL,
-			(SELECT COUNT(ID) FROM BOARDS) AS BOARD_ALL,
-				(SELECT COUNT(ID) FROM COMMENTS) AS COMMENT_ALL;
-
-	</select>
-	
-	
-	<insert id="create">
+	<insert id="insertBoard">
 		INSERT INTO BOARDS
 		(
 			TITLE,

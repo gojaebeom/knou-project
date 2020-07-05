@@ -43,13 +43,13 @@ public class BoardController
     {
         LOG.info(board.toString());
         
-        boardService.getBoardCreate(board);
+        boardService.insertBoard(board);
         
         return "redirect:/";
     }
     
     @RequestMapping(value="/boards", method=RequestMethod.GET)
-    public String boardReadList(
+    public String boardList(
             @RequestParam(value="page",required = false) String page_, 
             @RequestParam(value="field",required = false) String field, 
             @RequestParam(value="query",required = false) String query, 
@@ -61,11 +61,12 @@ public class BoardController
         
         LOG.info("분류:["+field+"], 작성값:["+query+"], 페이지 번호:["+page+"]");
        
-        List<Board> boardList = boardService.getBoardReadList(field, query, page);
-        int total = boardService.getBoardReadCount(field, query);
+        List<Board> boardList = boardService.selectBoards(field, query, page);
         
-        LOG.info("토탈 :"+total);
+        int total = boardService.selectBoardCount(field, query);
+        
         int lastPage =  (int) Math.ceil(total/5)+1;
+        
         LOG.info("토탈/한페이지당 개시물(5):"+lastPage);
         
         Map<String, Object> map = new HashMap<>();
@@ -83,9 +84,9 @@ public class BoardController
     @RequestMapping(value="/boards/{id}", method=RequestMethod.GET)
     public String boardReadOne(@PathVariable("id")int id, Model model) throws Exception
     {
-        Board board = boardService.getBoardReadOne(id);
-            boardService.getBoardUpdateHit(id);
-        LOG.info(board.toString());
+        Board board = boardService.selectBoardForId(id); LOG.info(board.toString());
+        
+        boardService.updateBoardHit(id);
         
         List<Comment> commentList = commentService.getReadCommentList(id);
         

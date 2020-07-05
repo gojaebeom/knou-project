@@ -15,40 +15,40 @@ public class BoardServiceImpl implements BoardService
     BoardDAO boardDAO;
 
     @Override
-    public void getBoardCreate(Board board) throws Exception
+    public List<Board> selectBoards() throws Exception
     {
-        boardDAO.getBoardCreate(board);
+        return boardDAO.selectBoards();
     }
 
     @Override
-    public List<Board> getBoardReadList() throws Exception
+    public List<Board> selectBoards(String field, String query, int page) throws Exception
     {
-        return boardDAO.getBoardReadList();
+        return boardDAO.selectBoards(field, query, page);
     }
 
     @Override
-    public List<Board> getBoardReadList(String field, String query, int page) throws Exception
-    {
-        return boardDAO.getBoardReadList(field, query, page);
-    }
-
-    @Override
-    public int getBoardReadCount(String field, String query) throws Exception
+    public int selectBoardCount(String field, String query) throws Exception
     {
         // TODO Auto-generated method stub
-        return boardDAO.getBoardReadCount(field, query);
+        return boardDAO.selectBoardCount(field, query);
     }
 
     @Override
-    public Board getBoardReadOne(int id) throws Exception
+    public Board selectBoardForId(int id) throws Exception
     {
-        return boardDAO.getBoardReadOne(id);
+        return boardDAO.selectBoardForId(id);
+    }
+    
+    @Override
+    public void insertBoard(Board board) throws Exception
+    {
+        boardDAO.insertBoard(board);
     }
 
     @Override
-    public void getBoardUpdateHit(int id) throws Exception
+    public void updateBoardHit(int id) throws Exception
     {
-        boardDAO.getBoardUpdateHit(id);
+        boardDAO.updateBoardHit(id);
     }
     
 }

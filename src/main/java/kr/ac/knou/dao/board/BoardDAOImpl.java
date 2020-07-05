@@ -20,20 +20,15 @@ public class BoardDAOImpl implements BoardDAO
     
     private static final Log LOG = LogFactory.getLog(BoardDAOImpl.class);
 
+    
     @Override
-    public void getBoardCreate(Board board)
+    public List<Board> selectBoards()
     {
-        sqlSession.insert("board.create", board);
+        return selectBoards("nickname","",1);
     }
-
+    
     @Override
-    public List<Board> getBoardReadList()
-    {
-        return getBoardReadList("nickname","",1);
-    }
-
-    @Override
-    public List<Board> getBoardReadList(String field, String query, int page)
+    public List<Board> selectBoards(String field, String query, int page)
     {
         Map<String, Object> map = new HashMap<>();
         map.put("field", field);
@@ -42,28 +37,41 @@ public class BoardDAOImpl implements BoardDAO
         
         LOG.info(map.get("page"));
 
-        return sqlSession.selectList("board.read", map);
+        return sqlSession.selectList("board.selectBoards", map);
     }
-
+    
     @Override
-    public int getBoardReadCount(String field, String query) throws Exception
+    public int selectBoardCount(String field, String query) throws Exception
     {
         Map<String, Object> map = new HashMap<>();
         map.put("field", field);
         map.put("query", "%"+query+"%");
-        return sqlSession.selectOne("board.readCount", map);
+        return sqlSession.selectOne("board.selectBoardCount", map);
+    }
+    
+    @Override
+    public Board selectBoardForId(int id) throws Exception
+    {
+        return sqlSession.selectOne("board.selectBoardForId", id);
+    }
+    
+    @Override
+    public void insertBoard(Board board)
+    {
+        sqlSession.insert("board.insertBoard", board);
     }
 
     @Override
-    public Board getBoardReadOne(int id) throws Exception
+    public void updateBoardHit(int id) throws Exception
     {
-        return sqlSession.selectOne("board.readOne", id);
+        sqlSession.update("board.updateBoardHit", id);
     }
+    
 
-    @Override
-    public void getBoardUpdateHit(int id) throws Exception
-    {
-        sqlSession.update("board.updateHit", id);
-    }
+    
+
+    
+
+    
     
 }
