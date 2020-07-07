@@ -8,6 +8,7 @@
 	    <result column="content" property="content"/>
 	    <result column="created_at" property="createdAt"/>
 	    <collection property="user" resultMap="userResult"/>
+	    <collection property="board" resultMap="boardResult"/>
 	</resultMap>
 	 
 	<resultMap type="kr.ac.knou.dto.user.User" id="userResult">
@@ -17,8 +18,19 @@
 	    <result column="nickname" property="nickname"/>
 	    <result column="image" property="image"/>
 	</resultMap>
+	
+	<resultMap type="kr.ac.knou.dto.board.Board" id="boardResult">
+	    <result column="id" property="id"/>
+	    <result column="writer_id" property="writerId"/>
+	    <result column="title" property="title"/>
+	    <result column="content" property="content"/>
+	    <result column="created_at" property="createdAt"/>
+	    <result column="hit" property="hit"/>
+	    <result column="comment_cnt" property="commentCnt"/>
+	    <collection property="user" resultMap="userResult"/>
+	</resultMap>
 
-	<insert id="createComment">
+	<insert id="insertComment">
 		INSERT INTO COMMENTS(CONTENT, BOARD_ID, WRITER_ID) 
 		VALUES(
 		#{content},
@@ -26,21 +38,30 @@
 		#{writerId}
 		);
 	</insert>
-	
-	<update id="updateComment">
-		UPDATE BOARDS
-		SET COMMENT_CNT = 
-		( SELECT COUNT(ID) FROM COMMENTS WHERE BOARD_ID = #{id} )
-		WHERE ID = #{id};
-	</update>
-	
+		
 	<!-- 게시물 답글보기 : 게시물 ID에 해당하는 댓글리스트 보이기, 댓글 단 유저 이름, 사진 보이기, 날짜를 기준으로 내림차순  -->
-	<select id="readCommentList" resultMap="commentResult">
-		SELECT U.id, U.NICKNAME, U.IMAGE, C.CONTENT, C.CREATED_AT
+	<select id="selectComments" resultMap="commentResult">
+		SELECT C.ID, C.CONTENT, C.CREATED_AT, U.ID, U.NICKNAME, U.IMAGE
 		FROM COMMENTS C
 		LEFT OUTER JOIN USERS U ON C.WRITER_ID = U.ID 
 		WHERE BOARD_ID = #{id}
 		ORDER BY C.CREATED_AT DESC;
 	</select>
+	
+	<select id="selectBoardsForWriterId" resultMap="commentResult">
+		SELECT B.ID, B.TITLE, B.CREATED_AT
+		FROM COMMENTS C
+		LEFT OUTER JOIN BOARDS B ON B.ID = C.BOARD_ID
+		WHERE C.WRITER_ID = #{id};
+	</select>
+	
+	<select id="selectBoardCountForWriterId" resultType="Integer">
+		SELECT COUNT(C.ID) AS CNT
+		FROM (SELECT ID, COUNT(ID) FROM COMMENTS WHERE WRITER_ID = #{id} GROUP BY BOARD_ID) AS C;
+	</select>
+	
+	<delete id="deleteComment">
+		DELETE FROM COMMENTS WHERE ID = #{id}
+	</delete>
 	
 </mapper>

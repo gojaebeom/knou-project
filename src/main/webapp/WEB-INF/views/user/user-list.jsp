@@ -17,13 +17,13 @@
 		<div class="alert alert-primary" role="alert">
 			해당하는 게시물의 제목을 누르시면 게시물 상세보기를 하실 수 있습니다.
 		</div>
-		<form action="/users" class="d-flex flex-wrap justify-content-start align-items-end mb-5 ">
+		<form action="/users" class="d-flex flex-wrap justify-content-start align-items-end mb-5">
 			<div class="d-flex justify-content-start align-items-end ">
 				<select name="field" class="custom-select mr-2 p-1" id="inlineFormCustomSelect" style="width:120px; height:35px;">
-			        <option value="nickname" ${(FIELD == "nickname")? "selected" : null}>닉네임</option>
+			        <option value="nickname">닉네임</option>
 			     </select>
 				 <input type="text" class="form-control" id="inlineFormInput" name="query" value="${QUERY}" placeholder="님네임을 입력하세요!">
-				 <input type="hidden" name="page" value="${PAGE}">
+				 <input name="page" type="hidden" value="${PAGE}">
 				 <button type="submit" class="btn btn-raised btn-success m-0 ml-1">검색</button>
 			 </div>
 		</form>

@@ -34,4 +34,6 @@ public interface UserService
     //회원 사진 수정
     public int updateUserImage(User user) throws Exception;
 
+    //회원 탈퇴
+    public int deleteUser(int id) throws Exception;
 }

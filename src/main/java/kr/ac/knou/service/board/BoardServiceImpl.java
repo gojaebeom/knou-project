@@ -1,48 +1,103 @@
 package kr.ac.knou.service.board;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.ac.knou.dao.board.BoardDAO;
+import kr.ac.knou.dao.board.BoardDAOImpl;
 import kr.ac.knou.dto.board.Board;
+import kr.ac.knou.dto.comment.Comment;
+import kr.ac.knou.dto.tag.Tag;
+import kr.ac.knou.service.comment.CommentService;
+import kr.ac.knou.service.tag.TagService;
 
 @Service
 public class BoardServiceImpl implements BoardService
 {
     @Autowired
-    BoardDAO boardDAO;
+    private BoardDAO boardDAO;
+    
+    @Autowired
+    private TagService tagService;
+    
+    @Autowired
+    private CommentService commentService;
+    
+    private static final Log LOG = LogFactory.getLog(BoardDAOImpl.class);
 
     @Override
     public List<Board> selectBoards() throws Exception
-    {
-        return boardDAO.selectBoards();
+    {        
+        return selectBoards("title","",1);
     }
 
     @Override
     public List<Board> selectBoards(String field, String query, int page) throws Exception
     {
-        return boardDAO.selectBoards(field, query, page);
+        List<Board> boardList = boardDAO.selectBoards(field, query, page);
+        
+        List<Board> boardListAddTag = new ArrayList<>();
+        
+        for(Board board : boardList)
+        {            
+            List<Tag> tagList = tagService.selectTagsForBoardId(board.getId());
+            
+            board.setTagList(tagList);
+
+            boardListAddTag.add(board);
+        }
+        
+        return boardListAddTag;
+    }
+    
+    @Override
+    public List<Board> selectBoardsForUserId(int userId) throws Exception
+    {
+        return boardDAO.selectBoardsForUserId(userId);
+    }  
+    
+    @Override
+    public List<Board> selectBoardsForUserId(int userId, int page) throws Exception
+    {
+        return boardDAO.selectBoardsForUserId(userId, page);
     }
 
     @Override
     public int selectBoardCount(String field, String query) throws Exception
     {
-        // TODO Auto-generated method stub
         return boardDAO.selectBoardCount(field, query);
     }
+    
+    @Override
+    public int selectBoardCountForUserId(int id) throws Exception
+    {
+        return boardDAO.selectBoardCountForUserId(id);
+    }
+
 
     @Override
     public Board selectBoardForId(int id) throws Exception
     {
-        return boardDAO.selectBoardForId(id);
+         Board board = boardDAO.selectBoardForId(id);
+         
+         List<Tag> tagList = tagService.selectTagsForBoardId(board.getId());
+         
+         board.setTagList(tagList);
+         
+         return board;
     }
     
     @Override
-    public void insertBoard(Board board) throws Exception
+    public int insertBoard(Board board) throws Exception
     {
-        boardDAO.insertBoard(board);
+        int result = boardDAO.insertBoard(board);
+        
+        return (result != 0)? boardDAO.selectLastInsertId() : 0;
     }
 
     @Override
@@ -50,5 +105,46 @@ public class BoardServiceImpl implements BoardService
     {
         boardDAO.updateBoardHit(id);
     }
+    
+    @Override
+    public int updateBoardCommentCnt(int id) throws Exception
+    {
+        // TODO Auto-generated method stub
+        return boardDAO.updateBoardCommentCnt(id);
+    }
+
+    @Override
+    public int updateBoard(Board board) throws Exception
+    {
+        return 0;
+    }
+
+    @Override
+    public int deleteBoard(int id) throws Exception
+    {
+        LOG.info("게시물 아이디"+id);
+        
+        List<Comment> commentList =  commentService.selectComments(id);
+        
+        for(Comment comment : commentList)
+        {
+            LOG.info("삭제할 코맨트 아이디 : "+comment.getId());
+            commentService.deleteComment(comment.getId());
+        }
+        
+        List<Tag> tagList = tagService.selectTagsForBoardId(id);
+        
+        for(Tag tag : tagList)
+        {
+            tagService.deleteTag(tag.getId());
+        }
+        
+        //updateBoardCommentCnt(id); 어짜피 삭제되니까 업데이트 할 필요 x
+        
+        return boardDAO.deleteBoard(id);
+    }
+
+    
+
     
 }

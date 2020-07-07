@@ -26,29 +26,21 @@ public class CommentController
     public List<Comment> getComment(Comment comment) throws Exception
     {
         LOG.info(comment.toString());
-        int createSuccess = commentService.getCreateComment(comment);
+        int createSuccess = commentService.insertCommentAndUpdateBoardCommentCnt(comment);
         
         if(createSuccess == 0)
         {
             LOG.info(createSuccess);
             return null;
         }
-            
-        
-        int updateSuccess = commentService.getUpdateComment(comment.getBoardId());
-       
-        if(updateSuccess == 0)
-        {
-            LOG.info(updateSuccess);
-            return null;
-        }
-        
-        List<Comment> commentList = commentService.getReadCommentList(comment.getBoardId());
+    
+        List<Comment> commentList = commentService.selectComments(comment.getBoardId());
         
         for(Comment comm : commentList)
         {
             LOG.info(comm.toString());
         }
+        
         return commentList;
     }
 }

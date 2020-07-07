@@ -118,4 +118,8 @@
 		WHERE 
 			ID = #{id}
 	</update>
+	
+	<delete id="deleteUser">
+		DELETE FROM USERS WHERE ID = #{id}
+	</delete>
 </mapper>

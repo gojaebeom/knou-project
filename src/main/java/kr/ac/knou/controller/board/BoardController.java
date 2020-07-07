@@ -1,12 +1,12 @@
 package kr.ac.knou.controller.board;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import kr.ac.knou.controller.HomeController;
 import kr.ac.knou.dto.board.Board;
 import kr.ac.knou.dto.comment.Comment;
+import kr.ac.knou.dto.tag.Tag;
 import kr.ac.knou.service.board.BoardService;
 import kr.ac.knou.service.comment.CommentService;
+import kr.ac.knou.service.tag.TagService;
 
 @Controller
 public class BoardController
@@ -30,26 +32,41 @@ public class BoardController
     @Autowired
     private CommentService commentService;
     
+    @Autowired
+    private TagService tagService;
+    
     private static final Log LOG = LogFactory.getLog(HomeController.class);
     
     @RequestMapping(value="/boards/form", method=RequestMethod.GET)
-    public String boardCreate()
+    public String insertBoard()
     { 
         return "board/board-form";
     }
     
     @RequestMapping(value="/boards", method=RequestMethod.POST)
-    public String boardCreate(Board board) throws Exception
+    public String insertBoard(Board board, @RequestParam(value="tags",required=false)String[] tags) throws Exception
     {
         LOG.info(board.toString());
         
-        boardService.insertBoard(board);
+        int boardId = boardService.insertBoard(board);
+        
+        List<Tag> tagList = new ArrayList<>();
+        
+        for(String tag_ : tags)
+        {
+            Tag tag = new Tag();
+            tag.setBoardId(boardId);
+            tag.setTagName(tag_);
+            tagList.add(tag);
+        }
+        
+        tagService.insertTags(tagList);
         
         return "redirect:/";
     }
     
     @RequestMapping(value="/boards", method=RequestMethod.GET)
-    public String boardList(
+    public String selectBoards(
             @RequestParam(value="page",required = false) String page_, 
             @RequestParam(value="field",required = false) String field, 
             @RequestParam(value="query",required = false) String query, 
@@ -82,13 +99,15 @@ public class BoardController
     }
     
     @RequestMapping(value="/boards/{id}", method=RequestMethod.GET)
-    public String boardReadOne(@PathVariable("id")int id, Model model) throws Exception
+    public String selectBoardForId(@PathVariable("id")int id, Model model) throws Exception
     {
-        Board board = boardService.selectBoardForId(id); LOG.info(board.toString());
+        Board board = boardService.selectBoardForId(id);
+        
+        LOG.info(board.toString());
         
         boardService.updateBoardHit(id);
         
-        List<Comment> commentList = commentService.getReadCommentList(id);
+        List<Comment> commentList = commentService.selectComments(id);
         
         Map<String, Object> map = new HashMap<>();
         map.put("BOARD", board);
@@ -97,5 +116,35 @@ public class BoardController
         model.addAllAttributes(map);
         
         return "board/board-detail";
+    }
+    
+    @RequestMapping(value="/boards/{id}/edit", method=RequestMethod.GET)
+    public String updateBoardForId(@PathVariable("id")int id, Model model) throws Exception
+    {
+        Board board = boardService.selectBoardForId(id);
+        
+        LOG.info(board.toString());
+        
+        boardService.updateBoardHit(id);
+         
+        Map<String, Object> map = new HashMap<>();
+        map.put("BOARD", board);
+        
+        model.addAllAttributes(map);
+        
+        return "board/board-edit";
+    }
+    
+    @RequestMapping(value="/boards/{id}", method=RequestMethod.PUT)
+    public String updateBoardForId(Board board) throws Exception
+    {
+        return "redirect:/";
+    }
+    
+    @RequestMapping(value="/boards/{id}", method=RequestMethod.DELETE)
+    public String deleteBoard(@PathVariable("id")int id) throws Exception
+    {
+        boardService.deleteBoard(id);
+        return "redirect:/";
     }
 }

@@ -21,31 +21,42 @@
 				</h1>
 				<div class="card">
 				<c:choose>
-					<c:when test="${empty BoardList}">
+					<c:when test="${empty BOARDLIST}">
 						<p style="padding:20px;font-size:20px;">등록된 게시물이 없습니다.😥 </p>
 					</c:when>
 					<c:otherwise>
-						<c:forEach items="${BoardList}" var="b">
-							<div class="d-flex" style="padding:20px; border-bottom:1px solid #D8D8D8;">
-								<div class="d-flex" style="width:200px;">
-									<div class="f-1 d-flex flex-column justify-content-center align-items-center mr-2">
+						<c:forEach items="${BOARDLIST}" var="b">
+							<div class="row" style="padding:10px; margin:0px; border-bottom:1px dotted #D8D8D8;">
+								<div class="col-2 d-flex justify-content-center align-items-center" style="color:#585858;">	
+									<div class="d-flex flex-column justify-content-center align-items-center p-2">
 										<div style="font-size:20px; margin-bottom:10px;">${b.hit}</div>
-										<div>조회</div>
+										<div><i class="ri-eye-fill"></i></div>
 									</div>
-									<div class="f-1 d-flex flex-column justify-content-center align-items-center mr-2">
+									<div class="d-flex flex-column justify-content-center align-items-center p-2">
 										<div style="font-size:20px; margin-bottom:10px;">${b.commentCnt }</div>
-										<div>댓글</div>
+										<div><i class="ri-message-2-fill"></i></div>
 									</div>
-									<div class="f-1 d-flex flex-column justify-content-center align-items-center mr-3">
+									<div class="d-flex flex-column justify-content-center align-items-center p-2">
 										<div style="font-size:20px; margin-bottom:10px;">${0}</div>
-										<div>추천</div>
+										<div><i class="ri-star-line"></i></div>
 									</div>
 								</div>
-								<div class="d-flex flex-column" style="width:100%;">
-									<div style="font-size:20px; margin-bottom:10px;"><a href="/boards/${b.id}">${b.title}</a></div>
-									<div style="display:flex;justify-content:flex-end;">
-										<a href="" style="margin-right:10px;">${b.user.nickname}</a>
-										<span><fmt:formatDate value="${b.createdAt }" pattern="yyyy-MM-dd-hh-mm-ss"/></span>
+								<div class="col-10 " style="width:100%;">
+									<div class="p-0 " style="font-size:20px; margin-bottom:10px;"><a href="/boards/${b.id}">${b.title}</a></div>
+									<div class="row " >
+										<div class="col-7">
+											<c:forEach items="${b.tagList}" var="t">
+												<span class="badge badge-secondary">
+													<a href="#" style="color:white;">
+														${t.tagName}
+													</a>
+												</span>
+											</c:forEach>
+										</div>
+										<div class="col-5 d-flex justify-content-end align-items-end">
+											<a href="" style="margin-right:10px;">${b.user.nickname}</a>
+											<span><fmt:formatDate value="${b.createdAt }" pattern="yyyy-MM-dd-hh-mm-ss"/></span>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -53,10 +64,39 @@
 					</c:otherwise>
 				</c:choose>
 				</div>
+			
 				<div class="d-flex justify-content-end">
 					<button type="button" class="btn btn-primary" onclick="location.href='/boards?page=1&field=title&query'">전체 보기</button>
 				</div>
+					
+				<h1 style="font-size:20px; font-weight:bold; margin-bottom:10px;">
+					태그 모음
+				</h1>
+
+				<div class="row m-0 mb-4 " >		
+					<div class="col p-1">
+						<c:choose>
+							<c:when test="${empty TAGLIST}">
+								<p style="padding:20px;font-size:20px;">등록된 태그들이 없습니다.😥 </p>
+							</c:when>
+							<c:otherwise>	
+								<c:forEach items="${TAGLIST}" var="t">			
+									<span class="badge
+									 badge-${(t.total > 2)?'primary':'success'} 
+									 p-2 m-1 mb-2" style="font-size:16px;">
+									 	<a href="#" style="color:white;text-decoration:none;">
+									 		${t.tagName}
+											${t.total}
+									 	</a>
+									</span>							
+									</c:forEach>
+								</c:otherwise>
+						</c:choose>			
+					</div>
+				</div>
 			</div>
+
+			
 			<div class="col-xl-3 .col-lg-4 col-md-12 col-sm-12">
 				<h1 style="font-size:20px; font-weight:bold; margin-bottom:20px;">프로필</h1>		
 				<div class="card d-flex justify-content-center align-items-center p-2" style="width:100%;">
@@ -83,8 +123,9 @@
 			</div>
 		</div>
 	</section>
-	
-	
 	<%@ include file="/WEB-INF/views/include/script.jsp"%>
+	<c:if test="${USER_UPDATE == true}">
+		<script type="text/javascript">alert("업데이트가 성공적으로 완료되었습니다.");</script>
+	</c:if>
 </body>
 </html>

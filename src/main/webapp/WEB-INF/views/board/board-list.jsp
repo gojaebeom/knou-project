@@ -41,26 +41,37 @@
 					</c:when>
 					<c:otherwise>
 						<c:forEach items="${BOARDLIST}" var="b">
-							<div class="d-flex" style="padding:20px; border-bottom:1px solid #D8D8D8;">
-								<div class="d-flex" style="width:200px;">
-									<div class="f-1 d-flex flex-column justify-content-center align-items-center mr-2">
+							<div class="row" style="padding:10px; margin:0px; border-bottom:1px dotted #D8D8D8;">
+								<div class="col-2 d-flex justify-content-start align-items-center" style="color:#585858;">	
+									<div class="d-flex flex-column justify-content-center align-items-center p-2">
 										<div style="font-size:20px; margin-bottom:10px;">${b.hit}</div>
-										<div>조회</div>
+										<div><i class="ri-eye-fill"></i></div>
 									</div>
-									<div class="f-1 d-flex flex-column justify-content-center align-items-center mr-2">
+									<div class="d-flex flex-column justify-content-center align-items-center p-2">
 										<div style="font-size:20px; margin-bottom:10px;">${b.commentCnt }</div>
-										<div>댓글</div>
+										<div><i class="ri-message-2-fill"></i></div>
 									</div>
-									<div class="f-1 d-flex flex-column justify-content-center align-items-center mr-3">
+									<div class="d-flex flex-column justify-content-center align-items-center p-2">
 										<div style="font-size:20px; margin-bottom:10px;">${0}</div>
-										<div>추천</div>
+										<div><i class="ri-star-line"></i></div>
 									</div>
 								</div>
-								<div class="d-flex flex-column" style="width:100%;">
-									<div style="font-size:20px; margin-bottom:10px;"><a href="/boards/${b.id}">${b.title}</a></div>
-									<div style="display:flex;justify-content:flex-end;">
-										<a href="" style="margin-right:10px;">${b.user.nickname}</a>
-										<span><fmt:formatDate value="${b.createdAt }" pattern="yyyy-MM-dd-hh-mm-ss"/></span>
+								<div class="col-10 " style="width:100%;">
+									<div class="p-0 " style="font-size:20px; margin-bottom:10px;"><a href="/boards/${b.id}">${b.title}</a></div>
+									<div class="row " >
+										<div class="col-7">
+											<c:forEach items="${b.tagList}" var="t">
+												<span class="badge badge-secondary">
+													<a href="#" style="color:white;">
+														${t.tagName}
+													</a>
+												</span>
+											</c:forEach>
+										</div>
+										<div class="col-5 d-flex justify-content-end align-items-end">
+											<a href="" style="margin-right:10px;">${b.user.nickname}</a>
+											<span><fmt:formatDate value="${b.createdAt }" pattern="yyyy-MM-dd-hh-mm-ss"/></span>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -76,8 +87,8 @@
 			<c:set var="STARTPAGE" value="${PAGE-(PAGE-1)%5}"/>
 			<ul class="pagination justify-content-center">
 				<c:if test="${STARTPAGE-5 >= 1 }">
-					<li class="page-item disabled"><a class="page-link" 
-					href="/boards?page=${STARTPAGE-5}&field=${FIELD}&query=${QUERY}" tabindex="-1">Previous</a></li>	
+					<li class="page-item"><a class="page-link" 
+					href="/boards?page=${STARTPAGE-5}&field=${FIELD}&query=${QUERY}">Previous</a></li>	
 				</c:if>
 				<c:forEach var="i" begin="0" end="4">
 					<c:if test="${(STARTPAGE+i) <= LASTPAGE}">

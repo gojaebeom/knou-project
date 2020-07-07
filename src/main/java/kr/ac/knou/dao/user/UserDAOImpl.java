@@ -105,4 +105,10 @@ public class UserDAOImpl implements UserDAO
     {
         return sqlSession.update("user.updateUserImage", user);
     }
+
+    @Override
+    public int deleteUser(int id) throws Exception
+    {
+        return sqlSession.delete("user.deleteUser", id);
+    }
 }

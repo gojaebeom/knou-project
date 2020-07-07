@@ -6,9 +6,15 @@ import kr.ac.knou.dto.comment.Comment;
 
 public interface CommentDAO
 {
-    public int getCreateComment(Comment comment) throws Exception;
+    public List<Comment> selectComments(int boardId) throws Exception;
     
-    public List<Comment> getReadCommentList(int boardId) throws Exception;
+    public int selectBoardCountForWriterId(int id) throws Exception;
+    
+    public int insertComment(Comment comment) throws Exception;
+    
+    public int deleteComment(int id) throws Exception;
 
-    public int getUpdateComment(int boardId) throws Exception;
+    public List<Comment> selectBoardsForWriterId(int id) throws Exception;
+
+    
 }

@@ -7,7 +7,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import kr.ac.knou.dao.user.UserDAO;
+import kr.ac.knou.dto.board.Board;
 import kr.ac.knou.dto.user.User;
+import kr.ac.knou.service.board.BoardService;
 import kr.ac.knou.util.EmailAuth;
 
 @Service
@@ -18,6 +20,9 @@ public class UserServiceImpl implements UserService
     
     @Autowired
     private UserDAO userDao;
+    
+    @Autowired
+    private BoardService boardService;
     
     @Override
     public List<User> selectUsers(String field, String query, int page) throws Exception
@@ -80,5 +85,17 @@ public class UserServiceImpl implements UserService
     public int updateUserImage(User user) throws Exception
     {
         return userDao.updateUserImage(user);
+    }
+
+    @Override
+    public int deleteUser(int id) throws Exception
+    {   
+        List<Board> boardList = boardService.selectBoardsForUserId(id);
+        for(Board board: boardList)
+        {
+            boardService.deleteBoard(board.getId());
+        }
+        
+        return 0;
     } 
 }

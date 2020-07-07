@@ -22,13 +22,13 @@ public class BoardDAOImpl implements BoardDAO
 
     
     @Override
-    public List<Board> selectBoards()
+    public List<Board> selectBoards()  throws Exception
     {
         return selectBoards("nickname","",1);
     }
     
     @Override
-    public List<Board> selectBoards(String field, String query, int page)
+    public List<Board> selectBoards(String field, String query, int page) throws Exception
     {
         Map<String, Object> map = new HashMap<>();
         map.put("field", field);
@@ -41,12 +41,34 @@ public class BoardDAOImpl implements BoardDAO
     }
     
     @Override
+    public List<Board> selectBoardsForUserId(int id) throws Exception
+    {
+        return sqlSession.selectList("board.selectBoardsForUserId", id);
+    }  
+    
+    @Override
+    public List<Board> selectBoardsForUserId(int id, int page) throws Exception
+    {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("id", id);
+        map.put("page", (page-1)*5);
+        return sqlSession.selectList("board.selectBoardsForUserId_Page", map);
+    }
+
+    
+    @Override
     public int selectBoardCount(String field, String query) throws Exception
     {
         Map<String, Object> map = new HashMap<>();
         map.put("field", field);
         map.put("query", "%"+query+"%");
         return sqlSession.selectOne("board.selectBoardCount", map);
+    }
+
+    @Override
+    public int selectBoardCountForUserId(int id) throws Exception
+    {
+        return sqlSession.selectOne("board.selectBoardCountForUserId", id);
     }
     
     @Override
@@ -56,9 +78,17 @@ public class BoardDAOImpl implements BoardDAO
     }
     
     @Override
-    public void insertBoard(Board board)
+    public int selectLastInsertId()
     {
-        sqlSession.insert("board.insertBoard", board);
+        return sqlSession.selectOne("board.selectLastInsertId");
+    }
+    
+    @Override
+    public int insertBoard(Board board)
+    {
+        Integer result = sqlSession.insert("board.insertBoard", board);
+        
+        return (result != null) ? result : 0;
     }
 
     @Override
@@ -67,11 +97,25 @@ public class BoardDAOImpl implements BoardDAO
         sqlSession.update("board.updateBoardHit", id);
     }
     
-
+    @Override
+    public int updateBoardCommentCnt(int id) throws Exception
+    {
+        return sqlSession.update("board.updateBoardCommentCnt", id);
+    }
     
+    @Override
+    public int updateBoard(Board board) throws Exception
+    {
+        // TODO Auto-generated method stub
+        return sqlSession.update("board.updateBoard", board);
+    }
 
-    
+    @Override
+    public int deleteBoard(int id) throws Exception
+    {
+        return sqlSession.delete("board.deleteBoard", id);
+    }
 
-    
+   
     
 }

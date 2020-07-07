@@ -2,6 +2,7 @@ package kr.ac.knou.dto.comment;
 
 import java.util.Date;
 
+import kr.ac.knou.dto.board.Board;
 import kr.ac.knou.dto.user.User;
 
 public class Comment
@@ -12,6 +13,7 @@ public class Comment
     private String content;   
     private Date createdAt;  
     private User user;
+    private Board board;
     
     
     @Override
@@ -22,8 +24,6 @@ public class Comment
                 + ", user=" + user + "]";
     }
     
-    
-
     public Comment(int id, int boardId, int writerId, String content,
             Date createdAt, User user)
     {
@@ -40,7 +40,16 @@ public class Comment
     {
         
     }
+    
+    public Board getBoard()
+    {
+        return board;
+    }
 
+    public void setBoard(Board board)
+    {
+        this.board = board;
+    }
 
     public int getId()
     {

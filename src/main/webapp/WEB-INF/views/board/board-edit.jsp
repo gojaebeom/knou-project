@@ -33,23 +33,45 @@
 				<h5 class="card-title mb-4">글 쓰기</h5>
 				<form action="/boards" method="post" onsubmit="return init()">
 					<input id="writerId" name="writerId" value="${ACCOUNT.id}"
-						type="hidden"> <label>제목</label><br> <input
-						id="title" name="title" /> 
+						type="hidden"> <label>제목</label><br> 
+						<input id="title" name="title" value="${BOARD.title }"/> 
 					<label>태그 입력</label><br> 
 					<div>
 						<input id="tagInput" class="m-0" style="width:70%"/>
 						<button id="tagBtn" type="button" class="btn btn-raised btn-success m-0" style="width:25%;">태그 등록</button>
 					</div>
-					
-					<div id="tagContainer"></div>
+					<div id="tagContainer">
+						<div class="row m-0 mt-5 border">
+					<c:choose>
+						<c:when test="${empty BOARD.tagList}">
+							<p style="padding:5px;font-size:18px;">등록된 태그들이 없습니다.😥 </p>
+						</c:when>
+						<c:otherwise>	
+							<c:forEach items="${BOARD.tagList}" var="t">			
+								
+								<span class="badge
+								 badge-${(t.total > 2)?'primary':'success'} 
+								 p-2 m-1 mb-2">
+								 	<a href="#" style="color:white;text-decoration:none;">
+								 		<input value="${t.tagName}">
+								 	</a>
+								</span>				
+									
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>	
+				</div>
+					</div>
 
 					<label>내용 입력</label><br>
 					<textarea id="boardContent" name="content" rows="10" cols=""
-						style="width: 100%; border: 1px solid #E6E6E6; border-radius: 3px;"></textarea>
+						style="width: 100%; border: 1px solid #E6E6E6; border-radius: 3px;">
+						${BOARD.content }
+					</textarea>
 
 
 					<button id="submitBtn" class="btn btn-raised btn-primary"
-						type="submit">생성</button>
+						type="submit">수정</button>
 				</form>
 			</div>
 		</div>

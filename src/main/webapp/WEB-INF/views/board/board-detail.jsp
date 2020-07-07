@@ -25,12 +25,32 @@
 				<h6 class="card-subtitle mb-2 text-muted pt-1">${BOARD.user.nickname}</h6>
 				<h6 class="card-subtitle mb-2 text-muted pt-1"><fmt:formatDate value="${BOARD.createdAt}" pattern="yyyy-MM-dd"/></h6>
 				<br>
-				<textarea rows="5" cols="" style="width:100%;border:none;font-size:16px;padding:20px;" disabled="disabled">${BOARD.content}</textarea>
-		
+				${BOARD.content}
 				
+				<div class="row m-0 mt-5 border">
+					<c:choose>
+						<c:when test="${empty BOARD.tagList}">
+							<p style="padding:5px;font-size:18px;">등록된 태그들이 없습니다.😥 </p>
+						</c:when>
+						<c:otherwise>	
+							<c:forEach items="${BOARD.tagList}" var="t">			
+								
+								<span class="badge
+								 badge-${(t.total > 2)?'primary':'success'} 
+								 p-2 m-1 mb-2">
+								 	<a href="#" style="color:white;text-decoration:none;">
+								 		${t.tagName}
+								 	</a>
+								</span>				
+									
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>	
+				</div>
+
 				<c:if test="${ACCOUNT.id == BOARD.writerId }">
-					<div class="container pt-5 d-flex justify-content-end">
-						<button type="button" class="btn btn-outline-success" onclick="location.href='/admin/boards/${1}/edit'">수정</button>
+					<div class="container d-flex justify-content-end">
+						<button type="button" class="btn btn-outline-success" onclick="location.href='/boards/${BOARD.id}/edit'">수정</button>
 						<button type="button" class="btn btn-outline-warning ml-3" data-toggle="modal" data-target="#delete-modal">삭제</button>
 					</div>
 					<!-- Destroy Modal -->
@@ -44,10 +64,13 @@
 					        </button>
 					      </div>
 					      <div class="modal-body">
-					         	해당 게시물을 삭제시 관련된 30개의 댓글도 같이 삭제됩니다. 그래도 진행하시겠습니까?
+					         	해당 게시물을 삭제시 관련된  댓글도 같이 삭제됩니다. 그래도 진행하시겠습니까?
 					      </div>
 					      <div class="modal-footer">
-					        <button type="button" class="btn btn-primary">네, 삭제하겠습니다!</button>
+					      	<form action="/boards/${BOARD.id}" method="post">
+					      		<input type="hidden" name="_method" value="delete" />
+					        	<button type="submit" class="btn btn-primary">네, 삭제하겠습니다!</button>
+					        </form>
 					      </div>
 					    </div>
 					  </div>

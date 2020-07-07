@@ -36,44 +36,8 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-xl-6 col-lg-6 col-sm-12">
-						<h4 class="mb-1">작성한 글&nbsp;&nbsp;[<a href="/users/${USER.id}/questions">전체보기</a>]</h4>
-						<table class="table table-sm">
-						  <thead>
-						    <tr>
-						      <th scope="col">#</th>
-						      <th scope="col" colspan="2">제목</th>
-						      <th scope="col">작성일</th>
-						    </tr>
-						  </thead>	  
-						  <tbody>
-						  	<c:choose>
-						  		<c:when test="${empty QUESTIONLIST}">
-						  			<tr>
-						  				<td colspan="3">작성된 글이 없습니다 😅</td>
-						  			</tr>
-						  		</c:when>
-						  		<c:otherwise>
-						  			
-						  			<c:forEach items="${QUESTIONLIST}" var="q" begin="0" end="4">
-									    <tr>
-									      <th scope="row">${q.id }</th>
-									      <td colspan="2">
-									      	<a href="/boards/${q.id}">
-									      		${q.title }
-									      	</a>
-									      </td>
-									      <td><fmt:formatDate value="${q.createdAt}" pattern="yyyy-MM-dd"/></td>
-									    </tr>
-									 </c:forEach>
-									 
-						  		</c:otherwise>
-						  	</c:choose>
-						  	</tbody>
-						</table>
-					</div>
-					<div class="col-xl-6 col-lg-6 col-sm-12">
-						<h4 class="mb-1">답변한 글&nbsp;&nbsp;[<a href="/users/${USER.id}/answers">전체보기</a>]</h4>
+					<div class="col">
+						<h4 class="mb-1">답변한 글&nbsp;&nbsp;[${TOTAL}]&nbsp;&nbsp;<a href="/users/${USER.id}">돌아가기</a></h4>
 						<table class="table table-sm">
 						  <thead>
 						    <tr>
@@ -90,7 +54,7 @@
 									</tr>	
 						  		</c:when>
 						  		<c:otherwise>
-						  			<c:forEach items="${ANSWERLIST}" var="a" begin="0" end="4">
+						  			<c:forEach items="${ANSWERLIST}" var="a">
 									    <tr>
 									      <th scope="row">${a.board.id }</th>
 									      <td colspan="2">
@@ -105,6 +69,25 @@
 						  	</c:choose>
 						  </tbody>
 						</table>
+						<nav aria-label="Page navigation example">
+							<c:set var="STARTPAGE" value="${PAGE-(PAGE-1)%5}"/>
+							<ul class="pagination justify-content-center">
+								<c:if test="${STARTPAGE-5 >= 1 }">
+									<li class="page-item"><a class="page-link" 
+									href="/users/${USER.id}/answers?page=${STARTPAGE-5}">Previous</a></li>	
+								</c:if>
+								<c:forEach var="i" begin="0" end="4">
+									<c:if test="${(STARTPAGE+i) <= LASTPAGE}">
+										<li class="page-item"><a class="page-link" style="${PAGE == (STARTPAGE+i)? 'color:green;':'color:gray;'}"
+										href="/users/${USER.id}/answers?page=${STARTPAGE+i}">${STARTPAGE + i}</a></li>
+									</c:if>					
+								</c:forEach>
+								<c:if test="${STARTPAGE+5 <= LASTPAGE }">
+									<li class="page-item"><a class="page-link" 
+									href="/users/${USER.id}/answers?page=${STARTPAGE+5}">Next</a></li>
+								</c:if>	
+							</ul>
+						</nav>
 					</div>
 				</div>
 			</div>

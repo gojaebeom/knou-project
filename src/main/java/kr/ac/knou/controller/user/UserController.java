@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
@@ -19,14 +18,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.ac.knou.controller.HomeController;
 import kr.ac.knou.dto.user.User;
+import kr.ac.knou.service.board.BoardService;
+import kr.ac.knou.service.comment.CommentService;
 import kr.ac.knou.service.user.UserService;
 import kr.ac.knou.util.FileUtil;
 
 @Controller
-@RequestMapping("/users")
 public class UserController
 {
     @Autowired
@@ -35,16 +36,22 @@ public class UserController
     @Autowired
     private UserService userService;
     
+    @Autowired
+    private BoardService boardService;
+    
+    @Autowired
+    private CommentService commentService;
+    
     private static final Log LOG = LogFactory.getLog(HomeController.class);
     
-    @RequestMapping(value="/sign-in", method=RequestMethod.GET)
-    public String GetSignIn()
+    @RequestMapping(value="/users/sign-in", method=RequestMethod.GET)
+    public String signIn()
     {
         return "sign/sign-in";
     }
     
-    @RequestMapping(value="/sign-in", method=RequestMethod.POST)
-    public String PostSignIn(User user, Model model, HttpSession session) throws Exception
+    @RequestMapping(value="/users/sign-in", method=RequestMethod.POST)
+    public String signIn(User user, Model model, HttpSession session) throws Exception
     {
         model.addAttribute("signInfo", user);
         
@@ -84,13 +91,13 @@ public class UserController
         return "redirect:/";
     }
     
-    @RequestMapping(value="/sign-up", method=RequestMethod.GET)
+    @RequestMapping(value="/users/sign-up", method=RequestMethod.GET)
     public String signUp()
     {
         return "sign/sign-up";
     }
     
-    @RequestMapping(value="/sign-up", method=RequestMethod.POST)
+    @RequestMapping(value="/users/sign-up", method=RequestMethod.POST)
     public String signUp(User user) throws Exception
     {        
         //Spring security를 통한 비밀번호 암호화
@@ -102,7 +109,7 @@ public class UserController
         return "sign/sign-up-finish";
     }
     
-    @RequestMapping(value="/sign-out", method=RequestMethod.GET)
+    @RequestMapping(value="/users/sign-out", method=RequestMethod.GET)
     public String signOut(HttpSession session)
     {
         session.invalidate();
@@ -110,8 +117,8 @@ public class UserController
         return "redirect:/";
     }
     
-    @RequestMapping(value="/confirm", method=RequestMethod.GET)
-    public String emailConfirm(@RequestParam("email")String email, @RequestParam("key")String key, Model model) throws Exception
+    @RequestMapping(value="/users/confirm", method=RequestMethod.GET)
+    public String updateUserAuthStatus(@RequestParam("email")String email, @RequestParam("key")String key, Model model) throws Exception
     {       
         int id = userService.updateUserAuthStatusForCertifiedId(email, key);
 
@@ -123,8 +130,8 @@ public class UserController
         return "sign/sign-in";
     }
     
-    @RequestMapping(method=RequestMethod.GET)
-    public String readUsers(
+    @RequestMapping(value="/users",method=RequestMethod.GET)
+    public String selectUsers(
             @RequestParam(value="page",required = false) String page_, 
             @RequestParam(value="field",required = false) String field, 
             @RequestParam(value="query",required = false) String query,
@@ -134,31 +141,97 @@ public class UserController
         
         query = (query!=null) ? query : "";
         
-        int page = (page_ != null && page_.equals("")) ? Integer.valueOf(page_) : 1;
+        int page = (page_ != null) ? Integer.valueOf(page_) : 1;
         
         LOG.info("분류:["+field+"], 작성값:["+query+"], 페이지 번호:["+page+"]");
         
         List<User> userList = userService.selectUsers(field, query, page);
         
-        model.addAttribute("USERLIST", userList);
+        Map<String, Object> map = new HashMap<>();
+        map.put("PAGE", page);
+        map.put("FIELD", field);
+        map.put("QUERY", query);
+        map.put("USERLIST", userList);
+        
+        model.addAllAttributes(map);
         
         return "user/user-list";
     }
      
-    @RequestMapping(value="/{id}", method=RequestMethod.GET)
-    public String findById(@PathVariable("id")int id, Model model) throws Exception
+    @RequestMapping(value="/users/{id}", method=RequestMethod.GET)
+    public String selectUserForId(@PathVariable("id")int id, Model model) throws Exception
     {
         LOG.info(id);
         
-        User user = userService.selectUserForId(id);
+        Map<String, Object> map = new HashMap<>();
         
-        model.addAttribute("USER", user);
+        map.put("USER", userService.selectUserForId(id));
+
+        map.put("QUESTIONLIST", boardService.selectBoardsForUserId(id));
+        
+        map.put("ANSWERLIST", commentService.selectBoardsForWriterId(id));
+
+        model.addAllAttributes(map);
         
         return "user/user-detail";
     }
     
-    @RequestMapping(value="/{id}/edit", method=RequestMethod.GET)
-    public String GetUserEdit(@PathVariable("id")int id, Model model) throws Exception
+    @RequestMapping(value="/users/{id}/questions", method=RequestMethod.GET)
+    public String selectUserForId_Questions(
+            @PathVariable("id")int id,
+            @RequestParam(value="page",required=false)String page_,
+            Model model) throws Exception
+    {
+        int page = (page_ != null) ? Integer.valueOf(page_) : 1;
+
+        Map<String, Object> map = new HashMap<>();
+        
+        map.put("USER", userService.selectUserForId(id));
+
+        map.put("QUESTIONLIST", boardService.selectBoardsForUserId(id, page));
+        
+        int total = boardService.selectBoardCountForUserId(id);
+        
+        map.put("TOTAL", total);
+        
+        map.put("LASTPAGE", (int)Math.ceil(total/5)+1);
+        
+        map.put("PAGE", page);
+
+        model.addAllAttributes(map);
+        
+        return "user/user-detail-question";
+    }
+    
+    @RequestMapping(value="/users/{id}/answers", method=RequestMethod.GET)
+    public String selectUserForId_Answers(
+            @PathVariable("id")int id,
+            @RequestParam(value="page",required=false)String page_,
+            Model model) throws Exception
+    {
+        int page = (page_ != null) ? Integer.valueOf(page_) : 1;
+        
+        Map<String, Object> map = new HashMap<>();
+        
+        map.put("USER", userService.selectUserForId(id));
+
+        map.put("ANSWERLIST", commentService.selectBoardsForWriterId(id));
+        
+        int total = commentService.selectBoardCountForWriterId(id);
+        
+        map.put("TOTAL", total);
+        
+        map.put("LASTPAGE", (int)Math.ceil(total/5)+1);
+        
+        map.put("PAGE", page);
+
+        model.addAllAttributes(map);
+        
+        return "user/user-detail-answer";
+    }
+    
+    @RequestMapping(value="/users/{id}/edit", method=RequestMethod.GET)
+    public String updateUser(@PathVariable("id")int id, Model model) throws Exception
     {
         User user = userService.selectUserForId(id);
         
@@ -167,8 +240,8 @@ public class UserController
         return "user/user-edit";
     }
      
-    @RequestMapping(value="/{id}", method=RequestMethod.PUT)
-    public String PutUserEdit(@PathVariable("id")int id, User user, HttpSession session) throws Exception
+    @RequestMapping(value="/users/{id}", method=RequestMethod.PUT)
+    public String updateUser(@PathVariable("id")int id, User user, HttpSession session ,RedirectAttributes model) throws Exception
     {
         LOG.info(user.toString());
         
@@ -179,12 +252,23 @@ public class UserController
            session.setAttribute("ACCOUNT",userService.selectUserForId(id));    
         }
         
+        model.addFlashAttribute("USER_UPDATE", true);
+        return "redirect:/";
+    }
+    
+    @RequestMapping(value="/users/{id}", method=RequestMethod.DELETE)
+    public String deleteUser(@PathVariable("id")int id, HttpSession session) throws Exception
+    {
+        userService.deleteUser(id);
+        
+        session.invalidate();
+        
         return "redirect:/";
     }
     
     @ResponseBody
-    @RequestMapping(value="/email-check", method=RequestMethod.POST)
-    public boolean emailCheck(@RequestParam(value="email",required = false)String email) throws Exception
+    @RequestMapping(value="/users/email-check", method=RequestMethod.POST)
+    public boolean selectUserIdForEmail(@RequestParam(value="email",required = false)String email) throws Exception
     {
         int id = userService.selectUserIdForEmail(email);
         
@@ -194,9 +278,18 @@ public class UserController
     }
     
     @ResponseBody
-    @RequestMapping(value="/nickname-check", method=RequestMethod.POST)
-    public boolean nicknameCheck(@RequestParam(value="nickname",required = false)String nickname) throws Exception
+    @RequestMapping(value="/users/nickname-check", method=RequestMethod.POST)
+    public boolean selectUserIdForNickname(
+            @RequestParam(value="accountNickname",required=false)String accountNickname,
+            @RequestParam(value="nickname",required = false)String nickname
+            ) throws Exception
     {
+        if(accountNickname != null && !accountNickname.equals(""))
+        {
+            if(accountNickname.equals(nickname))
+               return true;
+        }
+        
         int id = userService.selectUserIdForNickname(nickname);
         
         LOG.info("result: "+id);
@@ -205,19 +298,14 @@ public class UserController
     }
     
     @ResponseBody
-    @RequestMapping(value="{id}/image", method=RequestMethod.POST)
-    public Map<String, String> userImageUpload( 
+    @RequestMapping(value="/users/{id}/image", method=RequestMethod.POST)
+    public Map<String, String> updateUserImage( 
             @PathVariable("id")int id,
             @RequestParam(value = "imgFile", required = false)MultipartFile imgFile,
             HttpSession session) throws Exception
     {
-        
         //파일 업로드 처리 클래스에게 MultipartFile 타입의 파일처리를 위임
         User user = FileUtil.imageUpload(imgFile);
-        
-//        //FileUtil 클래스에서 반환값이 null일 경우 바로 false 반환
-//        if(user == null)
-//            return null;
         
         //FileUtil 클래스에서 UUID 이미지 이름값은 얻어왔지만 id를 설정안해 id 값도 받아서 서비스로 보낸다.
         user.setId(id);

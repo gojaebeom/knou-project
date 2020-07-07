@@ -55,6 +55,39 @@
 			B.ID = #{id};
 	</select>
 	
+	<select id="selectBoardsForUserId" resultMap="boardResult">
+		SELECT 
+			B.ID,
+			B.TITLE,
+			B.CREATED_AT, 
+			U.NICKNAME, 
+			B.COMMENT_CNT, 
+			B.HIT
+		FROM BOARDS B
+		LEFT OUTER JOIN USERS U ON B.WRITER_ID = U.ID
+		WHERE 
+			U.ID = #{id}
+		ORDER BY 
+			CREATED_AT DESC;
+	</select>
+	
+	<select id="selectBoardsForUserId_Page" resultMap="boardResult">
+		SELECT 
+			B.ID,
+			B.TITLE,
+			B.CREATED_AT, 
+			U.NICKNAME, 
+			B.COMMENT_CNT, 
+			B.HIT
+		FROM BOARDS B
+		LEFT OUTER JOIN USERS U ON B.WRITER_ID = U.ID
+		WHERE 
+			U.ID = #{id}
+		ORDER BY 
+			CREATED_AT DESC
+		LIMIT ${page}, 5;
+	</select>
+	
 	<select id="selectBoardCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM BOARDS B
@@ -62,11 +95,31 @@
 		WHERE ${field} LIKE '${query}';
 	</select>
 	
+	<select id="selectBoardCountForUserId" resultType="_int">
+		SELECT 
+			COUNT(*)
+		FROM BOARDS B
+		LEFT OUTER JOIN USERS U ON B.WRITER_ID = U.ID
+		WHERE 
+			U.ID = #{id};
+	</select>
+	
+	<select id="selectLastInsertId" resultType="Integer">
+        	SELECT LAST_INSERT_ID();
+   	</select>
+	
 	<update id="updateBoardHit" parameterType="_int">
     	UPDATE BOARDS SET
     	HIT = HIT+1
     	WHERE ID = #{id};
     </update>
+    
+    <update id="updateBoardCommentCnt">
+		UPDATE BOARDS
+		SET COMMENT_CNT = 
+		( SELECT COUNT(ID) FROM COMMENTS WHERE BOARD_ID = #{id} )
+		WHERE ID = #{id};
+	</update>
 	
 	<insert id="insertBoard">
 		INSERT INTO BOARDS
@@ -84,5 +137,9 @@
 			now()
 		);
 	</insert>
+	
+	<delete id="deleteBoard">
+		DELETE FROM BOARDS WHERE ID = #{id}
+	</delete>
 	
 </mapper>
