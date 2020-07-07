@@ -257,11 +257,13 @@ public class UserController
     }
     
     @RequestMapping(value="/users/{id}", method=RequestMethod.DELETE)
-    public String deleteUser(@PathVariable("id")int id, HttpSession session) throws Exception
+    public String deleteUser(@PathVariable("id")int id, HttpSession session, RedirectAttributes model) throws Exception
     {
         userService.deleteUser(id);
         
         session.invalidate();
+        
+        model.addFlashAttribute("USER_DELETE", true);
         
         return "redirect:/";
     }

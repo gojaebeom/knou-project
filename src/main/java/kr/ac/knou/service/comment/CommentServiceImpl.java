@@ -40,19 +40,30 @@ public class CommentServiceImpl implements CommentService
     }
     
     @Override
-    public int insertCommentAndUpdateBoardCommentCnt(Comment comment) throws Exception
+    public int insertComment(Comment comment) throws Exception
     {
         //먼저 댓글 생성
         commentDAO.insertComment(comment);
         // 이후 생성된 댓글의 boardId 를 통해 board 테이블의 댓글 수 업데이트
         return  boardService.updateBoardCommentCnt(comment.getBoardId());
     }
+    
+    @Override
+    public int updateComment(Comment comment) throws Exception
+    {
+        return commentDAO.updateComment(comment);
+    }
 
     @Override
-    public int deleteComment(int id) throws Exception
+    public int deleteComment(Comment comment) throws Exception
     {
-        return commentDAO.deleteComment(id);
+        commentDAO.deleteComment(comment.getId());
+        
+        return boardService.updateBoardCommentCnt(comment.getBoardId());
+               
     }
+
+    
 
     
 

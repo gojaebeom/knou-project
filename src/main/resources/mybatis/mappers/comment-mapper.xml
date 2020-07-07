@@ -5,6 +5,7 @@
 	<resultMap type="kr.ac.knou.dto.comment.Comment" id="commentResult">
 	    <result column="id" property="id"/>
 	    <result column="writer_id" property="writerId"/>
+	    <result column="board_id" property="boardId"/>
 	    <result column="content" property="content"/>
 	    <result column="created_at" property="createdAt"/>
 	    <collection property="user" resultMap="userResult"/>
@@ -41,11 +42,11 @@
 		
 	<!-- 게시물 답글보기 : 게시물 ID에 해당하는 댓글리스트 보이기, 댓글 단 유저 이름, 사진 보이기, 날짜를 기준으로 내림차순  -->
 	<select id="selectComments" resultMap="commentResult">
-		SELECT C.ID, C.CONTENT, C.CREATED_AT, U.ID, U.NICKNAME, U.IMAGE
+		SELECT C.ID, C.BOARD_ID, C.WRITER_ID, C.CONTENT, C.CREATED_AT, U.ID, U.NICKNAME, U.IMAGE
 		FROM COMMENTS C
 		LEFT OUTER JOIN USERS U ON C.WRITER_ID = U.ID 
-		WHERE BOARD_ID = #{id}
-		ORDER BY C.CREATED_AT DESC;
+	    WHERE BOARD_ID = #{id}
+		ORDER BY C.CREATED_AT ASC;
 	</select>
 	
 	<select id="selectBoardsForWriterId" resultMap="commentResult">
@@ -59,6 +60,13 @@
 		SELECT COUNT(C.ID) AS CNT
 		FROM (SELECT ID, COUNT(ID) FROM COMMENTS WHERE WRITER_ID = #{id} GROUP BY BOARD_ID) AS C;
 	</select>
+	
+	<update id="updateComment">
+		UPDATE COMMENTS 
+			SET CONTENT = #{content},
+				UPDATED_AT = now()
+		WHERE ID = #{id}
+	</update>
 	
 	<delete id="deleteComment">
 		DELETE FROM COMMENTS WHERE ID = #{id}

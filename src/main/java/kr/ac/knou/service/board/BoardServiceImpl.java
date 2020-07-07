@@ -129,7 +129,7 @@ public class BoardServiceImpl implements BoardService
         for(Comment comment : commentList)
         {
             LOG.info("삭제할 코맨트 아이디 : "+comment.getId());
-            commentService.deleteComment(comment.getId());
+            commentService.deleteComment(comment);
         }
         
         List<Tag> tagList = tagService.selectTagsForBoardId(id);
@@ -138,8 +138,6 @@ public class BoardServiceImpl implements BoardService
         {
             tagService.deleteTag(tag.getId());
         }
-        
-        //updateBoardCommentCnt(id); 어짜피 삭제되니까 업데이트 할 필요 x
         
         return boardDAO.deleteBoard(id);
     }

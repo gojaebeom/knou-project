@@ -1,6 +1,10 @@
-var nickname = document.getElementById("nickname");
-var nicknameSpan = document.getElementById("nicknameSpan");
-var accountNickname = document.getElementById("accountNickname");
+const nickname = document.getElementById("nickname");
+const nicknameSpan = document.getElementById("nicknameSpan");
+const accountNickname = document.getElementById("accountNickname");
+
+const deleteBtn = document.getElementById("deleteBtn");
+const deleteInput = document.getElementById("deleteInput");
+
 
 //닉네임 정규식
 var nicknamePattern = /^[가-힣a-zA-Z]+$/;
@@ -71,5 +75,19 @@ function nicknameCheck()
         nicknameSpan.innerHTML = "잘못된 입력입니다😢";
         nicknameSpan.style.color = "red";
         return false;
+    }
+}
+
+//삭제 모달창 && 버튼 이벤트
+deleteInput.onchange = () =>
+{
+    console.log(deleteInput.value);
+
+    if(deleteInput.value === "회원 탈퇴")
+    {
+        deleteBtn.style.display = "block";
+    }else
+    {
+        deleteBtn.style.display = "none";
     }
 }

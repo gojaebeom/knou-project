@@ -26,5 +26,6 @@
                <mapper resource="mybatis/mappers/board-mapper.xml"/>
                <mapper resource="mybatis/mappers/comment-mapper.xml"/>
                <mapper resource="mybatis/mappers/tag-mapper.xml"/>
+               <mapper resource="mybatis/mappers/like-mapper.xml"/>
         </mappers>
 </configuration>

@@ -16,5 +16,7 @@ public interface CommentDAO
 
     public List<Comment> selectBoardsForWriterId(int id) throws Exception;
 
+    public int updateComment(Comment comment) throws Exception;
+
     
 }

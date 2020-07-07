@@ -37,7 +37,7 @@
 										<div><i class="ri-message-2-fill"></i></div>
 									</div>
 									<div class="d-flex flex-column justify-content-center align-items-center p-2">
-										<div style="font-size:20px; margin-bottom:10px;">${0}</div>
+										<div style="font-size:20px; margin-bottom:10px;">${b.likeCnt}</div>
 										<div><i class="ri-star-line"></i></div>
 									</div>
 								</div>
@@ -126,6 +126,12 @@
 	<%@ include file="/WEB-INF/views/include/script.jsp"%>
 	<c:if test="${USER_UPDATE == true}">
 		<script type="text/javascript">alert("업데이트가 성공적으로 완료되었습니다.");</script>
+	</c:if>
+	<c:if test="${USER_DELETE == true}">
+		<script type="text/javascript">alert("회원 탈퇴가 완료되었습니다.");</script>
+	</c:if>
+	<c:if test="${COMMENT_DELETE == true}">
+		<script type="text/javascript">alert("댓글 삭제가 완료되었습니다.");</script>
 	</c:if>
 </body>
 </html>

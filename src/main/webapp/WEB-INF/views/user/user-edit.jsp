@@ -69,7 +69,7 @@
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+	        <h5 class="modal-title" id="exampleModalLabel">회원 탈퇴</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
@@ -78,12 +78,16 @@
 	         	계정을 삭제하시겠습니까? <br>
 	         	계정 삭제시 관련된 게시글, 댓글, 태그들도 함께 삭제 처리됩니다.<br>
 	         	
-	         	정말 삭제하시려면 회원 탈퇴를 입력해주세요😥
-	      		<input id="deleteInput">   	
+	         	정말 삭제하시려면 <span class="badge badge-secondary">회원 탈퇴</span>입력 후 엔터를  눌러주세요😥
+	      		<input id="deleteInput" style="width:100%;border:1px solid #E6E6E6; border-radius:2px;margin-top:10px;">   	
 		  </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary" style="display:none;">계정 삭제</button>
+	        <form action="/users/${USER.id}" method="post">
+	        	<input type="hidden" name="_method" value="delete" />
+		        <button id="deleteBtn" type="submit" 
+		        class="btn btn-primary" style="display:none;">계정 삭제</button>
+	        </form>
 	      </div>
 	    </div>
 	  </div>

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import kr.ac.knou.dto.comment.Comment;
+import kr.ac.knou.dto.like.Like;
 import kr.ac.knou.dto.tag.Tag;
 import kr.ac.knou.dto.user.User;
 
@@ -17,32 +18,16 @@ public class Board
     private Date createdAt;    
     private int hit;    
     private int commentCnt;    
+    private int likeCnt;
     
     private User user;   
     private Comment comment;   
+    private Like like;
     private List<Tag> tagList;
     
     public Board()
     {
         
-    }
-    
-    public Board(int id, int writerId, String title, String content,
-            String files, Date createdAt, int hit, int commentCnt, User user,
-            Comment comment, List<Tag> tagList)
-    {
-        super();
-        this.id = id;
-        this.writerId = writerId;
-        this.title = title;
-        this.content = content;
-        this.files = files;
-        this.createdAt = createdAt;
-        this.hit = hit;
-        this.commentCnt = commentCnt;
-        this.user = user;
-        this.comment = comment;
-        this.tagList = tagList;
     }
     public int getId()
     {
@@ -133,15 +118,35 @@ public class Board
         this.tagList = tagList;
     }
 
+    public int getLikeCnt()
+    {
+        return likeCnt;
+    }
+
+    public void setLikeCnt(int likeCnt)
+    {
+        this.likeCnt = likeCnt;
+    }
+    public Like getLike()
+    {
+        return like;
+    }
+    public void setLike(Like like)
+    {
+        this.like = like;
+    }
     @Override
     public String toString()
     {
         return "Board [id=" + id + ", writerId=" + writerId + ", title=" + title
                 + ", content=" + content + ", files=" + files + ", createdAt="
                 + createdAt + ", hit=" + hit + ", commentCnt=" + commentCnt
-                + ", user=" + user + ", comment=" + comment + ", tagList="
-                + tagList + "]";
+                + ", likeCnt=" + likeCnt + ", user=" + user + ", comment="
+                + comment + ", like=" + like + ", tagList=" + tagList + "]";
     }
+    
+
+    
     
     
     

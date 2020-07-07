@@ -52,7 +52,7 @@
 										<div><i class="ri-message-2-fill"></i></div>
 									</div>
 									<div class="d-flex flex-column justify-content-center align-items-center p-2">
-										<div style="font-size:20px; margin-bottom:10px;">${0}</div>
+										<div style="font-size:20px; margin-bottom:10px;">${b.likeCnt}</div>
 										<div><i class="ri-star-line"></i></div>
 									</div>
 								</div>

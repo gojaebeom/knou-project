@@ -55,12 +55,20 @@ public class CommentDAOImpl implements CommentDAO
     {       
         return sqlSession.insert("comment.insertComment", comment);
     }
+    
+    @Override
+    public int updateComment(Comment comment) throws Exception
+    {
+        return sqlSession.update("updateComment", comment);
+    }
 
     @Override
     public int deleteComment(int id) throws Exception
     {
         return sqlSession.delete("comment.deleteComment", id);
     }
+
+    
 
    
 

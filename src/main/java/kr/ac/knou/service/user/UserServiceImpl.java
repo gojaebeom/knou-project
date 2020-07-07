@@ -96,6 +96,6 @@ public class UserServiceImpl implements UserService
             boardService.deleteBoard(board.getId());
         }
         
-        return 0;
+        return userDao.deleteUser(id);
     } 
 }

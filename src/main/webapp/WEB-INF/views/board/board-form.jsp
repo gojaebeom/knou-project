@@ -44,8 +44,7 @@
 					<div id="tagContainer"></div>
 
 					<label>내용 입력</label><br>
-					<textarea id="boardContent" name="content" rows="10" cols=""
-						style="width: 100%; border: 1px solid #E6E6E6; border-radius: 3px;"></textarea>
+					<textarea id="boardContent" name="content" rows="10" cols="" style="width: 100%; border: 1px solid #E6E6E6; border-radius: 3px;"></textarea>
 
 
 					<button id="submitBtn" class="btn btn-raised btn-primary"

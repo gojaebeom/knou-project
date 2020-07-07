@@ -10,11 +10,13 @@ public interface CommentService
     
     public int selectBoardCountForWriterId(int id)  throws Exception;
     
-    public int insertCommentAndUpdateBoardCommentCnt(Comment comment) throws Exception;
+    public int insertComment(Comment comment) throws Exception;
 
-    public int deleteComment(int id) throws Exception;
+    public int deleteComment(Comment comment) throws Exception;
 
     public List<Comment> selectBoardsForWriterId(int id) throws Exception;
+
+    public int updateComment(Comment comment) throws Exception;
 
     
 }
