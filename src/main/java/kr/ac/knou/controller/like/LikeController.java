@@ -1,5 +1,7 @@
 package kr.ac.knou.controller.like;
 
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,18 +29,15 @@ public class LikeController
         LOG.info("계정 아이디로 일치하는 Like id 찾기 : ");
         LOG.info(like.toString());
         
-        int result = likeService.selectIsLiked(like);        
+        int result = likeService.selectIsLiked(like);     
+        
         return (result != 0)? true : false;
     }
     
-//    @ResponseBody
-//    @RequestMapping(value="/is-liked", method = RequestMethod.PUT)
-//    public boolean UpdateLike(Like like) throws Exception
-//    {
-//        LOG.info("계정 아이디로 일치하는 Like id 찾기 : ");
-//        LOG.info(like.toString());
-//        
-//        int result = likeService.selectIsLiked(like);        
-//        return (result != 0)? true : false;
-//    }
+    @ResponseBody
+    @RequestMapping(value="/like-status", method = RequestMethod.POST)
+    public Map<String,Integer> UpdateLike(Like like) throws Exception
+    {
+        return likeService.likeCycle(like);
+    }
 }

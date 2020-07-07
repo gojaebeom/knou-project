@@ -134,8 +134,7 @@
 	
 	<update id="updateBoardLikeCnt">
 		UPDATE BOARDS
-		SET LIKE_CNT = 
-		( SELECT COUNT(ID) FROM COMMENTS WHERE BOARD_ID = #{id} )
+		SET LIKE_CNT = (SELECT COUNT(*) FROM LIKES WHERE board_id=#{id} AND is_liked = 1 )
 		WHERE ID = #{id};
 	</update>
 	

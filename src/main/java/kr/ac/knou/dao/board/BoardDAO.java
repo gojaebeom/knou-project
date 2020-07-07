@@ -39,6 +39,9 @@ public interface BoardDAO
     //게시물 댓글 카운트 업데이트
     public int updateBoardCommentCnt(int id) throws Exception;
     
+    //게시판 추천 카운트 업데이트
+    public int updateBoardLikeCnt(int id) throws Exception;
+    
     //게시물 수정
     public int updateBoard(Board board) throws Exception;
     

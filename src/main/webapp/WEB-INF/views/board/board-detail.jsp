@@ -24,7 +24,7 @@
 				<img class="align-self-start mr-3" src="/images/${(!empty BOARD.user.image)?BOARD.user.image:'default.png'}"
 					alt="Generic placeholder image" style="width:50px;height:50px;border-radius:2px;">
 				<div class="media-body ml-0">
-					<h4 class="mt-0">${BOARD.user.nickname}</h4>
+					<h4 class="mt-0"><a href="/users/${BOARD.user.id}">${BOARD.user.nickname}</a></h4>
 				</div>
 			</div>
 			<div class="card-body">
@@ -53,29 +53,30 @@
 						</c:otherwise>
 					</c:choose>	
 				</div>
-
+			</div>
+			<div class="card-footer justify-content-start align-items-center pt-0" style="border-top:none;">
+				<div class="d-flex justify-content-start align-items-center">
+				    <fieldset id="likeStatus" class="mr-2">
+						<span class="btn-group-sm">
+						  <button type="button" class="btn btn-secondary bmd-btn-fab" onclick="likeUpdate();">
+						  		<i class="material-icons">grade</i>
+						  </button>
+						</span>
+					</fieldset>
+					<div class="pb-1">
+						<span style="font-size:20px;">
+							<a id="likeWrap" href="#">${BOARD.likeCnt}</a> 
+							개의 <a href="#">추천별</a>을 받았습니다😎  
+						</span> 
+						<input id="likeCheckInput" type="hidden" data-account="${(!empty ACCOUNT)?ACCOUNT.id:0}" data-board="${BOARD.id}">
+					</div>
+				</div>
 				<c:if test="${ACCOUNT.id == BOARD.writerId }">
 					<div class="container d-flex justify-content-end">
 						<button type="button" class="btn btn-outline-success" onclick="location.href='/boards/${BOARD.id}/edit'">수정</button>
 						<button type="button" class="btn btn-outline-warning ml-3" data-toggle="modal" data-target="#board-delete-modal">삭제</button>
 					</div>
 				</c:if>
-			</div>
-			<div class="card-footer d-flex justify-content-center align-items-center">
-			    <fieldset id="likeStatus" class="mr-2">
-					<span class="btn-group-sm">
-					  <button type="button" class="btn btn-secondary bmd-btn-fab" onclick="likeUpdate();">
-					  		<i class="material-icons">grade</i>
-					  </button>
-					</span>
-				</fieldset>
-				<div class="pb-1">
-					<span style="font-size:20px;">
-						<a id="likeWrap" href="#">${BOARD.likeCnt}</a> 
-						개의 추천별을 받았습니다😎  ${BOARD.like.userId}
-					</span> 
-					<input id="likeCheckInput" type="hidden" data-account="${(!empty ACCOUNT)?ACCOUNT.id:0}" data-board="${BOARD.id}">
-				</div>
 		  	</div>
 		</div>
 	<div class="container">

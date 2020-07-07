@@ -27,6 +27,8 @@ public interface BoardService
     
     public int updateBoardCommentCnt(int id) throws Exception;
     
+    public int updateBoardLikeCnt(int id) throws Exception;
+    
     public int updateBoard(Board board) throws Exception;
     
     public int deleteBoard(int id) throws Exception;

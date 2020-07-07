@@ -7,6 +7,7 @@ public class Like
     private int id;
     private int boardId;
     private int userId;
+    private int isLiked;
     private Date createdAt;
     
     public Like()
@@ -54,12 +55,24 @@ public class Like
         this.createdAt = createdAt;
     }
 
+    public int getIsLiked()
+    {
+        return isLiked;
+    }
+
+    public void setIsLiked(int isLiked)
+    {
+        this.isLiked = isLiked;
+    }
+
     @Override
     public String toString()
     {
         return "Like [id=" + id + ", boardId=" + boardId + ", userId=" + userId
-                + ", createdAt=" + createdAt + "]";
+                + ", isLiked=" + isLiked + ", createdAt=" + createdAt + "]";
     }
+
+    
     
     
 }

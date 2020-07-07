@@ -109,8 +109,17 @@ public class BoardServiceImpl implements BoardService
     @Override
     public int updateBoardCommentCnt(int id) throws Exception
     {
-        // TODO Auto-generated method stub
         return boardDAO.updateBoardCommentCnt(id);
+    }
+    
+    @Override
+    public int updateBoardLikeCnt(int id) throws Exception
+    {
+         boardDAO.updateBoardLikeCnt(id);
+         
+         Board board = boardDAO.selectBoardForId(id);
+         
+         return board.getLikeCnt();
     }
 
     @Override
@@ -141,6 +150,8 @@ public class BoardServiceImpl implements BoardService
         
         return boardDAO.deleteBoard(id);
     }
+
+   
 
     
 

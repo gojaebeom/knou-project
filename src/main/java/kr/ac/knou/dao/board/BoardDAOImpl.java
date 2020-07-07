@@ -104,6 +104,12 @@ public class BoardDAOImpl implements BoardDAO
     }
     
     @Override
+    public int updateBoardLikeCnt(int id) throws Exception
+    {
+        return sqlSession.update("board.updateBoardLikeCnt", id);
+    }
+    
+    @Override
     public int updateBoard(Board board) throws Exception
     {
         // TODO Auto-generated method stub
@@ -115,6 +121,8 @@ public class BoardDAOImpl implements BoardDAO
     {
         return sqlSession.delete("board.deleteBoard", id);
     }
+
+    
 
    
     

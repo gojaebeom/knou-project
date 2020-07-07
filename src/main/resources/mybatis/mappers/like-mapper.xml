@@ -2,11 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="like">	
-	<select id="selectIsLiked" resultType="Integer">
-		SELECT COUNT(*)
-		FROM 
-			LIKES
-		WHERE 
-			USER_ID = #{userId} AND BOARD_ID = #{boardId}
+
+	<!-- 유저id와 게시물id로 매칭되는 like id가 있는지 확인 -->
+	<select id="selectLikeIdForBoardIdAndUserId" resultType="Integer">
+		SELECT ID FROM LIKES WHERE BOARD_ID = #{boardId} AND USER_ID = #{userId}
 	</select>
+	
+	<!-- 해당 id의 is_liked 상태 확인 -->
+	<select id="selectIsLikedForId" resultType="Integer">
+		SELECT IS_LIKED FROM LIKES WHERE ID = #{id}
+	</select>
+	
+	<insert id="insertLike">
+		INSERT INTO LIKES(BOARD_ID, USER_ID)
+		VALUES(#{boardId}, #{userId})
+	</insert>
+	
+	<!-- 해당 id의 is_liked 상태 바꾸기 -->
+	<update id="updateLike">
+		UPDATE LIKES SET IS_LIKED = #{isLiked} WHERE ID = #{id}
+	</update>
 </mapper>
