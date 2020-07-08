@@ -49,6 +49,16 @@ function doubleCheck(previousArr, value)
     }
 }
 
+console.log("총 태그들 : "+tagContainer.childElementCount);
+console.log(tagContainer.children);
+
+for(let i =0; i < tagContainer.childElementCount; i++)
+{
+    previous.push(tagContainer.children[i].dataset.value);
+}
+
+console.log(previous);
+
 tagInput.onchange = () => 
 {
     //태그 정규식
@@ -118,10 +128,19 @@ tagInput.onchange = () =>
 
 function deleteTag(tag)
 {
+   const result = confirm( '태그를 삭제하시겠습니까? 삭제한 태그는 게시물 수정작업이 취소되어도 복구되지 않습니다😥' );
+   if(!result)
+   {
+      return false;
+   }
+
    console.log(tag.dataset);
    const tagValue = tag.dataset.value;
+   const tagId = tag.dataset.id;
 
    console.log(previous);
+   console.log(tagValue);
+   console.log(tagId);
    
    //태그 삭제 이후에도 배열엔 값이 남아있어 똑같은 배열 이름 입력시 중복오류가
    //나기때문에 같은 값을 가진 배열도 찾아서 삭제해준다
@@ -134,16 +153,32 @@ function deleteTag(tag)
    }
    console.log(previous);
 
-   //부모 태그 찾기
-   const tagParent = tag.parentNode;
+   $.ajax({
+        type : "DELETE",
+        url : `/tags/${tagId}`,
+        contentType: "application/json; charset=utf-8;",
+        dataType :"json",
+        //async: false, //값을 리턴시 해당코드를 추가하여 동기로 변경
+        error : function(){
+            alert('통신실패!!');
+        },
+        success : function(data)
+        {
+            if(data)
+            {
+                //부모 태그 찾기
+                const tagParent = tag.parentNode;
 
-   //부모태그에서 자식태그 삭제
-   tagParent.removeChild(tag);
+                //부모태그에서 자식태그 삭제
+                tagParent.removeChild(tag);
 
-   console.log("삭제 성공!");
+                console.log("삭제 성공!");
 
-   //자식태그의 총 갯수 확인
-   console.log(`태그 컨테이너 ${tagContainer.childElementCount}`);
+                //자식태그의 총 갯수 확인
+                console.log(`태그 컨테이너 ${tagContainer.childElementCount}`);
+            }
+        }
+    });
 }
 
 

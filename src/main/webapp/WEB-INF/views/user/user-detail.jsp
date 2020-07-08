@@ -6,14 +6,13 @@
 <html>
 <head>
 	<%@ include file="/WEB-INF/views/include/head.jsp"%>
-	<title>방송대 Q&A</title>
+	<title>방송대 커뮤니티 - 학우정보</title>
 </head>
 <body>
-	<header class="navbar navbar-expand navbar-dark bd-navbar bg-primary">
-		<%@ include file="/WEB-INF/views/include/nav.jsp"%>
-	</header>
+	<!-- header -->
+	<%@ include file="/WEB-INF/views/include/nav.jsp"%>
 	<section class="container">
-		<div class="card">
+		<div class="card shadow">
 	  		<div class="card-body">
 				<div class="row mb-5">
 					<div class="col">	

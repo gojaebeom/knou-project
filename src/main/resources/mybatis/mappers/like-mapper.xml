@@ -8,6 +8,11 @@
 		SELECT ID FROM LIKES WHERE BOARD_ID = #{boardId} AND USER_ID = #{userId}
 	</select>
 	
+	<!-- 게시물 id로  매칭되는 like 들을  확인 -->
+	<select id="selectLikesForBoardId" resultType="kr.ac.knou.dto.like.Like">
+		SELECT * FROM LIKES WHERE BOARD_ID = #{boardId}
+	</select>
+	
 	<!-- 해당 id의 is_liked 상태 확인 -->
 	<select id="selectIsLikedForId" resultType="Integer">
 		SELECT IS_LIKED FROM LIKES WHERE ID = #{id}
@@ -22,4 +27,8 @@
 	<update id="updateLike">
 		UPDATE LIKES SET IS_LIKED = #{isLiked} WHERE ID = #{id}
 	</update>
+	
+	<delete id="deleteLike">
+		DELETE FROM LIKES WHERE ID = #{id}
+	</delete>
 </mapper>

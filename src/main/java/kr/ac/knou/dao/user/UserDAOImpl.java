@@ -22,15 +22,21 @@ public class UserDAOImpl implements UserDAO
     private static final Log LOG = LogFactory.getLog(BoardDAOImpl.class);
     
     @Override
-    public List<User> selectUsers(String field, String query, int page) throws Exception
+    public List<User> selectUsers(String query, int page) throws Exception
     {
         Map<String, Object> map = new HashMap<>();
-        map.put("field", field);
         map.put("query", "%"+query+"%");
         map.put("page", (page-1)*20);
         
         LOG.info(map.get("page"));
         return sqlSession.selectList("user.selectUsers", map);
+    }
+    
+    @Override
+    public int selectUserCount(String query) throws Exception
+    {
+        query = "%"+query+"%";
+        return sqlSession.selectOne("user.selectUserCount", query);
     }
     
     @Override
@@ -111,4 +117,6 @@ public class UserDAOImpl implements UserDAO
     {
         return sqlSession.delete("user.deleteUser", id);
     }
+
+    
 }

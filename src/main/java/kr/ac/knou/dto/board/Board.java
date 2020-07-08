@@ -1,5 +1,6 @@
 package kr.ac.knou.dto.board;
 
+
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class Board
     private String content;  
     private String files;    
     private Date createdAt;    
+    private Date updatedAt;
     private int hit;    
     private int commentCnt;    
     private int likeCnt;
@@ -76,6 +78,15 @@ public class Board
     public void setCreatedAt(Date createdAt)
     {
         this.createdAt = createdAt;
+    }
+    
+    public Date getUpdatedAt()
+    {
+        return updatedAt;
+    }
+    public void setUpdatedAt(Date updatedAt)
+    {
+        this.updatedAt = updatedAt;
     }
     public int getHit()
     {
@@ -140,15 +151,11 @@ public class Board
     {
         return "Board [id=" + id + ", writerId=" + writerId + ", title=" + title
                 + ", content=" + content + ", files=" + files + ", createdAt="
-                + createdAt + ", hit=" + hit + ", commentCnt=" + commentCnt
-                + ", likeCnt=" + likeCnt + ", user=" + user + ", comment="
-                + comment + ", like=" + like + ", tagList=" + tagList + "]";
+                + createdAt + ", updatedAt=" + updatedAt + ", hit=" + hit
+                + ", commentCnt=" + commentCnt + ", likeCnt=" + likeCnt
+                + ", user=" + user + ", comment=" + comment + ", like=" + like
+                + ", tagList=" + tagList + "]";
     }
     
 
-    
-    
-    
-    
-    
 }

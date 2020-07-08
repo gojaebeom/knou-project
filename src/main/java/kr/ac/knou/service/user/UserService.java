@@ -8,7 +8,10 @@ public interface UserService
 {
 
     //회원 리스트 
-    public List<User> selectUsers(String field, String query, int page) throws Exception;
+    public List<User> selectUsers(String query, int page) throws Exception;
+    
+    //회원 전체 총 개수
+    public int selectUserCount(String query) throws Exception;
     
     //회원 상세보기
     public User selectUserForId(int id) throws Exception;

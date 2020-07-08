@@ -6,12 +6,11 @@
 	<%@ include file="/WEB-INF/views/include/head.jsp"%>
 	<link href="${pageContext.request.contextPath}/assets/css/profile-menu.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/assets/css/sign-form.css" rel="stylesheet">
-	<title>방송인 Q&A - 회원가입</title>
+	<title>방송대 커뮤니티 - 회원가입</title>
 </head>
 <body>
-	<header class="navbar navbar-expand navbar-dark flex-md-row bd-navbar bg-primary">
-		<%@ include file="/WEB-INF/views/include/admin-nav.jsp"%>
-	</header>
+	<!-- header -->
+	<%@ include file="/WEB-INF/views/include/nav.jsp"%>
 	<section class="container d-flex justify-content-center">
 		<div class="alert alert-primary" role="alert">
 		  	해당 계정으로 인증 메일을 보냈습니다. 메일을 확인해주세요. <a href="/">home으로 돌아가기</a>

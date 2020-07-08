@@ -25,10 +25,16 @@ public class UserServiceImpl implements UserService
     private BoardService boardService;
     
     @Override
-    public List<User> selectUsers(String field, String query, int page) throws Exception
+    public List<User> selectUsers(String query, int page) throws Exception
     {
-        return userDao.selectUsers(field, query, page);
+        return userDao.selectUsers(query, page);
     }
+    
+    @Override
+    public int selectUserCount(String query) throws Exception
+    {
+        return userDao.selectUserCount(query);
+    } 
     
     @Override
     public User selectUserForId(int id) throws Exception
@@ -97,5 +103,7 @@ public class UserServiceImpl implements UserService
         }
         
         return userDao.deleteUser(id);
-    } 
+    }
+
+    
 }

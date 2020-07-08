@@ -6,75 +6,73 @@
 <html>
 <head>
 	<%@ include file="/WEB-INF/views/include/head.jsp"%>
-	<link href="${pageContext.request.contextPath}/assets/css/profile-menu.css" rel="stylesheet">
-	<title>방송대 Q&A</title>
+	<link href="/assets/css/profile-menu.css" rel="stylesheet">
+	<link href="/assets/css/board-list.css" rel="stylesheet">
+	<title>방송대 커뮤니티 - 소통마당</title>
 </head>
 <body>
-	<header class="navbar navbar-expand navbar-dark bd-navbar bg-primary">
-		<%@ include file="/WEB-INF/views/include/nav.jsp"%>
-	</header>
+	<!-- header -->
+	<%@ include file="/WEB-INF/views/include/nav.jsp"%>
 	<section class="container mb-5">
-		<div class="alert alert-primary" role="alert">
-			해당하는 게시물의 제목을 누르시면 게시물 상세보기를 하실 수 있습니다.
-		</div>
-		<form action="/boards" class="d-flex flex-wrap justify-content-start align-items-end mb-5 ">
-			<div class="d-flex justify-content-start align-items-end ">
-				<select name="field" class="custom-select mr-2 p-1" id="inlineFormCustomSelect" style="width:120px; height:35px;">
-			        <option value="title" ${(FIELD == "title")? "selected" : null}>제목</option>
-			        <option value="nickname" ${(FIELD == "nickname") ? "selected" : null}>작성자</option>
-			     </select>
-				 <input type="text" class="form-control" id="inlineFormInput" name="query" value="${QUERY}" placeholder="검색어를 입력하세요!">
-				 <input type="hidden" name="page" value="${PAGE}">
-				 <button type="submit" class="btn btn-raised btn-success m-0 ml-1">검색</button>
-			 </div>
+		<form action="/boards" class="mb-3">
+			<select name="field" class="custom-select mr-2 p-1" id="inlineFormCustomSelect" style="width:120px; height:35px;">
+		        <option value="title" ${(FIELD == "title")? "selected" : null}>제목</option>
+		        <option value="nickname" ${(FIELD == "nickname") ? "selected" : null}>작성자</option>
+		     </select>
+			 <input type="text" class="hover-shadow" id="inlineFormInput" name="query" value="${QUERY}" 
+			 	placeholder="✔ 제목 또는 회원명으로 게시물을 검색하세요"
+		 		style="width:100%;border:none;border-radius:2px;padding:15px;">
+			 <input type="hidden" name="page" value="${PAGE}">
 		</form>
 
 		<div class="row">
 			<div class="col-12">
 				<h1 style="font-size:20px; font-weight:bold; margin-bottom:20px;">
-					게시물 목록
+					게시물 목록 / ${TOTAL }
 				</h1>
-				<div class="card">
+				<div class="shadow2 card">
 				<c:choose>
 					<c:when test="${empty BOARDLIST}">
 						<p style="padding:20px;font-size:20px;">등록된 게시물이 없습니다.😥 <a href="/boards?page=1&field=title&query">목록으로 돌아가기</a> </p>
 					</c:when>
 					<c:otherwise>
 						<c:forEach items="${BOARDLIST}" var="b">
-							<div class="row" style="padding:10px; margin:0px; border-bottom:1px dotted #D8D8D8;">
-								<div class="col-2 d-flex justify-content-start align-items-center" style="color:#585858;">	
-									<div class="d-flex flex-column justify-content-center align-items-center p-2">
-										<div style="font-size:20px; margin-bottom:10px;">${b.hit}</div>
-										<div><i class="ri-eye-fill"></i></div>
+	
+							<div class="list-wrap d-flex p-3">
+								<div class="status-wrap d-flex justify-content-center aling-items-center" >
+									<div class="status-child d-flex flex-column justify-content-center align-items-center">
+										<a class="font-scp">${b.hit}</a>
+										<a class="mt-2">조회</a>
 									</div>
-									<div class="d-flex flex-column justify-content-center align-items-center p-2">
-										<div style="font-size:20px; margin-bottom:10px;">${b.commentCnt }</div>
-										<div><i class="ri-message-2-fill"></i></div>
+									<div class="status-child d-flex flex-column justify-content-center align-items-center">
+										<a class="font-scp">${b.commentCnt}</a>
+										<a class="mt-2">댓글</a>
 									</div>
-									<div class="d-flex flex-column justify-content-center align-items-center p-2">
-										<div style="font-size:20px; margin-bottom:10px;">${b.likeCnt}</div>
-										<div><i class="ri-star-line"></i></div>
+									<div class="status-child d-flex flex-column justify-content-center align-items-center">
+										<a  class="font-scp">${b.likeCnt}</a>
+										<a class="mt-2">추천</a>
 									</div>
 								</div>
-								<div class="col-10 " style="width:100%;">
-									<div class="p-0 " style="font-size:20px; margin-bottom:10px;"><a href="/boards/${b.id}">${b.title}</a></div>
-									<div class="row " >
-										<div class="col-7">
-											<c:forEach items="${b.tagList}" var="t">
-												<span class="badge badge-secondary">
-													<a href="#" style="color:white;">
-														${t.tagName}
-													</a>
-												</span>
-											</c:forEach>
+								<div class="d-flex flex-column justify-content-center ml-2" style="width:100%;">
+									<div class="mt-1 mb-2" >
+										<h4><a href="/boards/${b.id}">#${b.title}</a></h4>
+									</div>
+									<div class="d-flex flex-wrap">
+										<div class="flex-wrap" style="flex:1;">
+										<c:forEach items="${b.tagList}" var="t">
+											<a href="/tags?tag-name=${t.tagName}" class="badge badge-secondary">
+												${t.tagName} 
+											</a>
+										</c:forEach>
 										</div>
-										<div class="col-5 d-flex justify-content-end align-items-end">
-											<a href="" style="margin-right:10px;">${b.user.nickname}</a>
-											<span><fmt:formatDate value="${b.createdAt }" pattern="yyyy-MM-dd-hh-mm-ss"/></span>
+										<div class="d-flex justify-content-end flex-wrap" style="flex:1;">
+											<a href="/users/${b.writerId}">${b.user.nickname}</a>
+											<a class="ml-2"><fmt:formatDate value="${b.createdAt }" pattern="yyyy-MM-dd hh:mm"/></a>
 										</div>
 									</div>
 								</div>
 							</div>
+	
 						</c:forEach>
 					</c:otherwise>
 				</c:choose>

@@ -12,8 +12,10 @@ import kr.ac.knou.dao.board.BoardDAO;
 import kr.ac.knou.dao.board.BoardDAOImpl;
 import kr.ac.knou.dto.board.Board;
 import kr.ac.knou.dto.comment.Comment;
+import kr.ac.knou.dto.like.Like;
 import kr.ac.knou.dto.tag.Tag;
 import kr.ac.knou.service.comment.CommentService;
+import kr.ac.knou.service.like.LikeService;
 import kr.ac.knou.service.tag.TagService;
 
 @Service
@@ -27,6 +29,9 @@ public class BoardServiceImpl implements BoardService
     
     @Autowired
     private CommentService commentService;
+    
+    @Autowired
+    private LikeService likeService;
     
     private static final Log LOG = LogFactory.getLog(BoardDAOImpl.class);
 
@@ -125,7 +130,7 @@ public class BoardServiceImpl implements BoardService
     @Override
     public int updateBoard(Board board) throws Exception
     {
-        return 0;
+        return boardDAO.updateBoard(board);
     }
 
     @Override
@@ -133,6 +138,7 @@ public class BoardServiceImpl implements BoardService
     {
         LOG.info("게시물 아이디"+id);
         
+        //게시물과 관련된 댓글들 삭제
         List<Comment> commentList =  commentService.selectComments(id);
         
         for(Comment comment : commentList)
@@ -141,6 +147,7 @@ public class BoardServiceImpl implements BoardService
             commentService.deleteComment(comment);
         }
         
+        //게시물과 관련된 태그들 삭제
         List<Tag> tagList = tagService.selectTagsForBoardId(id);
         
         for(Tag tag : tagList)
@@ -148,6 +155,15 @@ public class BoardServiceImpl implements BoardService
             tagService.deleteTag(tag.getId());
         }
         
+        //게시물과 관련된 like들 삭제
+        List<Like> likeList = likeService.selectLikesForBoardId(id);
+        
+        for(Like like : likeList)
+        {
+            likeService.deleteLike(like.getId());
+        }
+        
+        //그 후 게시물 삭제
         return boardDAO.deleteBoard(id);
     }
 

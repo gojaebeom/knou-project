@@ -6,9 +6,15 @@
 	<select id="selectUsers" resultType="kr.ac.knou.dto.user.User">
 		SELECT ID, EMAIL, NICKNAME, CREATED_AT, IMAGE
 		FROM USERS
-		WHERE ${field} LIKE '${query}'
+		WHERE NICKNAME LIKE '${query}'
 		ORDER BY NICKNAME
 		LIMIT ${page}, 20;
+	</select>
+	
+	<select id="selectUserCount" resultType="Integer">
+		SELECT COUNT(*)
+		FROM USERS
+		WHERE NICKNAME LIKE '${query}'
 	</select>
 	
 	<!-- id 에 해당하는 컬럼들 추출 (회원 상세보기, 수정페이지등에 사용)-->

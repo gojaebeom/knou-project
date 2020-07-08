@@ -112,7 +112,6 @@ public class BoardDAOImpl implements BoardDAO
     @Override
     public int updateBoard(Board board) throws Exception
     {
-        // TODO Auto-generated method stub
         return sqlSession.update("board.updateBoard", board);
     }
 

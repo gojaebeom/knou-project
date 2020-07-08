@@ -1,6 +1,7 @@
 package kr.ac.knou.service.like;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,12 @@ public class LikeServiceImpl implements LikeService
     
     @Autowired
     private BoardService boardService;
+    
+    @Override
+    public List<Like> selectLikesForBoardId(int boardId) throws Exception
+    {
+        return likeDAO.selectLikesForBoardId(boardId);
+    }
     
     @Override
     public int selectIsLiked(Like like) throws Exception
@@ -72,5 +79,11 @@ public class LikeServiceImpl implements LikeService
         map.put("likeCnt", likeCnt);
         
         return map;
+    }
+
+    @Override
+    public int deleteLike(int id) throws Exception
+    {
+        return likeDAO.deleteLike(id);
     }
 }

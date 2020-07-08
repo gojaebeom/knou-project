@@ -33,7 +33,9 @@
 		SELECT 
 			B.ID,
 			B.TITLE,
+			B.WRITER_ID,
 			B.CREATED_AT, 
+			B.UPDATED_AT,
 			U.NICKNAME, 
 			B.COMMENT_CNT, 
 			B.LIKE_CNT,
@@ -123,6 +125,16 @@
     	UPDATE BOARDS SET
     	HIT = HIT+1
     	WHERE ID = #{id};
+    </update>
+    
+    <update id="updateBoard">
+    	UPDATE BOARDS
+    	SET 
+    		TITLE = #{title},
+    		CONTENT = #{content},
+    		UPDATED_AT = now()
+    	WHERE 
+    		ID = #{id}
     </update>
     
     <update id="updateBoardCommentCnt">

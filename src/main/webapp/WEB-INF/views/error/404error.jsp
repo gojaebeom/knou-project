@@ -7,18 +7,17 @@
 <head>
 	<%@ include file="/WEB-INF/views/include/head.jsp"%>
 	<link href="${pageContext.request.contextPath}/assets/css/profile-menu.css" rel="stylesheet">
-	<title>방송대 Q&A</title>
+	<title>방송대 커뮤니티 - 404</title>
 </head>
 <body>
-	<header class="navbar navbar-expand navbar-dark bd-navbar bg-primary">
-		<%@ include file="/WEB-INF/views/include/nav.jsp"%>
-	</header>
+	<!-- header -->
+	<%@ include file="/WEB-INF/views/include/nav.jsp"%>
 	<section class="container">
 		<div class="alert alert-success" role="alert">
 		  <h4 class="alert-heading">요청하신 페이지를 찾을 수 없습니다!</h4>
 		  <p>요청하신 주소에 맞는 페이지가 없습니다. </p>
 		  <hr>
-		  <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+		  <p class="mb-0">There is no page for the address you requested.</p>
 		</div>
 	</section>
 	

@@ -7,20 +7,19 @@
 <head>
 	<%@ include file="/WEB-INF/views/include/head.jsp"%>
 	<link href="${pageContext.request.contextPath}/assets/css/sign-form.css" rel="stylesheet">
-	<title>방송대 Q&A</title>
+	<title>방송대 커뮤니티 - 개인 정보 수정</title>
 </head>
 <body>
 	<!-- 현재 유저의 아이디와 페스에 해당하는 아이디가 일치하지 않으면 리다이렉트 시킴  -->
 	<c:if test="${ACCOUNT.id != USER.id}">
 		<c:redirect url="/"/>
 	</c:if>
-	<header class="navbar navbar-expand navbar-dark bd-navbar bg-primary">
-		<%@ include file="/WEB-INF/views/include/nav.jsp"%>
-	</header>
+	<!-- header -->
+	<%@ include file="/WEB-INF/views/include/nav.jsp"%>
 	<section class="container d-flex justify-content-center">
 		<div class="row">
 			<div class="col">
-				<div class="card" style="width:28rem;">
+				<div class="card shadow" style="width:28rem;">
 				  <div class="card-body">
 				  	<h5 class="card-title mb-4">회원 정보 수정</h5>
 					<form id="userForm" action="/users/${USER.id}" method="post" onsubmit="return init()">

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.ac.knou.controller.HomeController;
 import kr.ac.knou.dto.board.Board;
@@ -87,6 +88,7 @@ public class BoardController
         LOG.info("토탈/한페이지당 개시물(5):"+lastPage);
         
         Map<String, Object> map = new HashMap<>();
+        map.put("TOTAL", total);
         map.put("PAGE", page);
         map.put("FIELD", field);
         map.put("QUERY", query);
@@ -136,8 +138,31 @@ public class BoardController
     }
     
     @RequestMapping(value="/boards/{id}", method=RequestMethod.PUT)
-    public String updateBoardForId(Board board) throws Exception
+    public String updateBoardForId(
+            Board board,
+            @RequestParam(value="tags",required=false)String[] tags,
+            RedirectAttributes model) throws Exception
     {
+        LOG.info("게시물 수정");
+        
+        LOG.info("수정할 게시물 : "+board.toString());
+        
+        Tag tag_ = new Tag();
+
+        for(String tag: tags)
+        {
+            tag_.setBoardId(board.getId());
+            tag_.setTagName(tag);
+            
+            tagService.updateTag(tag_);
+        }
+ 
+        
+        
+        
+        boardService.updateBoard(board);
+        
+        model.addFlashAttribute("BOARD_UPDATE", true);
         return "redirect:/";
     }
     

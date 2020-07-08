@@ -16,13 +16,6 @@ if(content !== null){
 }
 
 
-//document.onmousedown = function leftClick() 
-//{  
-//	if(subMenu.style.display == "block")
-//	{
-//		subMenu.style.display = "none";
-//	}
-//};
 
 
 

@@ -7,31 +7,22 @@
 <head>
 	<%@ include file="/WEB-INF/views/include/head.jsp"%>
 	<link href="${pageContext.request.contextPath}/assets/css/profile-menu.css" rel="stylesheet">
-	<title>방송대 Q&A</title>
+	<title>방송대 커뮤니티 - 학우마당</title>
 </head>
 <body>
-	<header class="navbar navbar-expand navbar-dark bd-navbar bg-primary">
-		<%@ include file="/WEB-INF/views/include/nav.jsp"%>
-	</header>
-	<section class="container mb-5">
-		<div class="alert alert-primary" role="alert">
-			해당하는 게시물의 제목을 누르시면 게시물 상세보기를 하실 수 있습니다.
-		</div>
-		<form action="/users" class="d-flex flex-wrap justify-content-start align-items-end mb-5">
-			<div class="d-flex justify-content-start align-items-end ">
-				<select name="field" class="custom-select mr-2 p-1" id="inlineFormCustomSelect" style="width:120px; height:35px;">
-			        <option value="nickname">닉네임</option>
-			     </select>
-				 <input type="text" class="form-control" id="inlineFormInput" name="query" value="${QUERY}" placeholder="님네임을 입력하세요!">
-				 <input name="page" type="hidden" value="${PAGE}">
-				 <button type="submit" class="btn btn-raised btn-success m-0 ml-1">검색</button>
-			 </div>
+	<!-- header -->
+	<%@ include file="/WEB-INF/views/include/nav.jsp"%>
+	<section class="container mt-5 mb-5">
+		<form action="/users" class="mb-3">
+			 <input type="text" class="hover-shadow" id="inlineFormInput" name="query" value="${QUERY}" placeholder="✔ 님네임을 입력하세요!"
+			 style="width:100%;border:none;border-radius:2px;padding:15px;">
+			 <input name="page" type="hidden" value="${PAGE}">
 		</form>
 			
 			<h1 style="font-size:20px; font-weight:bold; margin-bottom:20px;">
-				방송대 학우들
+				방송대 학우들 / ${TOTAL }
 			</h1>
-			<div class="card">
+			<div class="shadow2 card">
 			<c:choose>
 				<c:when test="${empty USERLIST}">
 					<p style="padding:20px;font-size:20px;">학우들이 존재하지 않습니다.😥 <a href="/users?page=1&field=title&query">목록으로 돌아가기</a> </p>
@@ -62,17 +53,17 @@
 			<ul class="pagination justify-content-center">
 				<c:if test="${STARTPAGE-5 >= 1 }">
 					<li class="page-item disabled"><a class="page-link" 
-					href="/boards?page=${STARTPAGE-5}&field=${FIELD}&query=${QUERY}" tabindex="-1">Previous</a></li>	
+					href="/users?page=${STARTPAGE-5}&query=${QUERY}" tabindex="-1">Previous</a></li>	
 				</c:if>
 				<c:forEach var="i" begin="0" end="4">
 					<c:if test="${(STARTPAGE+i) <= LASTPAGE}">
 						<li class="page-item"><a class="page-link" style="${PAGE == (STARTPAGE+i)? 'color:green;':'color:gray;'}"
-						href="/boards?page=${STARTPAGE+i}&field=${FIELD}&query=${QUERY}">${STARTPAGE + i}</a></li>
+						href="/users?page=${STARTPAGE+i}&query=${QUERY}">${STARTPAGE + i}</a></li>
 					</c:if>					
 				</c:forEach>
 				<c:if test="${STARTPAGE+5 <= LASTPAGE }">
 					<li class="page-item"><a class="page-link" 
-					href="/boards?page=${STARTPAGE+5}&field=${FIELD}&query=${QUERY}">Next</a></li>
+					href="/users?page=${STARTPAGE+5}&query=${QUERY}">Next</a></li>
 				</c:if>	
 			</ul>
 		</nav>

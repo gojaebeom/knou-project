@@ -138,7 +138,6 @@ header
 	.mobile-menu{display:block;}
 	.mobile-bottom-menu{display:flex;}
 	.pc-menu{display:none;}
-
 }
 
 /* Small devices (landscape phones, less than 768px) */
@@ -148,6 +147,7 @@ header
 	.mobile-menu{display:block;}
 	.mobile-bottom-menu{display:flex;}
 	.pc-menu{display:none;}
+	
 } 
 
 /* Medium devices (tablets, less than 992px) */

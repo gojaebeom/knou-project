@@ -133,25 +133,28 @@ public class UserController
     @RequestMapping(value="/users",method=RequestMethod.GET)
     public String selectUsers(
             @RequestParam(value="page",required = false) String page_, 
-            @RequestParam(value="field",required = false) String field, 
             @RequestParam(value="query",required = false) String query,
             Model model) throws Exception
-    {
-        field = (field!=null) ? field : "nickname";
-        
+    {  
         query = (query!=null) ? query : "";
         
         int page = (page_ != null) ? Integer.valueOf(page_) : 1;
         
-        LOG.info("분류:["+field+"], 작성값:["+query+"], 페이지 번호:["+page+"]");
+        LOG.info("분류[defulat nickname], 작성값:["+query+"], 페이지 번호:["+page+"]");
         
-        List<User> userList = userService.selectUsers(field, query, page);
+        List<User> userList = userService.selectUsers(query, page);
+        
+        int total = userService.selectUserCount(query);
+        
+        int lastPage =  (int) Math.ceil(total/20)+1;
         
         Map<String, Object> map = new HashMap<>();
+        map.put("TOTAL", total);
         map.put("PAGE", page);
-        map.put("FIELD", field);
         map.put("QUERY", query);
         map.put("USERLIST", userList);
+        map.put("LASTPAGE", lastPage);
+        
         
         model.addAllAttributes(map);
         

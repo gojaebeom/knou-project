@@ -7,7 +7,10 @@ import kr.ac.knou.dto.user.User;
 public interface UserDAO
 {
     //유저 리스트 가저오기
-    public List<User> selectUsers(String field, String query, int page) throws Exception;
+    public List<User> selectUsers(String query, int page) throws Exception;
+    
+    //회원 리스트 총 유저 수 
+    public int selectUserCount(String query) throws Exception;
     
     //유저 상세정보 가저오기
     public User selectUserForId(int id) throws Exception;
@@ -23,6 +26,7 @@ public interface UserDAO
     
     //회원가입 : 이메일 인증된 아이디값 가져오기
     public int selectUserCertifiedId(String email, String key) throws Exception;
+    
     
     //회원가입 : 계정 생성
     public int insertUser(User user) throws Exception; 

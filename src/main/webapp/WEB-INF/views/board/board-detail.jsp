@@ -7,19 +7,22 @@
 <head>
 	<%@ include file="/WEB-INF/views/include/head.jsp"%>
 	<link href="${pageContext.request.contextPath}/assets/css/profile-menu.css" rel="stylesheet">
-	<title>방송대 Q&A</title>
+	<title>방송대 커뮤니티 - 게시물 상세정보</title>
 </head>
 <body>
-	<header class="navbar navbar-expand navbar-dark bd-navbar bg-primary">
-		<%@ include file="/WEB-INF/views/include/nav.jsp"%>
-	</header>
+	<!-- header -->
+	<%@ include file="/WEB-INF/views/include/nav.jsp"%>
+	
 	<div class="container">
-		<div class="alert alert-primary" role="alert">
-			1번 id의  게시글 상세정보 페이지 입니다.
+		<div class="alert alert-primary alert-dismissible fade show" role="alert">
+			<span style="font-weight:bold;">${BOARD.user.nickname}</span>님의 게시글입니다. 타인을 배려하는 건전한 커뮤니티가 형성될 수 있도록 부탁드립니다😊
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    	<span aria-hidden="true">&times;</span>
+		    </button>
 		</div>
 	</div>
 	<section class="container mb-5">
-		<div class="card" style="width:100%;">
+		<div class="card shadow2" style="width:100%;">
 			<div class="card-header media">
 				<img class="align-self-start mr-3" src="/images/${(!empty BOARD.user.image)?BOARD.user.image:'default.png'}"
 					alt="Generic placeholder image" style="width:50px;height:50px;border-radius:2px;">
@@ -40,52 +43,45 @@
 						</c:when>
 						<c:otherwise>	
 							<c:forEach items="${BOARD.tagList}" var="t">			
-								
-								<span class="badge
-								 badge-${(t.total > 2)?'primary':'success'} 
-								 p-2 m-1 mb-2">
-								 	<a href="#" style="color:white;text-decoration:none;">
-								 		${t.tagName}
-								 	</a>
-								</span>				
-									
+								<a href="/tags?tag-name=${t.tagName}" class="badge badge-secondary mr-1 mb-1">
+									${t.tagName} 
+								</a>		
 							</c:forEach>
 						</c:otherwise>
 					</c:choose>	
+					<c:if test="${ACCOUNT.id == BOARD.writerId }">
+						<div class="container d-flex justify-content-end">
+							<button type="button" class="btn btn-outline-success" onclick="location.href='/boards/${BOARD.id}/edit'">수정</button>
+							<button type="button" class="btn btn-outline-warning ml-3" data-toggle="modal" data-target="#board-delete-modal">삭제</button>
+						</div>
+					</c:if>
 				</div>
+			</div>	
+			
+		</div>
+	<div class="container p-3">
+	
+		<div class="d-flex justify-content-center align-items-center">
+		    <fieldset id="likeStatus" class="mr-2">
+				<span class="btn-group-sm">
+				  <button type="button" class="btn btn-secondary bmd-btn-fab" onclick="likeUpdate();">
+				  		<i class="material-icons">grade</i>
+				  </button>
+				</span>
+			</fieldset>
+			<div class="pb-1">
+				<span style="font-size:20px;">
+					<a id="likeWrap" href="#">${BOARD.likeCnt}</a> 
+					개의 <a href="#">추천</a>을 받았습니다😎  
+				</span> 
+				<input id="likeCheckInput" type="hidden" data-account="${(!empty ACCOUNT)?ACCOUNT.id:0}" data-board="${BOARD.id}">
 			</div>
-			<div class="card-footer justify-content-start align-items-center pt-0" style="border-top:none;">
-				<div class="d-flex justify-content-start align-items-center">
-				    <fieldset id="likeStatus" class="mr-2">
-						<span class="btn-group-sm">
-						  <button type="button" class="btn btn-secondary bmd-btn-fab" onclick="likeUpdate();">
-						  		<i class="material-icons">grade</i>
-						  </button>
-						</span>
-					</fieldset>
-					<div class="pb-1">
-						<span style="font-size:20px;">
-							<a id="likeWrap" href="#">${BOARD.likeCnt}</a> 
-							개의 <a href="#">추천별</a>을 받았습니다😎  
-						</span> 
-						<input id="likeCheckInput" type="hidden" data-account="${(!empty ACCOUNT)?ACCOUNT.id:0}" data-board="${BOARD.id}">
-					</div>
-				</div>
-				<c:if test="${ACCOUNT.id == BOARD.writerId }">
-					<div class="container d-flex justify-content-end">
-						<button type="button" class="btn btn-outline-success" onclick="location.href='/boards/${BOARD.id}/edit'">수정</button>
-						<button type="button" class="btn btn-outline-warning ml-3" data-toggle="modal" data-target="#board-delete-modal">삭제</button>
-					</div>
-				</c:if>
-		  	</div>
 		</div>
-	<div class="container">
-		<div class="row">
-			<div class="col text-left"><button type="button" class="btn btn-primary">다음 게시물</button></div>
-			<div class="col text-right"><button type="button" class="btn btn-primary">이전 게시물</button></div>
-		</div>
+
 	</div>
-	<div class="card" style="width:100%;">
+	
+	<!-- 댓글 박스 -->
+	<div class="card shadow2" style="width:100%;">
 		<div class="card-header">
 		    댓글
 	  	</div>
@@ -93,13 +89,13 @@
 	  		<li class="list-group-item">
 				<div class="media" style="width:100%;">
 				  <img class="mr-3" src="/images/${(!empty ACCOUNT.image)?ACCOUNT.image:'default.png'}"
-				    style="width:54px;height:54px;border-radius:5px;">
+				    style="width:48px;height:48px;border-radius:2px;">
 				  <div class="media-body" style="width:100%;">
 				    <form style="width:100%;">
 				    	<input id="writerId" type="hidden" value="${ACCOUNT.id}">
 				    	<input id="boardId" type="hidden" value="${BOARD.id}">
 				    	<textarea id="commentContent" rows="3" cols="" style="width:100%;border:2px solid #E6E6E6;border-bottom:none;margin-bottom:-1px;
-				    	border-top-left-radius:3px;border-top-right-radius:3px;"></textarea>
+				    	border-top-left-radius:3px;border-top-right-radius:3px;" placeholder="${(empty ACCOUNT)?'로그인 이후 댓글 작성이 가능합니다':'댓글을 작성해주세요' }"></textarea>
 				    	<button type="button" id="commentPostBtn" style="width:100%;height:40px;border:2px solid #E6E6E6;
 				    	border-bottom-left-radius:3px;border-bottom-right-radius:3px;margin:0px;z-index:5;">POST</button>
 				    </form>
@@ -111,7 +107,7 @@
 			<c:choose>
 				<c:when test="${empty COMMENT}">
 					<li class="list-group-item" style="width:100%;">		
-						<div class="alert alert-warning m-0" style="width:100%;" role="alert">
+						<div class="alert alert-secondary m-0" style="width:100%;" role="alert">
 						  	첫번째 댓글을 달아보세요😘	
 						</div>			
 					</li>
@@ -121,10 +117,12 @@
 					<li class="list-group-item">
 						<div class="media">
 						  <img class="mr-3" src="/images/${(!empty c.user.image)?c.user.image:'default.png'}"
-						    style="width:54px;height:54px;border-radius:5px;">
+						    style="width:54px;height:54px;border-radius:2px;">
 						  <div class="media-body" style="line-height:1.3em;">
 						    <h5 class="mt-0 mb-2">
-							    <a href="/users/${c.writerId}">${c.user.nickname} • <fmt:formatDate value="${c.createdAt}" pattern="yyyy-MM-dd"/> </a>
+							    <a href="/users/${c.writerId}">
+							    ${c.user.nickname} • <fmt:formatDate value="${c.createdAt}" pattern="yyyy-MM-dd hh:mm"/> 
+							    </a>
 						    </h5>
 						    	<pre style="overflow:auto;white-space:pre-wrap;padding:10px 0px;line-height:1.3em;">${c.content }</pre> 
 						    	<c:if test="${ACCOUNT.id == c.writerId}">
