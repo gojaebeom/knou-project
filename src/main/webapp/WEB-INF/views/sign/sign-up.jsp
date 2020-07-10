@@ -32,7 +32,7 @@
 					<form action="/users/sign-up" method="post" onsubmit="return init()">
 						<label>닉네임</label><br>
 						<input id="nickname" name="nickname"/>
-						<span id="nicknameSpan">이름 또는 사용할 한글 닉네임을 입력해주세요.</span>
+						<span id="nicknameSpan">사용할 닉네임을 입력해 주세요.</span>
 					
 						<label>이메일</label><br>
 						<input id="email" name="email"/>
@@ -40,9 +40,10 @@
 						
 						<label>비밀번호</label><br>
 						<input id="password" type="password" name="password"/>
-						<span id="passwordSpan">비밀번호는 숫자 밑 영문자를 포함한 8글자 이상이여야 합니다.</span>
+						<span id="passwordSpan">비밀번호는 숫자 및 영문자, 특수문자를 포함한 8글자 이상이여야 합니다.</span>
 										
 						<button id="submitBtn" class="btn btn-raised btn-primary" type="submit">생성</button>
+						<div class="margin-box"></div>
 						<div id="submitAlert" class="alert alert-primary" role="alert" style="display:none;">
 						  	이메일로 인증메일을 발송중입니다. 잠시만 기다려 주세요!
 						</div>

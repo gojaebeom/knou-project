@@ -12,7 +12,7 @@
 </head>
 <body>
 	<!-- 현재 유저의 아이디와 페스에 해당하는 아이디가 일치하지 않으면 리다이렉트 시킴  -->
-	<c:if test="${empty ACCOUNT}">
+	<c:if test="${ACCOUNT.id != BOARD.writerId && ACCOUNT.role == 0}">
 		<c:redirect url="/" />
 	</c:if>
 	<!-- header -->
@@ -21,7 +21,7 @@
 
 		<div class="card shadow2" style="width: 100%;">
 			<div class="card-header media"
-				style="border-bottom: 1px solid #E6E6E6;">
+				style="border-bottom: 1px dotted #E6E6E6;">
 				<img class="align-self-start mr-3" src="/images/${ACCOUNT.image}"
 					alt="Generic placeholder image" style="width:50px;height:50px;border-radius:2px;">
 				<div class="media-body ml-0">
@@ -40,7 +40,8 @@
 						id="title" name="title" placeholder="게시글의 제목을 입력해주세요" value="${BOARD.title}"/> 
 					<label>태그 입력</label><br> 
 					<div class="mb-3">
-						<input id="tagInput" class="m-0" style="width:100%;" placeholder="태그는 쉼표(,) 로 구분하여 입력 해주세요"/>
+						<input id="tagInput" class="m-0" style="width:100%;" placeholder="ex) tagname 입력 후 한칸 띄우기"/>
+						<span class="pt-2 text-primary" id="nicknameSpan">태그 입력 후 스페이스바(공백)을 눌러 등록해야합니다.</span>
 					</div>
 					
 					<div id="tagContainer">

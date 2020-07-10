@@ -19,7 +19,6 @@
 		<pre 
 		style="overflow:auto;white-space:pre-wrap;padding:10px 0px;
 		line-height:1.3em;font-size:18px;color:#585858;">${BOARD.content}</pre>
-
 		<div class="row m-0 mt-5">
 			<c:choose>
 				<c:when test="${empty BOARD.tagList}">
@@ -33,7 +32,7 @@
 					</c:forEach>
 				</c:otherwise>
 			</c:choose>	
-			<c:if test="${ACCOUNT.id == BOARD.writerId }">
+			<c:if test="${ACCOUNT.id == BOARD.writerId || ACCOUNT.role == 1}">
 				<div class="container d-flex justify-content-end">
 					<button type="button" class="btn btn-outline-success" onclick="location.href='/boards/${BOARD.id}/edit'">수정</button>
 					<button type="button" class="btn btn-outline-warning ml-3" data-toggle="modal" data-target="#board-delete-modal">삭제</button>

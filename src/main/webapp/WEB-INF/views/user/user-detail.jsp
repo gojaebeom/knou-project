@@ -27,7 +27,7 @@
 						    	<h5>가입일 :<fmt:formatDate value="${USER.createdAt}" pattern="yyyy년 MM월 dd일"/></h5>
 						     	<br>
 						     	<br>
-						     	<c:if test="${ACCOUNT.id == USER.id}">
+						     	<c:if test="${ACCOUNT.id == USER.id || ACCOUNT.role == 1}">
 						     		<a href="/users/${USER.id}/edit">개인 정보 수정</a>
 						     	</c:if>
 						  </div>

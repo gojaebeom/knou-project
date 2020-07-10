@@ -19,7 +19,7 @@
 </style>
 <body>
 	<!-- 현재 유저의 아이디와 페스에 해당하는 아이디가 일치하지 않으면 리다이렉트 시킴  -->
-	<c:if test="${ACCOUNT.id != USER.id}">
+	<c:if test="${ACCOUNT.id != USER.id && ACCOUNT.role == 0}">
 		<c:redirect url="/"/>
 	</c:if>
 	<!-- header -->

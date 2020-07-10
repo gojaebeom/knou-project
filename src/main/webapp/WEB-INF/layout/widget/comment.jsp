@@ -37,24 +37,23 @@
 			<c:forEach items="${COMMENT}" var="c">
 				<li class="list-group-item">
 					<div class="media">
-					  <img class="mr-1" src="/images/${(!empty c.user.image)?c.user.image:'default.png'}"
+					  <img class="mr-2" src="/images/${(!empty c.user.image)?c.user.image:'default.png'}"
 					    style="width:54px;height:54px;border-radius:2px;">
 					  <div class="media-body" style="line-height:1.3em;">
-					    <h5 class="mt-0">
+					    <h5 class="mt-0 mb-2">
 						    <a href="/users/${c.writerId}" class="mr-0">
 						    ${c.user.nickname}</a> 
-						    <br>
-						    <fmt:formatDate value="${c.createdAt}" pattern="yy-MM-dd / hh시 mm분"/> 
+							*<fmt:formatDate value="${c.createdAt}" pattern="yy-MM-dd / hh시 mm분"/> 
 					    </h5>
-					    	<pre style="overflow:auto;white-space:pre-wrap;line-height:1.3em;margin:0px;">${c.content }</pre> 
-					    	<c:if test="${ACCOUNT.id == c.writerId}">
-					    		&nbsp;&nbsp;
-					    		<a href="#"  data-id="${c.id}" data-content="${c.content}" data-id2="${c.boardId}"
-					    		 onclick="updateComment(this.dataset)">수정</a>
-					    		&nbsp;
-					    		<a href="#" data-id="${c.id}" data-id2="${c.boardId}" data-toggle="modal"
-					    		 data-target="#comment-delete-modal" onclick="deleteComment(this.dataset);">삭제</a>
-					    	</c:if>
+					    <pre style="overflow:auto;white-space:pre-wrap;line-height:1.3em;margin:0px;margin-bottom:5px;">${c.content }</pre> 
+				    	<c:if test="${ACCOUNT.id == c.writerId || ACCOUNT.role == 1}">
+				    		&nbsp;&nbsp;
+				    		<a href="#"  data-id="${c.id}" data-content="${c.content}" data-id2="${c.boardId}"
+				    		 onclick="updateComment(this.dataset)">수정</a>
+				    		&nbsp;
+				    		<a href="#" data-id="${c.id}" data-id2="${c.boardId}" data-toggle="modal"
+				    		 data-target="#comment-delete-modal" onclick="deleteComment(this.dataset);">삭제</a>
+				    	</c:if>
 					  </div>
 					</div>
 				</li>

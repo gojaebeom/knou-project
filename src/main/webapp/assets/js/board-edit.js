@@ -142,7 +142,7 @@ function deleteTag(tag)
    console.log(tagValue);
    console.log(tagId);
    
-   //태그 삭제 이후에도 배열엔 값이 남아있어 똑같은 배열 이름 입력시 중복오류가
+   //태그 삭제 이후에도 배열엔 값이 남아있어 똑같은 배열 이름 입력시 중복 경고가
    //나기때문에 같은 값을 가진 배열도 찾아서 삭제해준다
    for(let i = 0; i < previous.length; i++)
    {
@@ -153,32 +153,43 @@ function deleteTag(tag)
    }
    console.log(previous);
 
-   $.ajax({
-        type : "DELETE",
-        url : `/tags/${tagId}`,
-        contentType: "application/json; charset=utf-8;",
-        dataType :"json",
-        //async: false, //값을 리턴시 해당코드를 추가하여 동기로 변경
-        error : function(){
-            alert('통신실패!!');
-        },
-        success : function(data)
-        {
-            if(data)
+   console.log(tag);
+   console.log(tagId);
+
+   //부모 태그 찾기
+   const tagParent = tag.parentNode;
+
+   //부모태그에서 자식태그 삭제
+   tagParent.removeChild(tag);
+
+
+   if(tagId != undefined)
+   {
+        $.ajax({
+            type : "DELETE",
+            url : `/tags/${tagId}`,
+            contentType: "application/json; charset=utf-8;",
+            dataType :"json",
+            //async: false, //값을 리턴시 해당코드를 추가하여 동기로 변경
+            error : function(){
+                alert('통신실패!!');
+            },
+            success : function(data)
             {
-                //부모 태그 찾기
-                const tagParent = tag.parentNode;
+                if(data)
+                {
+                    
+                    
+                    console.log("삭제 성공!");
 
-                //부모태그에서 자식태그 삭제
-                tagParent.removeChild(tag);
-
-                console.log("삭제 성공!");
-
-                //자식태그의 총 갯수 확인
-                console.log(`태그 컨테이너 ${tagContainer.childElementCount}`);
+                    //자식태그의 총 갯수 확인
+                    console.log(`태그 컨테이너 ${tagContainer.childElementCount}`);
+                }
             }
-        }
-    });
+        });
+   }
+
+   
 }
 
 
