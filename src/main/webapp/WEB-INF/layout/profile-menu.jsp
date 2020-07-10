@@ -7,8 +7,8 @@
 	<ul class="main-menu">
 		<li id="content-li" class="content-li">
 			<a class="nickname-wrap">${ACCOUNT.nickname}</a>
-			<a class="img-wrap">
-				<img id="accountImage" class="primary "class="" src="/images/${(ACCOUNT.image != null)?ACCOUNT.image:'default.png'}"/>		
+			<a class="img-wrap" style="background:none;">
+				<img id="accountImage" class="primary" src="/images/${(ACCOUNT.image != null)?ACCOUNT.image:'default.png'}"/>		
 			</a>
 			<ul id="sub-menu" class="sub-menu">
 				<li><a href="/boards/form">💬 글쓰기 </a></li>
@@ -21,7 +21,7 @@
 </c:if>
 <c:if test="${empty ACCOUNT}">
 	<div class="login-menu">
-		<button type="button" class="btn btn-raised btn-success" onclick="location.href='/users/sign-in'">로그인   </button>
+		<a href="/users/sign-in" class="font-caveat" style="font-size:20px;">LOGIN</a>
 	</div>
 </c:if>
 

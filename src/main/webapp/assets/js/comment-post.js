@@ -23,7 +23,7 @@ commentPostBtn.onclick = () =>
     }
     $.ajax({
         type : "POST",
-        url : "http://localhost:8080/comments",
+        url : "/comments",
         data : 
         {
             "content": commentContent.value,

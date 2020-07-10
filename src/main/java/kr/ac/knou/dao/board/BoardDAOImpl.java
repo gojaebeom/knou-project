@@ -24,15 +24,14 @@ public class BoardDAOImpl implements BoardDAO
     @Override
     public List<Board> selectBoards()  throws Exception
     {
-        return selectBoards("nickname","",1);
+        return selectBoards("",1);
     }
     
     @Override
-    public List<Board> selectBoards(String field, String query, int page) throws Exception
+    public List<Board> selectBoards(String query, int page) throws Exception
     {
         Map<String, Object> map = new HashMap<>();
-        map.put("field", field);
-        map.put("query", "%"+query+"%");
+        map.put("query", query);
         map.put("page", (page-1)*5);
         
         LOG.info(map.get("page"));
@@ -57,11 +56,10 @@ public class BoardDAOImpl implements BoardDAO
 
     
     @Override
-    public int selectBoardCount(String field, String query) throws Exception
+    public int selectBoardCount(String query) throws Exception
     {
         Map<String, Object> map = new HashMap<>();
-        map.put("field", field);
-        map.put("query", "%"+query+"%");
+        map.put("query", query);
         return sqlSession.selectOne("board.selectBoardCount", map);
     }
 

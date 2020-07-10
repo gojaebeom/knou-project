@@ -25,6 +25,7 @@ import kr.ac.knou.dto.user.User;
 import kr.ac.knou.service.board.BoardService;
 import kr.ac.knou.service.comment.CommentService;
 import kr.ac.knou.service.user.UserService;
+import kr.ac.knou.util.EmailAuth;
 import kr.ac.knou.util.FileUtil;
 
 @Controller
@@ -65,7 +66,6 @@ public class UserController
             return "sign/sign-in";
         }
         
-
         User signUser = userService.selectUserForEmail(user);
 
         if(signUser == null)
@@ -328,4 +328,27 @@ public class UserController
 
         return map;
     }
+//    
+//    @RequestMapping(value="/users/forget-password", method=RequestMethod.GET)
+//    public String selectforgetPassword()
+//    {
+//        
+//        return "/sign/password-remake";
+//    }
+//    
+//    @RequestMapping(value="/users/forget-password", method=RequestMethod.POST)
+//    public String selectforgetPassword(User user) throws Exception
+//    {
+//        userService.selectUserForEmail(user);
+//        
+//       
+//        return "/sign/password-remake";
+//    }
+//    
+//    @RequestMapping(value="/users/forget-password", method=RequestMethod.GET)
+//    public String updateUserPassword(@RequestParam("id")int id, Model model)
+//    {
+//        
+//        return "";
+//    }
 }

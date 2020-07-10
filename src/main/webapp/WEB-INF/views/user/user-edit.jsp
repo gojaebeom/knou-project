@@ -5,21 +5,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<%@ include file="/WEB-INF/views/include/head.jsp"%>
-	<link href="${pageContext.request.contextPath}/assets/css/sign-form.css" rel="stylesheet">
+	<%@ include file="/WEB-INF/layout/head.jsp"%>
+	<link href="/assets/css/sign-form.css" rel="stylesheet">
 	<title>방송대 커뮤니티 - 개인 정보 수정</title>
 </head>
+<style>
+.edit-card{width:28rem;}
+	
+@media (max-width: 575.98px)
+{  
+	.edit-card{width:auto;}
+}
+</style>
 <body>
 	<!-- 현재 유저의 아이디와 페스에 해당하는 아이디가 일치하지 않으면 리다이렉트 시킴  -->
 	<c:if test="${ACCOUNT.id != USER.id}">
 		<c:redirect url="/"/>
 	</c:if>
 	<!-- header -->
-	<%@ include file="/WEB-INF/views/include/nav.jsp"%>
+	<%@ include file="/WEB-INF/layout/nav.jsp"%>
 	<section class="container d-flex justify-content-center">
-		<div class="row">
-			<div class="col">
-				<div class="card shadow" style="width:28rem;">
+		<div class="row mb-5">
+			<div class="col p-0">
+				<div class="edit-card card shadow">
 				  <div class="card-body">
 				  	<h5 class="card-title mb-4">회원 정보 수정</h5>
 					<form id="userForm" action="/users/${USER.id}" method="post" onsubmit="return init()">
@@ -42,11 +50,11 @@
 						<input id="email" disabled value="${USER.email}"/>
 						
 						<label>생성일</label><br>
-						<fmt:formatDate value="${USER.createdAt}" var="createdAt" pattern="yyyy-MM-dd"/>
+						<fmt:formatDate value="${USER.createdAt}" var="createdAt" pattern="yyyy년 MM월 dd일"/>
 						<input disabled value="${createdAt }"/>
 						
 						<label>수정일</label><br>
-						<fmt:formatDate value="${USER.updatedAt}" var="updatedAt" pattern="yyyy-MM-dd"/>
+						<fmt:formatDate value="${USER.updatedAt}" var="updatedAt" pattern="yyyy년 MM월 dd일"/>
 						<input disabled value="${updatedAt }"/>
 						
 						<label>회원 탈퇴</label><br>
@@ -56,7 +64,7 @@
 						
 						<button id="submitBtn" class="btn btn-raised btn-primary" type="submit">수정</button>
 						<div class="margin-box"></div>
-						<span class="bottom-span"><a href="/sign-in" style="font-weight:bold">내 정보로 돌아가기😍</a></span>
+						<span class="bottom-span"><a href="/users/${USER.id}" style="font-weight:bold">내 정보로 돌아가기😍</a></span>
 					</form>
 				  </div>
 				</div>
@@ -93,6 +101,6 @@
 	</div>
 	<script src="/assets/js/user-img-post.js"></script>
 	<script src="/assets/js/user-update-form.js"></script>
-	<%@ include file="/WEB-INF/views/include/script.jsp"%>
+	<%@ include file="/WEB-INF/layout/script.jsp"%>
 </body>
 </html>

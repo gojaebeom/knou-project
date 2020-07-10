@@ -5,21 +5,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<%@ include file="/WEB-INF/views/include/head.jsp"%>
+	<%@ include file="/WEB-INF/layout/head.jsp"%>
 	<link href="${pageContext.request.contextPath}/assets/css/profile-menu.css" rel="stylesheet">
 	<title>방송대 커뮤니티 - 학우마당</title>
 </head>
 <body>
 	<!-- header -->
-	<%@ include file="/WEB-INF/views/include/nav.jsp"%>
+	<%@ include file="/WEB-INF/layout/nav.jsp"%>
 	<section class="container mt-5 mb-5">
 		<form action="/users" class="mb-3">
-			 <input type="text" class="hover-shadow" id="inlineFormInput" name="query" value="${QUERY}" placeholder="✔ 님네임을 입력하세요!"
+			 <input type="text" class="hover-shadow" id="inlineFormInput" name="query" value="${QUERY}" placeholder="회원이름을 입력하세요 ✔"
 			 style="width:100%;border:none;border-radius:2px;padding:15px;">
 			 <input name="page" type="hidden" value="${PAGE}">
 		</form>
 			
-			<h1 style="font-size:20px; font-weight:bold; margin-bottom:20px;">
+			<h1 style="font-size:20px; font-weight:bold; margin-bottom:10px;">
 				방송대 학우들 / ${TOTAL }
 			</h1>
 			<div class="shadow2 card">
@@ -36,7 +36,7 @@
 							  src="/images/${(!empty u.image)?u.image:'default.png'}" width="64px" height="64px"
 							   alt="Generic placeholder image">
 							  <div class="media-body">
-							    <h4 class="mt-0"><a href="/users/${u.id}">${u.nickname}</a> </h4>
+							    <h4 class="mt-0"><a class="board-nickname" href="/users/${u.id}">${u.nickname}</a> </h4>
 							    ${u.email}
 							  </div>
 							</div>
@@ -68,6 +68,6 @@
 			</ul>
 		</nav>
 	</section>	
-	<%@ include file="/WEB-INF/views/include/script.jsp"%>
+	<%@ include file="/WEB-INF/layout/script.jsp"%>
 </body>
 </html>

@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%@ include file="/WEB-INF/views/include/head.jsp"%>
+<%@ include file="/WEB-INF/layout/head.jsp"%>
 <link href="${pageContext.request.contextPath}/assets/css/sign-form.css"
 	rel="stylesheet">
 <title>방송대 커뮤니티 - 게시물 수정</title>
@@ -16,8 +16,8 @@
 		<c:redirect url="/" />
 	</c:if>
 	<!-- header -->
-	<%@ include file="/WEB-INF/views/include/nav.jsp"%>
-	<section class="container d-flex justify-content-center">
+	<%@ include file="/WEB-INF/layout/nav.jsp"%>
+	<section class="container d-flex justify-content-center mb-5">
 
 		<div class="card shadow2" style="width: 100%;">
 			<div class="card-header media"
@@ -33,7 +33,7 @@
 				<form action="/boards/${BOARD.id}" method="post" onsubmit="return init()">
 					<input type="hidden" name="_method" value="put" />
 					
-					<input name="id" value="${BOARD.id}">
+					<input name="id" type="hidden" value="${BOARD.id}">
 					
 					<input id="writerId" name="writerId" value="${ACCOUNT.id}"
 						type="hidden"> <label>제목</label><br> <input
@@ -64,6 +64,6 @@
 		</div>
 	</section>
 	<script src="/assets/js/board-edit.js"></script>
-	<%@ include file="/WEB-INF/views/include/script.jsp"%>
+	<%@ include file="/WEB-INF/layout/script.jsp"%>
 </body>
 </html>

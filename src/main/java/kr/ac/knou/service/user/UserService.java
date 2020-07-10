@@ -39,4 +39,5 @@ public interface UserService
 
     //회원 탈퇴
     public int deleteUser(int id) throws Exception;
+    
 }

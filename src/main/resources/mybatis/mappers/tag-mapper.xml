@@ -9,8 +9,9 @@
 	</select>
 	
 	<select id="selectTagsForLikeName" resultType="kr.ac.knou.dto.tag.Tag">
-		SELECT * FROM TAGS 
-		WHERE TAG_NAME LIKE '%${tagName}%';
+		SELECT BOARD_ID FROM TAGS 
+		WHERE TAG_NAME LIKE '%${tagName}%'
+		GROUP BY BOARD_ID;
 	</select>
 	
 	<select id="selectTagsForBoardId" resultType="kr.ac.knou.dto.tag.Tag">
@@ -43,8 +44,10 @@
 			TAG_NAME, COUNT(TAG_NAME) as TOTAL
 		FROM 
 			TAGS
-		GROUP 
-			BY TAG_NAME;
+		GROUP BY 
+			TAG_NAME
+		ORDER BY 
+			COUNT(TAG_NAME) DESC;
 	</select>
 	
 	<insert id="insertTags" parameterType="java.util.List">

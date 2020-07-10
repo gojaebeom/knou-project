@@ -25,7 +25,7 @@
 	<li class="nav-item"><a class="nav-link font-weight-bold"
 		href="/admin/comments">코맨트 정보</a></li>
 </ul>
-<%@ include file="/WEB-INF/views/include/profile-menu.jsp"%>
+<%@ include file="/WEB-INF/layout/profile-menu.jsp"%>
 
 
 

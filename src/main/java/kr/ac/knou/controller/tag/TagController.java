@@ -25,13 +25,33 @@ public class TagController
     private static final Log LOG = LogFactory.getLog(TagController.class);
         
     @RequestMapping(value="/tags",method=RequestMethod.GET)
+    public String selectTagForLikeName(
+            @RequestParam(value="like",required = false)String name,
+            Model model) throws Exception
+    {
+
+        LOG.info("검색한 태그 자동완성네임 : "+name);
+        
+        if(name != null&&!name.equals(""))
+        {
+            List<Board> boardList = tagService.selectBoardsForLikeName(name);
+            model.addAttribute("BOARDLIST",boardList);
+            model.addAttribute("TOTAL", boardList.size());
+            model.addAttribute("TAGNAME", name); 
+        }
+        
+        model.addAttribute("TAGLIST", tagService.selectTags());
+        
+        
+        return "tag/tag-list";
+    }
+    
+    @RequestMapping(value="/tags/{name}",method=RequestMethod.GET)
     public String selectTagForTagName(
-            @RequestParam(value="tag-name",required = false)String name,
-            @RequestParam(value="tag-like",required = false)String likeName,
+            @PathVariable(value="name",required = false)String name,
             Model model) throws Exception
     {
         LOG.info("검색한 태그네임 : "+name);
-        LOG.info("검색한 태그 자동완성네임 : "+likeName);
         
         if(name != null&&!name.equals(""))
         {
@@ -41,22 +61,9 @@ public class TagController
             model.addAttribute("TAGNAME", name); 
         }
         
-        if(likeName != null&&!likeName.equals(""))
-        {
-            List<Board> boardList = tagService.selectBoardsForLikeName(likeName);
-            model.addAttribute("BOARDLIST",boardList);
-            model.addAttribute("TOTAL", boardList.size());
-            model.addAttribute("TAGNAME", likeName); 
-            if(boardList.size()==0)
-            {
-                model.addAttribute("LIKE_NULL", true);
-            }
-        }
-        
         model.addAttribute("TAGLIST", tagService.selectTags());
         
-        
-        return "tag/tag-list";
+        return "tag/tag-name-list";
     }
     
     @ResponseBody

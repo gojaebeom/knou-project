@@ -15,21 +15,18 @@
 	<%@ include file="/WEB-INF/layout/nav.jsp"%>
 
 	<section class="container mt-5 mb-5">	
-		<form action="/tags" class="mb-3">
-			 <input type="text" class="hover-shadow" id="inlineFormInput" name="like" value="${TAGNAME}" 
-			 placeholder="입력한 언어를 포함하는 태그들을 모두 검색합니다 ✔ "
-			 style="width:100%;border:none;border-radius:2px;padding:15px;">
-		</form>
 		<c:choose>
 			<c:when test="${empty BOARDLIST}">
-				<c:if test="${!empty TAGNAME}">
-					<p style="padding:20px;font-size:20px;margin-bottom:10px;">검색 결과가 없습니다..😥</p>
-				</c:if>
+				
 			</c:when>
 			<c:otherwise>
-				<h1 style="font-size:20px; font-weight:bold; margin-bottom:10px;">
-					${TAGNAME}에 대한 검색 결과  ${TOTAL} 건
-				</h1>
+				<nav aria-label="breadcrumb">
+				  <ol class="breadcrumb">
+				    <li class="breadcrumb-item"><a href="/tags">#TAG</a></li>
+				    <li class="breadcrumb-item"><a href="/tags/${TAGNAME }">${TAGNAME}</a></li>
+				    <li class="breadcrumb-item active" aria-current="page">${TOTAL}</li>
+				  </ol>
+				</nav>
 				<c:forEach items="${BOARDLIST}" var="b">
 					<div class="list-wrap d-flex p-3 mb-4">
 						<div class="status-wrap d-flex justify-content-center aling-items-center" >
@@ -54,7 +51,7 @@
 								<div class="flex-wrap" style="flex:1;">
 								<c:forEach items="${b.tagList}" var="t">
 									<a href="/tags/${t.tagName}" class="badge badge-secondary">
-										${t.tagName} 
+												${t.tagName} 
 									</a>
 								</c:forEach>
 								</div>
@@ -65,11 +62,30 @@
 							</div>
 						</div>
 					</div>
+
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>	
-		<!-- 태그 라이브러리 위젯 -->
-		<%@ include file="/WEB-INF/layout/widget/tag-lib.jsp"%>
+		<h1 style="font-size:20px; font-weight:bold; margin-bottom:10px;">
+			태그 라이브러리
+		</h1>
+		<div class="row m-0 mb-4 " >		
+			<div class="col p-1">
+				<c:choose>
+					<c:when test="${empty TAGLIST}">
+						<p style="padding:20px;font-size:20px;">등록된 태그들이 없습니다.😥 </p>
+					</c:when>
+					<c:otherwise>	
+						<c:forEach items="${TAGLIST}" var="t">			
+							<a href="/tags/${t.tagName}" class="badge badge-primary m-1 mb-2" style="font-size:16px;">
+								${t.tagName} 
+								<span class="badge badge-light">${t.total }</span>
+							</a>						
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>			
+			</div>
+		</div>
 	</section>
 	<%@ include file="/WEB-INF/layout/script.jsp"%>
 </body>

@@ -9,13 +9,13 @@ public interface BoardService
 
     public List<Board> selectBoards() throws Exception;
 
-    public List<Board> selectBoards(String field, String query, int page)  throws Exception;
+    public List<Board> selectBoards(String query, int page)  throws Exception;
     
     public List<Board> selectBoardsForUserId(int userId) throws Exception;
     
     public List<Board> selectBoardsForUserId(int userId, int page) throws Exception;
 
-    public int selectBoardCount(String field, String query) throws Exception;
+    public int selectBoardCount(String query) throws Exception;
     
     public int selectBoardCountForUserId(int id) throws Exception;
 

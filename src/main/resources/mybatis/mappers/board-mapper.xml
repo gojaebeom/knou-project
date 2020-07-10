@@ -43,7 +43,7 @@
 		FROM BOARDS B
 		LEFT OUTER JOIN USERS U ON B.WRITER_ID = U.ID
 		WHERE 
-			${field} LIKE '${query}'
+			U.NICKNAME like '%${query}%' OR B.TITLE like '%${query}%'
 		ORDER BY 
 			CREATED_AT DESC
 		LIMIT ${page}, 5;
@@ -105,7 +105,8 @@
 		SELECT COUNT(*)
 		FROM BOARDS B
 		LEFT OUTER JOIN USERS U ON B.WRITER_ID = U.ID
-		WHERE ${field} LIKE '${query}';
+		WHERE 
+			U.NICKNAME like '%${query}%' OR B.TITLE like '%${query}%'
 	</select>
 	
 	<select id="selectBoardCountForUserId" resultType="_int">

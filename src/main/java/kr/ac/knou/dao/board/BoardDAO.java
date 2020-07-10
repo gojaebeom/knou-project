@@ -9,8 +9,8 @@ public interface BoardDAO
     //게시물 리스트 : 아무런 인자값이 없이 받으면 기본 검색 옵션: title, 검색어 : null, 페이지번호: 1
     public List<Board> selectBoards() throws Exception;
 
-    //게시물 리스트 : 검색옵션, 검색어, 페이지번호 를 기준으로 값 반환
-    public List<Board> selectBoards(String field, String query, int page) throws Exception;
+    //게시물 리스트 : 검색어, 페이지번호 를 기준으로 값 반환
+    public List<Board> selectBoards(String query, int page) throws Exception;
     
     //회원 상세보기 : 회원이 작성한 글 
     public List<Board> selectBoardsForUserId(int id) throws Exception;
@@ -19,7 +19,7 @@ public interface BoardDAO
     public List<Board> selectBoardsForUserId(int id, int page) throws Exception;
     
     //보여줄 게시물들의 총 수량
-    public int selectBoardCount(String field, String query) throws Exception;
+    public int selectBoardCount(String query) throws Exception;
     
     //회원이 작성한 글 총 수량
     public int selectBoardCountForUserId(int id) throws Exception;

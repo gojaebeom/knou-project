@@ -5,26 +5,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<%@ include file="/WEB-INF/views/include/head.jsp"%>
+	<%@ include file="/WEB-INF/layout/head.jsp"%>
 	<title>방송대 커뮤니티 - 학우정보</title>
 </head>
 <body>
 	<!-- header -->
-	<%@ include file="/WEB-INF/views/include/nav.jsp"%>
+	<%@ include file="/WEB-INF/layout/nav.jsp"%>
 	<section class="container">
 		<div class="card shadow">
 	  		<div class="card-body">
 				<div class="row mb-5">
 					<div class="col">	
 						<div class="media">
-						  <img  class="mr-3 rounded" src="/images/${(!empty USER.image)?USER.image:'default.png'}"
+						  <img  class="mr-2 rounded" src="/images/${(!empty USER.image)?USER.image:'default.png'}"
 						   alt="Generic placeholder image" width="120px" height="120px">
 						  <div class="media-body">
-						    	<h4 class="mt-0">${USER.nickname }</h4>
+						    	<h4 class="mt-0" style="font-size:20px;">${USER.nickname }</h4>
 						    	<br>
 						    	<h5>${USER.email}</h5>
 						    	<br>
-						    	<h5>가입일 :<fmt:formatDate value="${USER.createdAt}" pattern="yyyy-MM-dd"/></h5>
+						    	<h5>가입일 :<fmt:formatDate value="${USER.createdAt}" pattern="yyyy년 MM월 dd일"/></h5>
 						     	<br>
 						     	<br>
 						     	<c:if test="${ACCOUNT.id == USER.id}">
@@ -54,9 +54,9 @@
 						  		</c:when>
 						  		<c:otherwise>
 						  			
-						  			<c:forEach items="${QUESTIONLIST}" var="q" begin="0" end="4">
+						  			<c:forEach items="${QUESTIONLIST}" var="q" begin="0" end="4" varStatus="status">
 									    <tr>
-									      <th scope="row">${q.id }</th>
+									      <th scope="row">${status.count}</th>
 									      <td colspan="2">
 									      	<a href="/boards/${q.id}">
 									      		${q.title }
@@ -89,9 +89,9 @@
 									</tr>	
 						  		</c:when>
 						  		<c:otherwise>
-						  			<c:forEach items="${ANSWERLIST}" var="a" begin="0" end="4">
+						  			<c:forEach items="${ANSWERLIST}" var="a" begin="0" end="4" varStatus="status">
 									    <tr>
-									      <th scope="row">${a.board.id }</th>
+									      <th scope="row">${status.count}</th>
 									      <td colspan="2">
 									      	<a href="/boards/${a.board.id}">
 									      		${a.board.title }
@@ -109,6 +109,6 @@
 			</div>
 		</div>
 	</section>
-	<%@ include file="/WEB-INF/views/include/script.jsp"%>
+	<%@ include file="/WEB-INF/layout/script.jsp"%>
 </body>
 </html>

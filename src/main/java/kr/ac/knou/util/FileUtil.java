@@ -14,7 +14,9 @@ public class FileUtil
 {
     private static final Log LOG = LogFactory.getLog(FileUtil.class);
     
-    private static final String PATH = "C:\\images\\upload-image";//개발 path
+    //private static final String PATH = "/home/images\\upload-image";//개발 path
+    
+    private static final String PATH = "/home/storago_io/images/upload-images";//배포 path
     
     public static User imageUpload(MultipartFile imgFile)
     {

@@ -57,9 +57,9 @@ tagInput.onchange = () =>
     for(i=0;i < tagInput.value.length; i++) {
         let space = tagInput.value.substr(i,1);
         
-        if (space ==",")
+        if (space ==" ")
         {
-            let tagInputData = tagInput.value.split(",");
+            let tagInputData = tagInput.value.split(" ");
 
             if(tagPattern.test(tagInputData[0]))
             {

@@ -69,19 +69,18 @@ public class BoardController
     @RequestMapping(value="/boards", method=RequestMethod.GET)
     public String selectBoards(
             @RequestParam(value="page",required = false) String page_, 
-            @RequestParam(value="field",required = false) String field, 
             @RequestParam(value="query",required = false) String query, 
             Model model) throws Exception
     {   
-        field = (field!=null) ? field : "title";
+
         query = (query!=null) ? query : "";
         int page = (page_ != null) ? Integer.valueOf(page_) : 1;
         
-        LOG.info("분류:["+field+"], 작성값:["+query+"], 페이지 번호:["+page+"]");
+        LOG.info("작성값:["+query+"], 페이지 번호:["+page+"]");
        
-        List<Board> boardList = boardService.selectBoards(field, query, page);
+        List<Board> boardList = boardService.selectBoards(query, page);
         
-        int total = boardService.selectBoardCount(field, query);
+        int total = boardService.selectBoardCount(query);
         
         int lastPage =  (int) Math.ceil(total/5)+1;
         
@@ -90,7 +89,6 @@ public class BoardController
         Map<String, Object> map = new HashMap<>();
         map.put("TOTAL", total);
         map.put("PAGE", page);
-        map.put("FIELD", field);
         map.put("QUERY", query);
         map.put("BOARDLIST",boardList);
         map.put("LASTPAGE",lastPage);

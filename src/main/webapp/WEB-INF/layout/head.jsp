@@ -14,10 +14,10 @@
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 
 <!-- 프로필  -->
-<link href="${pageContext.request.contextPath}/assets/css/profile-menu.css" rel="stylesheet">
+<link href="/assets/css/profile-menu.css" rel="stylesheet">
 
 <!-- 모든 적용 스타일  -->
-<link href="${pageContext.request.contextPath}/assets/css/public-style.css" rel="stylesheet">
+<link href="/assets/css/style.css" rel="stylesheet">
 
 
 

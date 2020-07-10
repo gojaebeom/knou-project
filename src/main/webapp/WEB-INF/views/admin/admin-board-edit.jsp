@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<%@ include file="/WEB-INF/views/include/head.jsp"%>
+<%@ include file="/WEB-INF/layout/head.jsp"%>
 <link
 	href="${pageContext.request.contextPath}/assets/css/profile-menu.css"
 	rel="stylesheet">
@@ -12,7 +12,7 @@
 </head>
 <body>
 	<header class="navbar navbar-expand navbar-dark flex-md-row bd-navbar bg-primary position-relative">
-		<%@ include file="/WEB-INF/views/include/admin-nav.jsp"%>
+		<%@ include file="/WEB-INF/layout/admin-nav.jsp"%>
 	</header>
 	<div class="container">
 		<div class="alert alert-primary" role="alert">
@@ -72,7 +72,7 @@
 	
 
 
-	<%@ include file="/WEB-INF/views/include/script.jsp"%>
+	<%@ include file="/WEB-INF/layout/script.jsp"%>
 	<script src="${pageContext.request.contextPath}/assets/js/profile-menu.js"></script>
 </body>
 </html>

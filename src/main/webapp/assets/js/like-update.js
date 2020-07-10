@@ -33,22 +33,18 @@ $(document).ready(function(){
             {
                 likeStatus.innerHTML= 
                 `
-                <span class="btn-group-sm">
-                    <button type="button" class="btn btn-primary bmd-btn-fab" onclick="likeUpdate();">
-                            <i class="material-icons">grade</i>
-                    </button>
-                </span>
+                <i class="ri-heart-pulse-fill" 
+                style="font-size:30px;color:#F78181;" 
+                onclick="likeUpdate();"></i>
                 `
             }
             else
             {
                 likeStatus.innerHTML= 
                 `
-                <span class="btn-group-sm">
-                    <button type="button" class="btn btn-secondary bmd-btn-fab" onclick="likeUpdate();">
-                            <i class="material-icons">grade</i>
-                    </button>
-                </span>
+                <i class="ri-heart-pulse-line"
+                style="font-size:30px;color:#F78181;"
+                onclick="likeUpdate();"></i>
                 `
             }
         }
@@ -93,11 +89,9 @@ function likeUpdate()
             {
                 likeStatus.innerHTML= 
                 `
-                <span class="btn-group-sm">
-                    <button type="button" class="btn btn-primary bmd-btn-fab" onclick="likeUpdate();">
-                            <i class="material-icons">grade</i>
-                    </button>
-                </span>
+                <i class="ri-heart-pulse-fill" 
+                style="font-size:30px;color:#F78181;" 
+                onclick="likeUpdate();"></i>
                 `;
                 likeWrap.innerText=data.likeCnt;
             }
@@ -105,14 +99,16 @@ function likeUpdate()
             {
                 likeStatus.innerHTML= 
                 `
-                <span class="btn-group-sm">
-                    <button type="button" class="btn btn-secondary bmd-btn-fab" onclick="likeUpdate();">
-                            <i class="material-icons">grade</i>
-                    </button>
-                </span>
+                <i class="ri-heart-pulse-line" 
+                style="font-size:30px;color:#F78181;"
+                onclick="likeUpdate();"></i>
                 `;
                 likeWrap.innerText=data.likeCnt;
             }
         }
     });
 }
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })

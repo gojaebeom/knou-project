@@ -38,13 +38,13 @@ public class BoardServiceImpl implements BoardService
     @Override
     public List<Board> selectBoards() throws Exception
     {        
-        return selectBoards("title","",1);
+        return selectBoards("",1);
     }
 
     @Override
-    public List<Board> selectBoards(String field, String query, int page) throws Exception
+    public List<Board> selectBoards(String query, int page) throws Exception
     {
-        List<Board> boardList = boardDAO.selectBoards(field, query, page);
+        List<Board> boardList = boardDAO.selectBoards(query, page);
         
         List<Board> boardListAddTag = new ArrayList<>();
         
@@ -73,9 +73,9 @@ public class BoardServiceImpl implements BoardService
     }
 
     @Override
-    public int selectBoardCount(String field, String query) throws Exception
+    public int selectBoardCount(String query) throws Exception
     {
-        return boardDAO.selectBoardCount(field, query);
+        return boardDAO.selectBoardCount(query);
     }
     
     @Override

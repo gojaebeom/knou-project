@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import kr.ac.knou.service.board.BoardService;
 import kr.ac.knou.service.tag.TagService;
+import kr.ac.knou.service.user.UserService;
 
 @Controller
 public class HomeController
@@ -19,9 +20,11 @@ public class HomeController
     @Autowired
     BoardService boardService;
     
-    
     @Autowired
     TagService tagService;
+    
+    @Autowired
+    UserService userService;
     
     @RequestMapping(value="/", method=RequestMethod.GET)
     public String home(Model model) throws Exception

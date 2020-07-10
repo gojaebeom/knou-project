@@ -5,13 +5,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<%@ include file="/WEB-INF/views/include/head.jsp"%>
+	<%@ include file="/WEB-INF/layout/head.jsp"%>
 	<link href="${pageContext.request.contextPath}/assets/css/profile-menu.css" rel="stylesheet">
 	<title>방송대 커뮤니티 - 404</title>
 </head>
 <body>
 	<!-- header -->
-	<%@ include file="/WEB-INF/views/include/nav.jsp"%>
+	<%@ include file="/WEB-INF/layout/nav.jsp"%>
 	<section class="container">
 		<div class="alert alert-success" role="alert">
 		  <h4 class="alert-heading">요청하신 페이지를 찾을 수 없습니다!</h4>
@@ -22,6 +22,6 @@
 	</section>
 	
 	
-	<%@ include file="/WEB-INF/views/include/script.jsp"%>
+	<%@ include file="/WEB-INF/layout/script.jsp"%>
 </body>
 </html>
