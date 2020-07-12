@@ -14,7 +14,7 @@ var submitAlert = document.getElementById("submitAlert");
 //이메일 정규식
 var emailPattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
 //닉네임 정규식
-var nicknamePattern = /^[가-힣a-zA-Z]+$/;
+var nicknamePattern = /^[가-힣a-zA-Z0-9]+$/;
 
 //비밀번호 정규식
 var passwordPattern = /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,50}$/;
@@ -143,7 +143,7 @@ function nicknameCheck()
         return result;
     }else
     {
-        nicknameSpan.innerHTML = "잘못된 입력입니다😢";
+        nicknameSpan.innerHTML = "닉네임에 특수문자, 공백은 들어갈 수 없습니다😢";
         nicknameSpan.style.color = "red";
         return false;
     }

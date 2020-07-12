@@ -8,6 +8,7 @@
 	    <result column="title" property="title"/>
 	    <result column="content" property="content"/>
 	    <result column="created_at" property="createdAt"/>
+	    <result column="updated_at" property="updatedAt"/>
 	    <result column="hit" property="hit"/>
 	    <result column="like_cnt" property="likeCnt"/>
 	    <result column="comment_cnt" property="commentCnt"/>
@@ -58,13 +59,15 @@
 			B.COMMENT_CNT, 
 			B.LIKE_CNT,
 			B.WRITER_ID, 
-			B.CREATED_AT, 
+			B.CREATED_AT,
+			B.UPDATED_AT,
 			U.NICKNAME, 
 			U.IMAGE
 		FROM BOARDS B
 		LEFT OUTER JOIN USERS U ON B.WRITER_ID = U.ID
 		WHERE 
-			B.ID = #{id};
+			B.ID = #{id}
+		ORDER BY CREATED_AT DESC;
 	</select>
 	
 	<select id="selectBoardsForUserId" resultMap="boardResult">
@@ -81,7 +84,7 @@
 		WHERE 
 			U.ID = #{id}
 		ORDER BY 
-			CREATED_AT DESC;
+			B.CREATED_AT DESC;
 	</select>
 	
 	<select id="selectBoardsForUserId_Page" resultMap="boardResult">

@@ -123,9 +123,9 @@ public class UserController
         int id = userService.updateUserAuthStatusForCertifiedId(email, key);
 
         if(id == 0)
-            model.addAttribute("loginComplete", false);
+            model.addAttribute("AUTH_KEY", false);
         else
-            model.addAttribute("loginComplete", true);
+            model.addAttribute("AUTH_KEY", true);
         
         return "sign/sign-in";
     }
@@ -328,27 +328,64 @@ public class UserController
 
         return map;
     }
-//    
-//    @RequestMapping(value="/users/forget-password", method=RequestMethod.GET)
-//    public String selectforgetPassword()
-//    {
-//        
-//        return "/sign/password-remake";
-//    }
-//    
-//    @RequestMapping(value="/users/forget-password", method=RequestMethod.POST)
-//    public String selectforgetPassword(User user) throws Exception
-//    {
-//        userService.selectUserForEmail(user);
-//        
-//       
-//        return "/sign/password-remake";
-//    }
-//    
-//    @RequestMapping(value="/users/forget-password", method=RequestMethod.GET)
-//    public String updateUserPassword(@RequestParam("id")int id, Model model)
-//    {
-//        
-//        return "";
-//    }
+    
+    
+    @RequestMapping(value="/users/forget-password", method=RequestMethod.GET)
+    public String selectforgetPassword()
+    {
+        /**
+         * 1. 비밀번호 찾기 버튼 클릭시 해당 컨트롤러가 받음
+         * 2. 비밀번호 찾기 페이지로 이동시킴
+         */
+        
+        return "/sign/forget-password";
+    }
+    
+    @RequestMapping(value="/users/forget-password", method=RequestMethod.POST)
+    public String selectforgetPassword(@RequestParam("email")String email) throws Exception
+    {
+        /**
+         * 1. 비밀번호 찾기 페이지에서 submit 시 받는 컨트롤러 
+         */
+        userService.forgetPassword(email);
+
+        return "redirect:/";
+    }
+    
+    @RequestMapping(value="/users/remake-password", method=RequestMethod.GET)
+    public String updatePassword(
+            @RequestParam("email")String email, 
+            @RequestParam("key")String key, 
+            RedirectAttributes redirectModel,
+            Model model) throws Exception
+    {
+        int id = userService.updateUserAuthStatusForCertifiedId(email, key);
+
+        if(id == 0)
+        {
+            redirectModel.addFlashAttribute("AUTH_KEY", false);
+            return "redirect:/";
+        }
+        
+        model.addAttribute("ID", id);
+
+        return "/sign/remake-password";
+    }
+    
+    @RequestMapping(value="/users/remake-password", method=RequestMethod.POST)
+    public String updatePassword(User user, RedirectAttributes model) throws Exception
+    {
+        LOG.info("비밀번호 변경할 회원 정보 : "+ user.toString());
+        
+       //Spring security를 통한 비밀번호 암호화
+       String encPassword = passwordEncoder.encode(user.getPassword());
+       user.setPassword(encPassword);
+       
+       userService.updateUserPassword(user);
+       
+       model.addFlashAttribute("PASSWORD_UPDATE", true);
+        
+       return "redirect:/";
+    }
+   
 }

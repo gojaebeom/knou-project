@@ -52,6 +52,8 @@ public class TagServiceImpl implements TagService
            Board board = boardService.selectBoardForId(tag.getBoardId());
            
            boardList.add(board);
+           
+           LOG.info("-----------------"+board.toString());
         }
         
         return boardList;
@@ -69,7 +71,11 @@ public class TagServiceImpl implements TagService
            Board board = boardService.selectBoardForId(tag.getBoardId());
            
            boardList.add(board);
+           
+           LOG.info("---------------------------------------------------------------"+board.toString());
         }
+        
+        
         
         return boardList;
     }

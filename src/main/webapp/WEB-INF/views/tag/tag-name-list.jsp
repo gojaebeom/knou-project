@@ -45,7 +45,7 @@
 						</div>
 						<div class="d-flex flex-column justify-content-center ml-2" style="width:100%;">
 							<div class="mt-1 mb-2" >
-								<h4><a href="/boards/${b.id}">#${b.title}</a></h4>
+								<h4><a href="/boards/${b.id}">${b.title}</a></h4>
 							</div>
 							<div class="d-flex flex-wrap">
 								<div class="flex-wrap" style="flex:1;">
@@ -56,8 +56,8 @@
 								</c:forEach>
 								</div>
 								<div class="d-flex justify-content-end flex-wrap" style="flex:1;">
-									<a href="/users/${b.user.id}">${b.user.nickname}</a>
-									<a class="date-time ml-2"><fmt:formatDate value="${b.createdAt }" pattern="yyyy-MM-dd / hh시 mm분"/></a>
+									<a href="/users/${b.writerId}">${b.user.nickname}</a>
+									<a class="date-time ml-2">${b.formatTime}</a>
 								</div>
 							</div>
 						</div>

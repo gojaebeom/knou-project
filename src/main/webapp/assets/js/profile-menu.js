@@ -15,6 +15,10 @@ if(content !== null){
 	}
 }
 
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+
 
 
 

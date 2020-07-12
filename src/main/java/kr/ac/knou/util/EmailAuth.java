@@ -56,7 +56,7 @@ public class EmailAuth
         //String.format("해당<a href='http://localhost:8080/users/confirm?email=%s&key=%s'>링크</a> 를 클릭하시면 회원가입이 완료됩니다.",toMail, authKey);
         
         String content = 
-        String.format("해당<a href='http://storago.io:8080/users/confirm?email=%s&key=%s'>링크</a>를 클릭하시면 비밀번호 재설정 페이지로 이동합니다.",toMail, authKey);
+        String.format("해당<a href='http://storago.io:8080/users/remake-password?email=%s&key=%s'>링크</a>를 클릭하시면 비밀번호 재설정 페이지로 이동합니다.",toMail, authKey);
         
         try
         {

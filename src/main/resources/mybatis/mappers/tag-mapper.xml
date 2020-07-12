@@ -4,14 +4,20 @@
 <mapper namespace="tag">	
 	
 	<select id="selectTagsForTagName" resultType="kr.ac.knou.dto.tag.Tag">
-		SELECT * FROM TAGS 
-		WHERE TAG_NAME = '${tagName}';
+		SELECT T.* 
+		FROM TAGS T
+		LEFT OUTER JOIN BOARDS B ON B.ID = T.BOARD_ID
+		WHERE T.TAG_NAME = '${tagName}'
+		ORDER BY B.CREATED_AT DESC;
 	</select>
 	
 	<select id="selectTagsForLikeName" resultType="kr.ac.knou.dto.tag.Tag">
-		SELECT BOARD_ID FROM TAGS 
+		SELECT T.BOARD_ID
+		FROM TAGS T
+		LEFT OUTER JOIN BOARDS B ON B.ID = T.BOARD_ID
 		WHERE TAG_NAME LIKE '%${tagName}%'
-		GROUP BY BOARD_ID;
+		GROUP BY T.BOARD_ID
+		ORDER BY B.CREATED_AT DESC;
 	</select>
 	
 	<select id="selectTagsForBoardId" resultType="kr.ac.knou.dto.tag.Tag">

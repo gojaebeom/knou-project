@@ -11,6 +11,7 @@ public class Comment
     private int boardId;   
     private int writerId;   
     private String content;   
+    private String formatTime;
     private Date createdAt;  
     private Date updatedAt;
     private User user;
@@ -101,14 +102,26 @@ public class Comment
         this.updatedAt = updatedAt;
     }
 
+    public String getFormatTime()
+    {
+        return formatTime;
+    }
+
+    public void setFormatTime(String formatTime)
+    {
+        this.formatTime = formatTime;
+    }
+
     @Override
     public String toString()
     {
         return "Comment [id=" + id + ", boardId=" + boardId + ", writerId="
-                + writerId + ", content=" + content + ", createdAt=" + createdAt
-                + ", updatedAt=" + updatedAt + ", user=" + user + ", board="
-                + board + "]";
+                + writerId + ", content=" + content + ", formatTime="
+                + formatTime + ", createdAt=" + createdAt + ", updatedAt="
+                + updatedAt + ", user=" + user + ", board=" + board + "]";
     }
+    
+
     
     
     

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.ac.knou.dto.board.Board;
+import kr.ac.knou.util.TIME_MAXIMUM;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO
@@ -36,13 +37,24 @@ public class BoardDAOImpl implements BoardDAO
         
         LOG.info(map.get("page"));
 
-        return sqlSession.selectList("board.selectBoards", map);
+        List<Board> boardList = sqlSession.selectList("board.selectBoards", map);
+        for(Board board : boardList)
+        {
+            board.setFormatTime(TIME_MAXIMUM.formatTimeString(board.getCreatedAt()));
+        }
+        return boardList;
     }
     
     @Override
     public List<Board> selectBoardsForUserId(int id) throws Exception
     {
-        return sqlSession.selectList("board.selectBoardsForUserId", id);
+        List<Board> boardList = sqlSession.selectList("board.selectBoardsForUserId", id);
+        for(Board board : boardList)
+        {
+            board.setFormatTime(TIME_MAXIMUM.formatTimeString(board.getCreatedAt()));
+        }
+        
+        return boardList;
     }  
     
     @Override
@@ -51,7 +63,14 @@ public class BoardDAOImpl implements BoardDAO
         Map<String, Integer> map = new HashMap<>();
         map.put("id", id);
         map.put("page", (page-1)*5);
-        return sqlSession.selectList("board.selectBoardsForUserId_Page", map);
+        List<Board> boardList =  sqlSession.selectList("board.selectBoardsForUserId_Page", map);
+        
+        for(Board board : boardList)
+        {
+            board.setFormatTime(TIME_MAXIMUM.formatTimeString(board.getCreatedAt()));
+        }
+        
+        return boardList;
     }
 
     
@@ -72,7 +91,11 @@ public class BoardDAOImpl implements BoardDAO
     @Override
     public Board selectBoardForId(int id) throws Exception
     {
-        return sqlSession.selectOne("board.selectBoardForId", id);
+        Board board = sqlSession.selectOne("board.selectBoardForId", id);
+        LOG.info("가져온 게시물 정보 :"+board.toString());
+        board.setFormatTime(TIME_MAXIMUM.formatTimeString(board.getCreatedAt()));
+        
+        return board;
     }
     
     @Override

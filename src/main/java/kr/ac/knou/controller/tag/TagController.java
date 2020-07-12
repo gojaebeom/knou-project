@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.ac.knou.dto.board.Board;
 import kr.ac.knou.service.tag.TagService;
+import kr.ac.knou.util.TIME_MAXIMUM;
 
 @Controller
 public class TagController
@@ -35,6 +36,7 @@ public class TagController
         if(name != null&&!name.equals(""))
         {
             List<Board> boardList = tagService.selectBoardsForLikeName(name);
+                        
             model.addAttribute("BOARDLIST",boardList);
             model.addAttribute("TOTAL", boardList.size());
             model.addAttribute("TAGNAME", name); 
@@ -56,6 +58,7 @@ public class TagController
         if(name != null&&!name.equals(""))
         {
             List<Board> boardList = tagService.selectBoardsForTagName(name);
+                       
             model.addAttribute("BOARDLIST",boardList);
             model.addAttribute("TOTAL", boardList.size());
             model.addAttribute("TAGNAME", name); 

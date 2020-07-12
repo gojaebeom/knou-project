@@ -61,7 +61,7 @@
 									      		${a.board.title }
 									      	</a>
 									      </td>
-									      <td><fmt:formatDate value="${a.board.createdAt}" pattern="yyyy-MM-dd"/></td>
+									      <td>${a.board.formatTime}</td>
 									    </tr>
 									 </c:forEach>
 						  		</c:otherwise>

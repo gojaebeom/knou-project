@@ -27,12 +27,17 @@ public interface UserDAO
     //회원가입 : 이메일 인증된 아이디값 가져오기
     public int selectUserCertifiedId(String email, String key) throws Exception;
     
-    
     //회원가입 : 계정 생성
     public int insertUser(User user) throws Exception; 
 
     //회원가입 : 이메일과 인증키가 일치하면 정식인증 ok
     public int updateUserAuthStatus(int id) throws Exception;
+    
+    //비밀번호 변경 : 회원의 인증키를 새로 발급 업데이트
+    public int updateUserAuthKey(User user) throws Exception;
+    
+    //비밀번호 변경 :
+    public int updateUserPassword(User user) throws Exception;
 
     //유저 정보 수정
     public int  updateUser(User user) throws Exception;

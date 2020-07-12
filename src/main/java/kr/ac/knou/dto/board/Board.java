@@ -15,7 +15,7 @@ public class Board
     private int writerId; 
     private String title;   
     private String content;  
-    private String files;    
+    private String formatTime;
     private Date createdAt;    
     private Date updatedAt;
     private int hit;    
@@ -62,14 +62,6 @@ public class Board
     public void setContent(String content)
     {
         this.content = content;
-    }
-    public String getFiles()
-    {
-        return files;
-    }
-    public void setFiles(String files)
-    {
-        this.files = files;
     }
     public Date getCreatedAt()
     {
@@ -146,16 +138,25 @@ public class Board
     {
         this.like = like;
     }
+    public String getFormatTime()
+    {
+        return formatTime;
+    }
+    public void setFormatTime(String formatTime)
+    {
+        this.formatTime = formatTime;
+    }
     @Override
     public String toString()
     {
         return "Board [id=" + id + ", writerId=" + writerId + ", title=" + title
-                + ", content=" + content + ", files=" + files + ", createdAt="
-                + createdAt + ", updatedAt=" + updatedAt + ", hit=" + hit
-                + ", commentCnt=" + commentCnt + ", likeCnt=" + likeCnt
-                + ", user=" + user + ", comment=" + comment + ", like=" + like
-                + ", tagList=" + tagList + "]";
+                + ", content=" + content + ", formatTime=" + formatTime
+                + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
+                + ", hit=" + hit + ", commentCnt=" + commentCnt + ", likeCnt="
+                + likeCnt + ", user=" + user + ", comment=" + comment
+                + ", like=" + like + ", tagList=" + tagList + "]";
     }
+
     
 
 }

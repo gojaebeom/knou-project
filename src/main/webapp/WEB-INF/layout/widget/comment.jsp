@@ -43,7 +43,7 @@
 					    <h5 class="mt-0 mb-2">
 						    <a href="/users/${c.writerId}" class="mr-0">
 						    ${c.user.nickname}</a> 
-							*<fmt:formatDate value="${c.createdAt}" pattern="yy-MM-dd / hh시 mm분"/> 
+							* ${c.formatTime}
 					    </h5>
 					    <pre style="overflow:auto;white-space:pre-wrap;line-height:1.3em;margin:0px;margin-bottom:5px;">${c.content }</pre> 
 				    	<c:if test="${ACCOUNT.id == c.writerId || ACCOUNT.role == 1}">

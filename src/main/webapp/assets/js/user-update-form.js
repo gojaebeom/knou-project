@@ -7,7 +7,7 @@ const deleteInput = document.getElementById("deleteInput");
 
 
 //닉네임 정규식
-var nicknamePattern = /^[가-힣a-zA-Z]+$/;
+var nicknamePattern = /^[가-힣a-zA-Z0-9]+$/;
 
 function init()
 {
@@ -72,7 +72,7 @@ function nicknameCheck()
         return result;
     }else
     {
-        nicknameSpan.innerHTML = "잘못된 입력입니다😢";
+        nicknameSpan.innerHTML = "닉네임에 특수문자, 공백은 들어갈 수 없습니다😢";
         nicknameSpan.style.color = "red";
         return false;
     }

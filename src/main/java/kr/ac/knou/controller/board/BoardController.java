@@ -23,6 +23,7 @@ import kr.ac.knou.dto.tag.Tag;
 import kr.ac.knou.service.board.BoardService;
 import kr.ac.knou.service.comment.CommentService;
 import kr.ac.knou.service.tag.TagService;
+import kr.ac.knou.util.TIME_MAXIMUM;
 
 @Controller
 public class BoardController
@@ -77,9 +78,7 @@ public class BoardController
         int page = (page_ != null) ? Integer.valueOf(page_) : 1;
         
         LOG.info("작성값:["+query+"], 페이지 번호:["+page+"]");
-       
-        List<Board> boardList = boardService.selectBoards(query, page);
-        
+               
         int total = boardService.selectBoardCount(query);
         
         int lastPage =  (int) Math.ceil(total/5)+1;
@@ -90,7 +89,7 @@ public class BoardController
         map.put("TOTAL", total);
         map.put("PAGE", page);
         map.put("QUERY", query);
-        map.put("BOARDLIST",boardList);
+        map.put("BOARDLIST",boardService.selectBoards(query, page));
         map.put("LASTPAGE",lastPage);
         
         model.addAllAttributes(map);
@@ -100,18 +99,12 @@ public class BoardController
     
     @RequestMapping(value="/boards/{id}", method=RequestMethod.GET)
     public String selectBoardForId(@PathVariable("id")int id, Model model) throws Exception
-    {
-        Board board = boardService.selectBoardForId(id);
-        
-        LOG.info(board.toString());
-        
+    { 
         boardService.updateBoardHit(id);
         
-        List<Comment> commentList = commentService.selectComments(id);
-        
         Map<String, Object> map = new HashMap<>();
-        map.put("BOARD", board);
-        map.put("COMMENT", commentList);
+        map.put("BOARD", boardService.selectBoardForId(id));
+        map.put("COMMENT", commentService.selectComments(id));
         
         model.addAllAttributes(map);
         
@@ -122,6 +115,7 @@ public class BoardController
     public String updateBoardForId(@PathVariable("id")int id, Model model) throws Exception
     {
         Board board = boardService.selectBoardForId(id);
+        board.setFormatTime(TIME_MAXIMUM.formatTimeString(board.getCreatedAt()));
         
         LOG.info(board.toString());
         

@@ -99,6 +99,18 @@ public class UserDAOImpl implements UserDAO
         
         return result;
     }
+    
+    @Override
+    public int updateUserAuthKey(User user) throws Exception
+    {
+        return sqlSession.update("user.updateUserAuthKey", user);
+    }
+    
+    @Override
+    public int updateUserPassword(User user) throws Exception
+    {
+        return sqlSession.update("user.updateUserPassword", user);
+    }
 
        @Override
     public int updateUser(User user)
@@ -117,6 +129,10 @@ public class UserDAOImpl implements UserDAO
     {
         return sqlSession.delete("user.deleteUser", id);
     }
+
+    
+
+   
 
     
 }

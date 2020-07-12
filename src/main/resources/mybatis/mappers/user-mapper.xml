@@ -80,15 +80,7 @@
 		WHERE EMAIL = #{email};
 	</select>
 	
-	<!-- 반환된 id의 authstatus 컬럼을 인증상태로 업데이트  -->
-	<insert id="updateUserAuthStatus">
-		UPDATE 
-			USERS
-		SET 
-			AUTH_STATUS = 1,
-			UPDATED_AT = now()
-		WHERE ID = #{id};
-	</insert>
+	
 	
 	<!-- 회원가입 -->
 	<insert id="insertUser">
@@ -110,6 +102,36 @@
 		UPDATE USERS
 		SET
 			NICKNAME = #{nickname},
+			UPDATED_AT = now()
+		WHERE ID = #{id};
+	</update>
+	
+	<!-- 반환된 id의 authstatus 컬럼을 인증상태로 업데이트  -->
+	<insert id="updateUserAuthStatus">
+		UPDATE 
+			USERS
+		SET 
+			AUTH_STATUS = 1,
+			UPDATED_AT = now()
+		WHERE ID = #{id};
+	</insert>
+	
+	<!-- id에 유저 인증키를 업데이트 -->
+	<update id="updateUserAuthKey">
+		UPDATE 
+			USERS
+		SET 
+			AUTH_KEY = #{authKey},
+			UPDATED_AT = now()
+		WHERE ID = #{id};
+	</update>
+	
+	<!-- id에 해당하는 컬럼들 수정 -->
+	<update id="updateUserPassword">
+		UPDATE 
+			USERS
+		SET 
+			PASSWORD = #{password},
 			UPDATED_AT = now()
 		WHERE ID = #{id};
 	</update>

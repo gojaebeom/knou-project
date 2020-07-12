@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.ac.knou.dto.comment.Comment;
+import kr.ac.knou.util.TIME_MAXIMUM;
 
 @Repository
 public class CommentDAOImpl implements CommentDAO
@@ -27,6 +28,7 @@ public class CommentDAOImpl implements CommentDAO
         for(Comment comment :commentList) 
         {
             System.out.println(comment.toString());
+            comment.setFormatTime(TIME_MAXIMUM.formatTimeString(comment.getCreatedAt()));
         }
         
         return commentList;
@@ -39,6 +41,7 @@ public class CommentDAOImpl implements CommentDAO
         for(Comment comm : commentList)
         {
             LOG.info("보드리스트" + comm.getBoard().toString());
+            comm.getBoard().setFormatTime(TIME_MAXIMUM.formatTimeString(comm.getBoard().getCreatedAt()));
         }
         
         return commentList;

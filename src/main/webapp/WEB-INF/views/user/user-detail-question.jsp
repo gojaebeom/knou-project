@@ -61,7 +61,7 @@
 									      		${q.title }
 									      	</a>
 									      </td>
-									      <td><fmt:formatDate value="${q.createdAt}" pattern="yyyy-MM-dd"/></td>
+									      <td>${q.formatTime}</td>
 									    </tr>
 									 </c:forEach>
 						  		</c:otherwise>

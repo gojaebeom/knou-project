@@ -30,6 +30,12 @@ public interface UserService
 
     //회원가입 : 이메일과 인증키가 일치하면 일치하는 해당 id를 보내고 그 id의 인증상태 1로 업데이트(정식 인증 완료)
     public int updateUserAuthStatusForCertifiedId(String email, String key) throws Exception;
+    
+    //회원 비밀번호 변경
+    public int forgetPassword(String email) throws Exception;
+    
+    //비밀번호 변경
+    public int updateUserPassword(User user) throws Exception;
 
     //회원 수정 
     public int updateUser(User user) throws Exception;
@@ -39,5 +45,7 @@ public interface UserService
 
     //회원 탈퇴
     public int deleteUser(int id) throws Exception;
+
+    
     
 }

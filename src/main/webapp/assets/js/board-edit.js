@@ -1,3 +1,7 @@
+/**
+ * 게시글 수정 관련 js
+ */
+
 const title = document.getElementById("title");
 const boardContent = document.getElementById("boardContent");
 

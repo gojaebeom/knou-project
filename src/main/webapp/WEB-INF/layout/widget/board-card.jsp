@@ -13,7 +13,7 @@
 	<div class="card-body">
 		<h5 class="card-title">${BOARD.title}</h5>
 		<h6 class="card-subtitle mb-2 text-muted pt-1">
-		<fmt:formatDate value="${BOARD.createdAt}" pattern="yy-MM-dd / hh시 mm분"/>
+			${BOARD.formatTime}
 		</h6>
 		<br>
 		<pre 

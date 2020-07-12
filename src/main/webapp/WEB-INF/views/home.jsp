@@ -50,6 +50,16 @@
 	<c:if test="${BOARD_UPDATE == true}">
 		<script type="text/javascript">alert("게시물 수정이 완료되었습니다.");</script>
 	</c:if>
+	<c:if test="${AUTH_KEY == false }">
+		<script>
+			alert("만료된 인증이거나 잘못된 접근입니다😥 ");
+		</script>
+	</c:if>
+	<c:if test="${PASSWORD_UPDATE == true }">
+		<script>
+			alert("비밀번호가 성공적으로 업데이트했습니다.");
+		</script>
+	</c:if>
 	
 	<footer>
 		<div class="container d-flex ">

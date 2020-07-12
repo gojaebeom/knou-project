@@ -53,7 +53,8 @@
 		SELECT B.ID, B.TITLE, B.CREATED_AT
 		FROM COMMENTS C
 		LEFT OUTER JOIN BOARDS B ON B.ID = C.BOARD_ID
-		WHERE C.WRITER_ID = #{id};
+		WHERE C.WRITER_ID = #{id}
+		ORDER BY B.CREATED_AT DESC;
 	</select>
 	
 	<select id="selectBoardCountForWriterId" resultType="Integer">

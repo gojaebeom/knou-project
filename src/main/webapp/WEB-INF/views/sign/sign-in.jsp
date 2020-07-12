@@ -42,7 +42,8 @@
 						</c:if>			
 						<button class="btn btn-raised btn-primary" type="submit">로그인</button>
 						<div class="margin-box"></div>
-					
+						<span class="bottom-span"><a href="/users/forget-password" style="font-weight:bold">비밀번호 찾기</a></span>
+						<div class="margin-box"></div>
 						<span class="bottom-span">계정이 없으신가요? 먼저 <a href="/users/sign-up" style="font-weight:bold">회원 가입</a>을 진행 하세요✔</span>
 					</form>
 				  </div>
@@ -50,14 +51,14 @@
 			</div>
 		</div>
 	</section>
-	<c:if test="${loginComplete == true }">
+	<c:if test="${AUTH_KEY == true }">
 		<script>
 			alert("인증이 성공적으로 끝났습니다. 로그인하여 방송대 인들과 소통하세요🥰 ");
 		</script>
 	</c:if>
-	<c:if test="${loginComplete == false }">
+	<c:if test="${AUTH_KEY == false }">
 		<script>
-			alert("만료된 인증이거나 잘못된 접근입니다. 기존의 아이디가 로그인이 안될 시 관리자에게 문의 주세요😥 ");
+			alert("만료된 인증이거나 잘못된 접근입니다😥 ");
 		</script>
 	</c:if>
 	<%@ include file="/WEB-INF/layout/script.jsp"%>

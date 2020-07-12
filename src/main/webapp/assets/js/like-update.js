@@ -108,7 +108,3 @@ function likeUpdate()
         }
     });
 }
-
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  })

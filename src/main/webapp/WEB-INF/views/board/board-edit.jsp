@@ -22,7 +22,7 @@
 		<div class="card shadow2" style="width: 100%;">
 			<div class="card-header media"
 				style="border-bottom: 1px dotted #E6E6E6;">
-				<img class="align-self-start mr-3" src="/images/${ACCOUNT.image}"
+				<img class="align-self-start mr-3" src="/images/${(!empty ACCOUNT.image)?ACCOUNT.image:'default.png'}"
 					alt="Generic placeholder image" style="width:50px;height:50px;border-radius:2px;">
 				<div class="media-body ml-0">
 					<h5 class="mt-0" style="font-size:18px;">${ACCOUNT.nickname}</h5>

@@ -36,17 +36,17 @@
 			<ul class="pagination justify-content-center">
 				<c:if test="${STARTPAGE-5 >= 1 }">
 					<li class="page-item"><a class="page-link" 
-					href="/boards?page=${STARTPAGE-5}&field=${FIELD}&query=${QUERY}">Previous</a></li>	
+					href="/boards?page=${STARTPAGE-5}&query=${QUERY}">Previous</a></li>	
 				</c:if>
 				<c:forEach var="i" begin="0" end="4">
 					<c:if test="${(STARTPAGE+i) <= LASTPAGE}">
 						<li class="page-item"><a class="page-link" style="${PAGE == (STARTPAGE+i)? 'color:green;':'color:gray;'}"
-						href="/boards?page=${STARTPAGE+i}&field=${FIELD}&query=${QUERY}">${STARTPAGE + i}</a></li>
+						href="/boards?page=${STARTPAGE+i}&query=${QUERY}">${STARTPAGE + i}</a></li>
 					</c:if>					
 				</c:forEach>
 				<c:if test="${STARTPAGE+5 <= LASTPAGE }">
 					<li class="page-item"><a class="page-link" 
-					href="/boards?page=${STARTPAGE+5}&field=${FIELD}&query=${QUERY}">Next</a></li>
+					href="/boards?page=${STARTPAGE+5}&query=${QUERY}">Next</a></li>
 				</c:if>	
 			</ul>
 		</nav>
