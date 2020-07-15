@@ -39,10 +39,6 @@
 	</error-page>
 
 
-
-
-
-
 	<!-- 시큐리티, db설정, email 설정 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>

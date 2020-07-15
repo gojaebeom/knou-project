@@ -123,18 +123,17 @@
 			<artifactId>mybatis-spring</artifactId>
 			<version>${org.mybatis-spring-version}</version>
 		</dependency>
-
-		<!-- mysql-connector-java : mysql 드라이버 -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysql-version}</version>
-		</dependency>
 		<!-- mybatis, mybatis-spring : sql 쿼리를 사용하기 쉽게하는 디펜던시 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
 			<version>${org.mybatis-version}</version>
+		</dependency>
+		<!-- mysql-connector-java : mysql 드라이버 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-version}</version>
 		</dependency>
 
 		<!-- db와 연결등을 테스트하기 위함 -->
