@@ -19,8 +19,8 @@
 	</select>
 	
 	<insert id="insertLike">
-		INSERT INTO LIKES(BOARD_ID, USER_ID)
-		VALUES(#{boardId}, #{userId})
+		INSERT INTO LIKES(BOARD_ID, USER_ID, IS_LIKED)
+		VALUES(#{boardId}, #{userId}, 1)
 	</insert>
 	
 	<!-- 해당 id의 is_liked 상태 바꾸기 -->

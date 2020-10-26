@@ -35,7 +35,7 @@ public class LikeDAOImpl implements LikeDAO
         
         LOG.info("isLiked 상태 : " + isLiked);
         
-        return isLiked;
+        return (isLiked != null) ? isLiked : 0;
     }
     
     @Override

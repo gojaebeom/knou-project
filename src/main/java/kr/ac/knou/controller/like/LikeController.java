@@ -29,7 +29,7 @@ public class LikeController
         LOG.info("계정 아이디로 일치하는 Like id 찾기 : ");
         LOG.info(like.toString());
         
-        int result = likeService.selectIsLiked(like);     
+        Integer result = likeService.selectIsLiked(like);     
         
         return (result != 0)? true : false;
     }
@@ -38,6 +38,7 @@ public class LikeController
     @RequestMapping(value="/like-status", method = RequestMethod.POST)
     public Map<String,Integer> UpdateLike(Like like) throws Exception
     {
+    	System.out.println("응답 받음!");
         return likeService.likeCycle(like);
     }
 }

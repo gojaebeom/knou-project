@@ -20,19 +20,16 @@
 	</beans:bean>
 	
 	<resources mapping="/assets/**" location="/assets/" /> 
-	<resources mapping="/images/**" location="C:\images\upload-image" />
+	<resources mapping="/images/*" location="/images/" />
+	<!--  개발 단계
+		<resources mapping="/images/**" location="C:\images\upload-image" />
+	 -->
+	
+	
 	
 	<context:component-scan base-package="kr.ac.knou.controller" />
 	<context:component-scan base-package="kr.ac.knou.dao" />
 	<context:component-scan base-package="kr.ac.knou.service" />
-	
-	<!-- Interceptors -->
-	<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/sign-in" />
-			<beans:bean class="kr.ac.knou.interceptor.SignInterceptor"/>
-		</mvc:interceptor>
-	</mvc:interceptors>
 	
 	<!-- 브라우저가 multipart/form-data 데이터로 보내는
     	파일을 처리하기 위한 MultipartResolver 클래스를 bean으로 등록 -->

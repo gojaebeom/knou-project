@@ -50,6 +50,8 @@ public class LikeServiceImpl implements LikeService
             
             int likeCnt = boardService.updateBoardLikeCnt(like.getBoardId());
             
+            System.out.println(likeCnt);
+            
 //            System.out.println("-------------------------------"+likeCnt);
             
             map.put("isLiked", 1);
@@ -57,6 +59,8 @@ public class LikeServiceImpl implements LikeService
             
             return map;
         }
+        
+        System.out.println("hello world!");
         
         int isLiked = likeDAO.selectIsLikedForId(id);
         
